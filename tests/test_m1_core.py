@@ -25,6 +25,39 @@ class MetadataTests(unittest.TestCase):
         self.assertEqual(plan_rows(seeds), plan_rows(list(reversed(seeds))))
         self.assertEqual(len(plan_rows(seeds)), 16)
 
+    def test_v2_source_extends_v1_without_changing_it(self):
+        v1, v2 = fixture_seeds(), fixture_seeds("authored-fixtures-v2")
+        self.assertEqual(v2[:len(v1)], v1)
+        self.assertGreaterEqual(len(v2), 50)
+        ids = [s["source_function_id"] for s in v2]
+        self.assertEqual(len(ids), len(set(ids)))
+        rows = plan_rows(v2, source="authored-fixtures-v2", mutations_per_train_function=2)
+        self.assertEqual(rows, plan_rows(list(reversed(v2)), source="authored-fixtures-v2",
+                                         mutations_per_train_function=2))
+        splits = {}
+        for row in rows:
+            validate_problem(row)
+            self.assertEqual(row["provenance"]["revision"], "fixtures-v2")
+            expected = "fixtures.json" if row["source_function_id"].endswith("-v1") else "fixtures_v2.json"
+            self.assertTrue(row["provenance"]["path"].endswith(expected))
+            splits.setdefault(row["source_family_id"], set()).add(row["split"])
+            if row["split"] != "train":
+                self.assertEqual(row["provenance"]["mutation_operator"], "authored-bug-v1")
+        self.assertTrue(all(len(s) == 1 for s in splits.values()))
+        by_function = {}
+        for row in rows:
+            by_function.setdefault(row["source_function_id"], []).append(row)
+            if row["provenance"]["mutation_operator"] != "authored-bug-v1":
+                kind = row["provenance"]["mutation_operator"].split("-")[2]
+                self.assertEqual(row["bug_category"], {"ops": "comparison", "op": "operator"}[kind])
+        for function, variants in by_function.items():
+            buggy = [r["buggy_code"] for r in variants]
+            self.assertEqual(len(buggy), len(set(buggy)), function)
+            self.assertLessEqual(len(variants), 3)
+        self.assertEqual({r["split"] for r in rows}, {"train", "validation", "test"})
+        with self.assertRaises(ValueError):
+            fixture_seeds("unknown-source")
+
     def test_renamed_clone_is_grouped(self):
         seed = fixture_seeds()[0]
         clone = copy.deepcopy(seed)
@@ -61,6 +94,24 @@ class MetadataTests(unittest.TestCase):
         source = fixture_seeds()[0]["reference_code"]
         self.assertEqual(mutate(source), mutate(source))
         self.assertTrue(mutate(source))
+
+    def test_mutation_is_one_token_and_preserves_formatting(self):
+        source = ("def f(xs, n):\n    lo, hi = 0, len(xs) - 1\n    s = 'é' + 'x'\n"
+                  "    return lo <= hi and n > (1 + 2) * 3\n")
+        variants = dict(mutate(source))
+        self.assertTrue(variants)
+        for name, text in variants.items():
+            changed = [(a, b) for a, b in zip(source.splitlines(), text.splitlines()) if a != b]
+            with self.subTest(name=name):
+                self.assertEqual(len(source.splitlines()), len(text.splitlines()))
+                self.assertEqual(len(changed), 1)
+                self.assertNotIn("(0, len(xs) - 1)", text)
+        self.assertIn("    lo, hi = 0, len(xs) + 1\n", "".join(variants.values()))
+        self.assertTrue(any("lo < hi" in t for t in variants.values()))
+        self.assertTrue(any("n >= (1 + 2) * 3" in t for t in variants.values()))
+        self.assertTrue(any("(1 - 2) * 3" in t for t in variants.values()))
+        self.assertTrue(any("(1 + 2) + 3" in t for t in variants.values()))
+        self.assertTrue(any("'é' - 'x'" in t for t in variants.values()))  # non-ASCII offsets
 
     def test_strict_json(self):
         for bad in ('{"a":1,"a":2}', '{"a":NaN}'):

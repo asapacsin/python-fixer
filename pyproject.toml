@@ -21,7 +21,7 @@ default-check = "python3 scripts/validate_repository.py"
 where = ["src"]
 
 [tool.setuptools.package-data]
-"python_fixer.data" = ["fixtures.json"]
+"python_fixer.data" = ["fixtures.json", "fixtures_v2.json"]
 
 [tool.setuptools.data-files]
 "share/python-fixer/schemas" = ["schemas/*.json"]

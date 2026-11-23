@@ -71,6 +71,13 @@ flaky or resource-dependent cases. A syntax-error mutation is not useful repair
 evidence for the primary track. Discard equivalent/no-op mutations, output-only
 or test-mutating changes and cases with conflicting behavioral descriptions.
 Record which baseline tests fail/pass and test count before policy generation.
+Mutants replace exactly one operator token in the original source text and are kept
+only if the edited text parses to the intended mutated AST (no whole-module
+re-emission, which reformats unrelated lines). Mutants identical to another variant
+of the same function are discarded. A mutant's `bug_category` follows the edited
+construct: Compare operator -> comparison, binary operator -> operator. Recorded
+2026-11-23 after the first 50-case sample showed reformatting, duplicates and
+inherited categories.
 Analyze mutation survival, attrition by category and manual review of at least
 50 randomly sampled accepted cases before scaling. Difficulty labels use fixed
 human rules (one local edit / interacting branches / algorithmic change), with

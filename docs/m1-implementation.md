@@ -41,7 +41,13 @@ ephemeral cloud session container, not yet the dedicated `separate_cpu_worker`.
   hashes differ only through embedded runtime evidence.
 - Evidence: `.ai-native/m1-approved-worker.json`, `.ai-native/m1-evidence-20261123.json`.
 
-Still open: 50-case audit (needs a licensed acquired corpus beyond 16 fixtures),
+Follow-up the same day: source `authored-fixtures-v2` (53 authored CC0 functions,
+`configs/data-v2.json`) built to `artifacts/data/m1-fixtures-v2` with 74 accepted /
+12 rejected (all rejections are mutants), deterministic on rebuild. Attrition ledger,
+mutation survival and a seeded 50-case worksheet are in
+[m1-data-audit.md](m1-data-audit.md); mechanical checks 50/50, manual review PENDING.
+
+Still open: the manual 50-case review by a non-author,
 deployment on the dedicated worker with operator mTLS, and independent read-only
 review (NOT_VERIFIED; self-review does not count).
 
