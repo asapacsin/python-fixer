@@ -7,7 +7,7 @@ No GPU, model weights, model generation or training was used.
 ## Implemented
 
 - Installable package with packaged schemas and canonical prompt resources.
-- Strict JSON/schema/hash validation; 16 original authored fixture seeds;
+- Strict JSON/schema/hash validation; 16 (v1) + 37 (v2) original authored fixture seeds;
   deterministic clone-family grouping and splits before AST mutation.
 - SFT/RL/evaluation projections that keep tests/references/provenance out of prompts
   and reject non-train rows for training.
@@ -47,7 +47,17 @@ Follow-up the same day: source `authored-fixtures-v2` (53 authored CC0 functions
 mutation survival and a seeded 50-case worksheet are in
 [m1-data-audit.md](m1-data-audit.md); mechanical checks 50/50, manual review PENDING.
 
-Still open: the manual 50-case review by a non-author,
+Round-1 review fixes then produced v3 (`configs/data-v3.json`, 71 accepted,
+manifest pin `d68a564d…4f1b`) and a 29/29 preflight under policy `2dc7000f…5fde`; see
+[m1-data-audit.md](m1-data-audit.md) and [m1-security-coverage.md](m1-security-coverage.md).
+
+Worker decision (user, 2026-11-23): for M1, which has no GPU trainer, the session
+container is accepted as the CPU worker. Spec 01/08's "separate worker" is about
+isolating generated code from the trainer, model weights, credentials and held-out
+data; none of these exist in this session. Before any GPU trainer exists (M3/M4) the
+worker must be a separate machine, and the operator-mTLS deployment is still unexercised.
+
+Still open: the manual review's second pass on 14 v3 cases,
 deployment on the dedicated worker with operator mTLS, and independent read-only
 review (NOT_VERIFIED; self-review does not count).
 
@@ -65,12 +75,11 @@ denial, read-only root, absent host sentinel/secrets/devices/socket, compilation
 policy failures, loop/memory/output limits, process limits, fresh workspaces and
 cleanup. **Aggregate container-memory-cap failed.** Per-process RLIMIT_AS and
 Docker flags do not prove the required 256 MiB whole-job bound when cgroups
-are ignored. The raw report with its then-current policy hash is retained at
-`.ai-native/m1-sandbox-observed-22.json`.
+are ignored. That raw report was produced in an earlier container and is **not
+retained** in this checkout; treat it as historical narrative only.
 
-Current code rejects that runtime *before candidate execution*. Current preflight
-returns exit3 BLOCKED and writes `.ai-native/m1-current-blocker.json`. Do not weaken
-the check or substitute runc/host execution. Default unit tests include real TLS
+Code rejects an `--ignore-cgroups` runtime *before candidate execution* (preflight
+exit 3 BLOCKED). Do not weaken the check or substitute runc/host execution. Default unit tests include real TLS
 with disposable certificates plus clearly labeled execution-protocol doubles;
 those doubles do not certify containment. Hosted CI and production deployment
 have not been exercised.

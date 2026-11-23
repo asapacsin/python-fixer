@@ -10,6 +10,7 @@ Source is parsed, never compiled or executed.
 from __future__ import annotations
 import ast
 import copy
+import re
 
 REPLACEMENTS = {ast.Lt: ast.LtE, ast.LtE: ast.Lt, ast.Gt: ast.GtE,
                 ast.GtE: ast.Gt, ast.Eq: ast.NotEq, ast.NotEq: ast.Eq,
@@ -19,10 +20,12 @@ TOKENS = {ast.Lt: "<", ast.LtE: "<=", ast.Gt: ">", ast.GtE: ">=", ast.Eq: "==",
 
 
 def _offsets(source: str) -> list[int]:
-    starts, total = [], 0
-    for line in source.splitlines(keepends=True):
-        starts.append(total)
+    # Byte offset of each line start, using only the newlines the tokenizer uses
+    # (\r\n, \r, \n); str.splitlines also splits on \f, \x1c, \u2028, ...
+    starts, total = [0], 0
+    for line in re.split(r"(?<=\r\n)|(?<=\r)(?!\n)|(?<=\n)", source)[:-1]:
         total += len(line.encode("utf-8"))
+        starts.append(total)
     return starts
 
 

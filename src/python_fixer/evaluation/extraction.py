@@ -4,7 +4,9 @@ Spec 05 (output and policy checks) and spec 03 (code-only output contract):
 exactly one UTF-8 module, <=64 KiB, no Markdown fences or thinking traces.
 This module never parses, compiles or executes candidate code; AST/signature
 policy is enforced inside the approved worker boundary. Format violations are
-returned as INVALID results (not exceptions) so every arm scores them the same.
+returned as INVALID results (not exceptions) so every arm scores them the same;
+only a non-str/bytes argument (a caller bug) raises TypeError. Prose outside a
+fence is not detected here; it surfaces as a worker COMPILE_ERROR.
 """
 from __future__ import annotations
 
@@ -13,7 +15,11 @@ from dataclasses import dataclass
 
 MAX_MODULE_BYTES = 64 * 1024
 TURN_END = "<|im_end|>"
-_FORBIDDEN_MARKERS = ("```", "~~~", "<think>", "</think>", "<|im_start|>", "<|endoftext|>")
+# Fences are banned anywhere, even inside string literals or comments: the output
+# contract is raw code, and a fence is far more often Markdown than data.
+_FORBIDDEN_MARKERS = ("```", "~~~", "<think>", "</think>", "<|im_start|>", "<|endoftext|>",
+                      "<tool_call>", "</tool_call>", "<|fim_prefix|>", "<|fim_middle|>",
+                      "<|fim_suffix|>", "<|fim_pad|>", "<|file_sep|>", "<|repo_name|>")
 
 
 @dataclass(frozen=True)

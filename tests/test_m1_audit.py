@@ -64,6 +64,52 @@ class AuditTests(unittest.TestCase):
         bad["buggy_code"] = bad["reference_code"].replace("lo, hi = 0, len(xs) - 1", "lo, hi = (0, len(xs) - 1)").replace("lo <= hi", "lo < hi")
         self.assertFalse(mechanical_checks(bad)["mutant_is_single_line_edit"])
 
+    def test_leakage_checks_fail_when_view_leaks(self):
+        from unittest import mock
+        import python_fixer.data.audit as audit
+        row = next(r for r in self.rows if r["source_function_id"] == "fixture-merge_sorted-v2")
+        real = audit.model_view
+        leaks = {
+            "evaluation_view_excludes_reference": lambda v, r: v["prompt"][1]["content"] + "\n" + r["reference_code"],
+            "evaluation_view_excludes_test_records": lambda v, r: v["prompt"][1]["content"] + json.dumps(r["tests"]),
+            "evaluation_view_excludes_provenance": lambda v, r: v["prompt"][1]["content"] + r["test_suite_sha256"],
+        }
+        for check, inject in leaks.items():
+            def leaky(r, role, inject=inject):
+                view = real(r, role)
+                view["prompt"][1]["content"] = inject(view, r)
+                return view
+            with self.subTest(check=check), mock.patch.object(audit, "model_view", leaky):
+                self.assertFalse(mechanical_checks(row)[check])
+        def extra_field(r, role):
+            view = real(r, role)
+            view["tests"] = r["tests"]
+            return view
+        with mock.patch.object(audit, "model_view", extra_field):
+            self.assertFalse(mechanical_checks(row)["evaluation_view_only_prompt_and_id"])
+        self.assertTrue(all(mechanical_checks(row).values()))
+
+    def test_planner_rejects_seeds_outside_source_and_labels_mutants(self):
+        with self.assertRaises(ValueError):
+            plan_rows(fixture_seeds("authored-fixtures-v2"))  # v2 seeds under default v1 source
+        rows = plan_rows(fixture_seeds("authored-fixtures-v2"), source="authored-fixtures-v2",
+                         mutations_per_train_function=2)
+        mutants = [r for r in rows if r["provenance"]["mutation_operator"] != "authored-bug-v1"]
+        self.assertTrue(mutants)
+        self.assertTrue(all(r["difficulty"] == "easy" for r in mutants))
+
+    def test_behavioural_duplicates_are_dropped_authored_first(self):
+        from python_fixer.data.build import dedupe_by_behaviour
+        rows = [r for r in plan_rows(fixture_seeds("authored-fixtures-v2"), source="authored-fixtures-v2",
+                                     mutations_per_train_function=2)
+                if r["source_function_id"] == "fixture-median-v2"]
+        self.assertGreaterEqual(len(rows), 2)
+        evidence = {r["problem_id"]: {"runs": [{"buggy": {"outcome_sha256": "same"}}]} for r in rows}
+        kept, dropped = dedupe_by_behaviour(rows, evidence)
+        self.assertEqual([r["provenance"]["mutation_operator"] for r in kept], ["authored-bug-v1"])
+        self.assertEqual(len(dropped), len(rows) - 1)
+        self.assertTrue(all(d["origin"] == "mutant" and d["bug_category"] for d in dropped))
+
 
 if __name__ == "__main__":
     unittest.main()

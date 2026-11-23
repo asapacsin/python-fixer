@@ -20,7 +20,8 @@ class ExtractionTests(unittest.TestCase):
 
     def test_fences_and_thinking_rejected(self):
         for text in ("```python\n" + MODULE + "```", "~~~\n" + MODULE, "<think>x</think>\n" + MODULE,
-                     MODULE + "<|im_start|>assistant", MODULE + "<|endoftext|>"):
+                     MODULE + "<|im_start|>assistant", MODULE + "<|endoftext|>",
+                     "<tool_call>{}</tool_call>\n" + MODULE, "<|fim_prefix|>" + MODULE):
             with self.subTest(text=text):
                 result = extract_module(text)
                 self.assertEqual((result.status, result.reason), ("INVALID", "forbidden_marker"))

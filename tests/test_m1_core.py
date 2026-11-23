@@ -113,6 +113,11 @@ class MetadataTests(unittest.TestCase):
         self.assertTrue(any("(1 + 2) + 3" in t for t in variants.values()))
         self.assertTrue(any("'é' - 'x'" in t for t in variants.values()))  # non-ASCII offsets
 
+    def test_mutation_offsets_ignore_non_tokenizer_line_breaks(self):
+        source = "def f(a, b):\n    s = 'x\x0cy\u2028z'\n    return a < b\n"
+        variants = [t for _, t in mutate(source)]
+        self.assertIn(source.replace("a < b", "a <= b"), variants)
+
     def test_strict_json(self):
         for bad in ('{"a":1,"a":2}', '{"a":NaN}'):
             with self.assertRaises(ValueError):
@@ -220,7 +225,7 @@ class GatewayTests(unittest.TestCase):
         command = DockerSandbox(Policy(IMAGE)).command("pf-test", 2)
         self.assertIn("--ulimit=nproc=32:32", command)  # candidate cap inside gVisor
         self.assertIn("--pids-limit=128", command)      # whole-sandbox host cgroup bound
-        for pids, runtime in ((32, 32), (32, 257), (33, 128)):
+        for pids, runtime in ((32, 32), (32, 257), (32, 129), (32, 256), (33, 128)):
             with self.subTest(pids=pids, runtime=runtime), self.assertRaises(ValueError):
                 Policy(IMAGE, pids=pids, runtime_pids=runtime)
 

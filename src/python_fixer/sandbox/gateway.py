@@ -23,6 +23,7 @@ def execute_suite(sandbox, row: dict, source: str) -> dict:
     started = time.monotonic()
     cpu_ms = peak = 0
     passed = []
+    observed = []  # trusted-side behaviour signature; never sent to the candidate
     compiled = False
     if hasattr(sandbox,"invoke_suite"):
         results = sandbox.invoke_suite(source,row["signature"],
@@ -45,13 +46,15 @@ def execute_suite(sandbox, row: dict, source: str) -> dict:
         if cpu_ms > sandbox.policy.cpu_seconds*1000:
             return {"status": "TIMEOUT", "compiled": compiled, "passed_ids": [],
                     "cpu_ms": cpu_ms, "peak_memory_bytes": peak}
+        observed.append([test["test_id"], outcome.get("returned") is True,
+                         outcome.get("value") if outcome.get("returned") is True else None])
         if outcome.get("returned") is True and exact_equal(outcome.get("value"), test["expected"]):
             passed.append(test["test_id"])
     if len(results) != len(row["tests"]):
         return {"status":"INTERNAL_ERROR","compiled":compiled,"passed_ids":[],
                 "cpu_ms":cpu_ms,"peak_memory_bytes":peak}
     return {"status": "OK", "compiled": compiled, "passed_ids": passed,
-            "cpu_ms": cpu_ms, "peak_memory_bytes": peak}
+            "outcome_sha256": digest(observed), "cpu_ms": cpu_ms, "peak_memory_bytes": peak}
 
 
 def verify_problem(sandbox, row: dict, repeats: int = 3) -> tuple[dict, dict]:
@@ -73,6 +76,8 @@ def verify_problem(sandbox, row: dict, repeats: int = 3) -> tuple[dict, dict]:
         observed.append({"reference": reference, "buggy": buggy})
     baseline = observed[0]["buggy"]["passed_ids"]
     if any(run["buggy"]["passed_ids"] != baseline for run in observed):
+        raise ValueError("flaky buggy outcome")
+    if len({run["buggy"].get("outcome_sha256") for run in observed}) != 1:
         raise ValueError("flaky buggy outcome")
     evidence = {"image_digest": sandbox.policy.image, "policy_sha256": sandbox.policy.sha256,
                 "problem_sha256": digest(row), "runs": observed}

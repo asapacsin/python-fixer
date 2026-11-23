@@ -76,7 +76,7 @@ these cases, including precedence conflicts, regressions and malformed counts.
 This proves formula consistency only. M1 must apply the same table to real
 sandbox responses and add adversarial execution tests. Production reward now lives
 in `src/python_fixer/rewards/behavior.py` and does not import the oracle. M1 security
-integration remains blocked; see [implementation status](../docs/m1-implementation.md).
+integration status is recorded in; see [implementation status](../docs/m1-implementation.md).
 
 M4 adds trainer integration tests: reward output length equals generated
 completion count; repeated IDs align; no NaN/None rewards; zero-variance groups

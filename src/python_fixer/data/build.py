@@ -47,6 +47,9 @@ def plan_rows(seeds: list[dict], *, split_seed: int = 17, clone_threshold: float
         if len(set(test_inputs)) != len(test_inputs):
             raise ValueError("duplicate test input adds no independent assertion")
     paths = seed_paths(source)
+    missing = [s["source_function_id"] for s in seeds if s["source_function_id"] not in paths]
+    if missing:
+        raise ValueError("seeds do not belong to source " + source + ": " + ", ".join(sorted(missing)[:5]))
     revision = source.removeprefix("authored-")
     families = group_families(seeds, clone_threshold)
     rows = []
@@ -74,11 +77,14 @@ def plan_rows(seeds: list[dict], *, split_seed: int = 17, clone_threshold: float
                 "source_function_id": function, "source_family_id": family, "split": split,
                 "signature": seed["signature"], "behavior": seed["behavior"],
                 "reference_code": seed["reference_code"], "buggy_code": buggy,
-                "bug_category": category, "difficulty": seed["difficulty"],
+                "bug_category": category,
+                # Fixed rule: a mutant is one local token edit, hence "easy"; authored
+                # bugs keep the author's label (one local edit / interacting branches / algorithmic).
+                "difficulty": seed["difficulty"] if operator == "authored-bug-v1" else "easy",
                 "test_suite_id": function + "-tests-v1", "test_suite_sha256": digest(seed["tests"]),
                 "tests": seed["tests"], "verification": {"status": "NOT_RUN"},
                 "provenance": {"source_uri": "authored://python-fixer/" + revision, "revision": revision,
-                    "path": paths.get(function, "src/python_fixer/data/fixtures.json"), "license": seed["license"],
+                    "path": paths[function], "license": seed["license"],
                     "source_sha256": text_digest(seed["reference_code"]), "mutation_operator": operator,
                     "mutation_seed": split_seed}}
             validate_problem(row)
@@ -86,7 +92,30 @@ def plan_rows(seeds: list[dict], *, split_seed: int = 17, clone_threshold: float
     return sorted(rows, key=lambda r: r["problem_id"])
 
 
-def write_dataset(destination: Path, rows: list[dict], evidence: dict, rejected: list[dict], config: dict) -> dict:
+def rejection(row: dict, reason: str) -> dict:
+    operator = row["provenance"]["mutation_operator"]
+    return {"problem_id": row["problem_id"], "reason": reason, "bug_category": row["bug_category"],
+            "mutation_operator": operator, "origin": "authored" if operator == "authored-bug-v1" else "mutant"}
+
+
+def dedupe_by_behaviour(rows: list[dict], evidence: dict) -> tuple[list[dict], list[dict]]:
+    """Drop variants whose buggy program behaves identically, on every test, to an
+    earlier variant of the same function (authored bug first, then plan order)."""
+    order = sorted(rows, key=lambda r: (r["source_function_id"],
+                   r["provenance"]["mutation_operator"] != "authored-bug-v1", r["problem_id"]))
+    seen, kept, dropped = set(), [], []
+    for row in order:
+        key = (row["source_function_id"], evidence[row["problem_id"]]["runs"][0]["buggy"]["outcome_sha256"])
+        if key in seen:
+            dropped.append(rejection(row, "behaviourally identical to another variant of the same function"))
+        else:
+            seen.add(key)
+            kept.append(row)
+    return sorted(kept, key=lambda r: r["problem_id"]), dropped
+
+
+def write_dataset(destination: Path, rows: list[dict], evidence: dict, rejected: list[dict], config: dict,
+                  seeds: list[dict] | None = None) -> dict:
     if destination.exists():
         raise ValueError("refuse to overwrite an immutable dataset; choose a new output directory")
     payload = b"".join(canonical_bytes(row)+b"\n" for row in rows)
@@ -96,7 +125,10 @@ def write_dataset(destination: Path, rows: list[dict], evidence: dict, rejected:
         "builder_source_sha256": digest({str(p.relative_to(Path(__file__).parents[1])):text_digest(p.read_text())
             for p in Path(__file__).parents[1].rglob("*.py")}),
         "content_plan_sha256": digest([{**r,"verification":{"status":"NOT_RUN"}} for r in rows]),
-        "config_sha256": digest(config), "source_sha256": digest(fixture_seeds(config.get("source", "authored-fixtures-v1"))),
+        "config_sha256": digest(config), "source_sha256": digest(seeds if seeds is not None else fixture_seeds(config.get("source", "authored-fixtures-v1"))),
+        # Splits are only comparable within one namespace; adding seeds can regroup
+        # families (v1 -> v2 moved count_equal/count_positive from train to validation).
+        "split_namespace": f"{config.get('source', 'authored-fixtures-v1')}:split-seed-{config.get('split_seed', 17)}",
         "row_count": len(rows), "family_count": len({r["source_family_id"] for r in rows}),
         "split_counts": dict(Counter(r["split"] for r in rows)),
         "category_counts": dict(Counter(r["bug_category"] for r in rows)),
@@ -131,8 +163,16 @@ def main(argv=None):
         config = strict_loads(Path(args.config).read_text())
         if config["source"] not in SOURCES or config["schema_version"] != 1:
             raise ValueError("unsupported source/config")
-        rows = plan_rows(fixture_seeds(config["source"]), source=config["source"], split_seed=config["split_seed"], clone_threshold=config["clone_threshold"],
+        seeds = fixture_seeds(config["source"])
+        rows = plan_rows(seeds, source=config["source"], split_seed=config["split_seed"], clone_threshold=config["clone_threshold"],
                          mutations_per_train_function=config["mutations_per_train_function"])
+        exclusions = {e["problem_id"]: e for e in config.get("manual_exclusions", [])}
+        unknown = set(exclusions) - {r["problem_id"] for r in rows}
+        if unknown:
+            raise ValueError("manual exclusion names an unplanned problem: " + ", ".join(sorted(unknown)))
+        excluded = [rejection(r, "manual review: " + exclusions[r["problem_id"]]["reason"])
+                    for r in rows if r["problem_id"] in exclusions]
+        rows = [r for r in rows if r["problem_id"] not in exclusions]
         if args.plan_only:
             print(canonical_bytes({"status": "NOT_VERIFIED", "planned_rows": len(rows),
                   "split_counts": dict(Counter(r["split"] for r in rows)), "plan_sha256": digest(rows)}).decode())
@@ -152,14 +192,19 @@ def main(argv=None):
                 checked, evidence = verify_problem(sandbox, row, config["verification_repeats"])
                 return checked, evidence, None
             except ValueError as exc:
-                return None, None, {"problem_id": row["problem_id"], "reason": str(exc)}
+                return None, None, rejection(row, str(exc))
         results = list(ThreadPoolExecutor(config["workers"]).map(verify, rows))
         accepted = [r for r, _, _ in results if r is not None]
         evidence = {r["problem_id"]: e for r, e, _ in results if r is not None}
-        rejected = [reason for _, _, reason in results if reason is not None]
+        rejected = excluded + [reason for _, _, reason in results if reason is not None]
+        if accepted:
+            accepted, duplicates = dedupe_by_behaviour(accepted, evidence)
+            evidence = {r["problem_id"]: evidence[r["problem_id"]] for r in accepted}
+            rejected += duplicates
+        rejected.sort(key=lambda r: r["problem_id"])
         if not accepted:
             raise ValueError("zero verified rows; dataset cannot be published: "+str(Counter(r["reason"] for r in rejected)))
-        manifest = write_dataset(destination, accepted, evidence, rejected, config)
+        manifest = write_dataset(destination, accepted, evidence, rejected, config, seeds)
         print(canonical_bytes({"status": "CPU_VERIFIED", "output": str(destination),
               "accepted": len(accepted), "rejected": len(rejected), "manifest_sha256": digest(manifest)}).decode())
         return 0 if not rejected else 2

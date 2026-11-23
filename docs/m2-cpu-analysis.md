@@ -1,7 +1,7 @@
 # M2 independent CPU analysis slice
 
 Status: model-free analytics implemented; **real E0/E0-P evaluation NOT_RUN**.
-M1 sandbox security remains blocked. This slice is independently authorized CPU
+M1 sandbox preflight now passes on an enforcing runsc runtime (see m1-implementation.md); M1 itself is not complete. This slice is independently authorized CPU
 work under `verification/contracts/m2-cpu.json`, not a claim that M1 or M2 passed.
 No weights, GPU, model generation or candidate execution are needed by these tools.
 

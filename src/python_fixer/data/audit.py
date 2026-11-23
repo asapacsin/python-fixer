@@ -15,7 +15,8 @@ import sys
 from collections import Counter
 from pathlib import Path
 
-from python_fixer.common import digest, strict_loads, write_json
+import json
+from python_fixer.common import canonical_bytes, digest, strict_loads, write_json
 from .models import model_view, validate_problem
 
 AUTHORED = "authored-bug-v1"
@@ -51,10 +52,18 @@ def mechanical_checks(row: dict) -> dict:
     failed = set(row["verification"]["baseline_failed_ids"])
     inputs = {digest({"args": t["args"], "kwargs": t["kwargs"]}) for t in tests}
     view = model_view(row, "evaluation")
-    rendered = str(view)
-    # Structural leakage checks. Bare expected values ("True", "Fizz") legitimately
-    # occur in behavior text or buggy code, so only whole test records count as leaks.
-    leaked_tests = [t for t in tests if digest(t) in rendered or str(t) in rendered]
+    # Search the raw model-facing strings (not a repr, which escapes newlines).
+    text = "\n".join(m["content"] for m in view["prompt"])
+    canonical = canonical_bytes
+    # Bare expected values ("True", "Fizz") legitimately occur in behavior text or
+    # buggy code, so a leak is a whole test record, its canonical JSON, or a
+    # non-trivial expected value that also appears together with its arguments.
+    def leaked(test):
+        expected = canonical(test["expected"]).decode()
+        args = canonical(test["args"]).decode()
+        return (canonical(test).decode() in text or json.dumps(test) in text
+                or (len(expected) > 3 and expected in text and args in text))
+    leaked_tests = [t for t in tests if leaked(t)]
     checks = {
         "at_least_four_tests": len(tests) >= 4,
         "distinct_test_inputs": len(inputs) == len(tests),
@@ -66,9 +75,14 @@ def mechanical_checks(row: dict) -> dict:
         "behavior_nonempty": bool(row["behavior"].strip()),
         "bug_differs_from_reference": row["buggy_code"] != row["reference_code"],
         "evaluation_view_only_prompt_and_id": set(view) == {"prompt", "problem_id"},
-        "evaluation_view_excludes_reference": row["reference_code"] not in rendered,
+        # The buggy module is meant to be in the prompt and may contain the reference as
+        # a prefix (`value in xs` vs `value in xs[1:]`); search the rest of the text.
+        "evaluation_view_excludes_reference": (row["reference_code"].strip()
+                                               not in text.replace(row["buggy_code"].strip(), "", 1)
+                                               and row["reference_code"].strip() != row["buggy_code"].strip()),
         "evaluation_view_excludes_test_records": not leaked_tests,
-        "evaluation_view_excludes_provenance": row["provenance"]["source_sha256"] not in rendered,
+        "evaluation_view_excludes_provenance": (row["provenance"]["source_sha256"] not in text
+                                                and row["test_suite_sha256"] not in text),
     }
     return checks
 
@@ -76,12 +90,15 @@ def mechanical_checks(row: dict) -> dict:
 def attrition(manifest: dict, rows: list[dict]) -> dict:
     accepted = Counter((r["bug_category"], r["provenance"]["mutation_operator"] == AUTHORED) for r in rows)
     rejected_ids = [r["problem_id"] for r in manifest["rejected"]]
-    by_function = Counter(pid.rsplit("-", 1)[0] for pid in rejected_ids)
-    category_of = {r["source_function_id"]: r["bug_category"] for r in rows
-                   if r["provenance"]["mutation_operator"] == AUTHORED}
-    rejected = Counter()
-    for function, count in by_function.items():
-        rejected[category_of.get(function, "unknown")] += count
+    # Rejections carry their own category/origin (same rules as accepted rows).
+    rejected = Counter(f"{r.get('bug_category', 'unrecorded')}|{r.get('origin', 'unrecorded')}"
+                       for r in manifest["rejected"])
+    survival = {}
+    for category in sorted({r["bug_category"] for r in rows if r["provenance"]["mutation_operator"] != AUTHORED}
+                           | {r.get("bug_category") for r in manifest["rejected"] if r.get("origin") == "mutant"}):
+        kept = sum(1 for r in rows if r["bug_category"] == category and r["provenance"]["mutation_operator"] != AUTHORED)
+        lost = sum(1 for r in manifest["rejected"] if r.get("origin") == "mutant" and r.get("bug_category") == category)
+        survival[category] = {"accepted": kept, "rejected": lost}
     mutants_accepted = sum(1 for r in rows if r["provenance"]["mutation_operator"] != AUTHORED)
     authored_accepted = len(rows) - mutants_accepted
     reasons = Counter(r["reason"] for r in manifest["rejected"])
@@ -94,12 +111,13 @@ def attrition(manifest: dict, rows: list[dict]) -> dict:
         "authored_bugs_accepted": authored_accepted,
         "mutants_accepted": mutants_accepted,
         "rejection_reasons": dict(sorted(reasons.items())),
-        "rejected_by_seed_category": dict(sorted(rejected.items())),
+        "rejected_by_category_and_origin": dict(sorted(rejected.items())),
+        "mutant_survival_by_category": survival,
         "accepted_by_category": dict(sorted(Counter(r["bug_category"] for r in rows).items())),
         "accepted_by_category_and_origin": {f"{cat}|{'authored' if authored else 'mutant'}": n
                                              for (cat, authored), n in sorted(accepted.items())},
-        "note": "Rejected mutants are counted under their seed's bug category; mutation operators "
-                "themselves may change a different construct than the seed's authored bug.",
+        "note": "Accepted and rejected rows use the same category rule: authored label for authored "
+                "bugs, edited construct for mutants.",
     }
 
 

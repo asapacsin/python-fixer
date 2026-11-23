@@ -27,9 +27,14 @@ Limits: 1 CPU, 256 MiB memory, no additional swap, 32 processes, 2 CPU seconds
 per candidate suite and 5 seconds wall time, 16 MiB noexec/nosuid/nodev tmpfs,
 64 KiB total stdout/stderr, 128 KiB request envelope. The 32-process candidate limit is enforced inside gVisor
 (RLIMIT_NPROC). A separate host pids cgroup of 128 bounds the whole runsc sandbox,
-including Sentry/Gofer threads: setting it to 32 was observed (2026-11-23,
-runsc 20261109.0) to kill the Sentry on a 4-child fork storm (INTERNAL_ERROR) instead
-of returning EAGAIN, violating "worker remains healthy". The candidate limit is unchanged. The gateway enforces a
+including Sentry/Gofer threads. Observed 2026-11-23 (runsc 20261109.0, systrap,
+cgroup v1; `.ai-native/m1-pids-limit-negative.json`): host limits 32 and 64 kill the
+Sentry on a fork storm (exit 2, INTERNAL_ERROR) instead of returning EAGAIN, violating
+"worker remains healthy"; 96 and 128 contain it (fork refused at 31 children; threads
+are also refused at 31). Policy pins exactly 128 (~33% headroom over the lowest working
+value); any other value is rejected. The preflight `process-cap` and
+`thread-storm-bounded` checks detect a regression on other runtimes. The candidate
+limit is unchanged. The gateway enforces a
 **suite-wide** budget across per-call processes; per-test resets cannot multiply
 the allowed runtime. Kill the entire job cgroup/container on limit, verify no
 orphaned descendants, remove workspace and release concurrency slot. No test

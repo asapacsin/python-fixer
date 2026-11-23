@@ -6,6 +6,7 @@ from pathlib import Path
 import subprocess
 import sys
 import tempfile
+import time
 from python_fixer.common import write_json
 from .docker import DockerSandbox
 from .policy import Policy
@@ -97,9 +98,80 @@ finally:
     for pid in children:
         try: os.waitpid(pid,0)
         except OSError: pass
-print(json.dumps({'status':'OK','compiled':True,'value':limited and len(children)<32}))
+print(json.dumps({'status':'OK','compiled':True,'value':[limited, len(children)]}))
 ''')
-    checks.append({"id":"process-cap","passed":processes.get("value") is True})
+    reached = processes.get("value")
+    checks.append({"id":"process-cap","passed":isinstance(reached,list) and reached[0] is True and reached[1] < 32,
+                   "status":processes["status"],"children_reached":reached[1] if isinstance(reached,list) else None})
+    threads = probe('''import json,_thread,time
+count=0
+limited=False
+try:
+    for i in range(256):
+        _thread.start_new_thread(time.sleep,(3,))
+        count+=1
+except Exception:
+    limited=True
+print(json.dumps({'status':'OK','compiled':True,'value':[limited,count]}))
+''')
+    # Bounded is required: either thread creation is refused inside the sandbox, or the
+    # whole container is stopped by a limit. INTERNAL_ERROR (sandbox crash) is a failure.
+    value = threads.get("value")
+    checks.append({"id":"thread-storm-bounded","status":threads["status"],
+                   "threads_reached":value[1] if isinstance(value,list) else None,
+                   "passed":threads["status"]=="RESOURCE_LIMIT" or (threads["status"]=="OK" and isinstance(value,list) and value[0] is True)})
+    dns = probe('''import json,socket
+try:
+    socket.getaddrinfo("example.com",80)
+    denied=False
+except OSError:
+    denied=True
+print(json.dumps({'status':'OK','compiled':True,'value':denied}))
+''')
+    checks.append({"id":"dns_denied","passed":dns.get("value") is True})
+    began = time.monotonic()
+    orphan = probe('''import os,json,time
+if os.fork()==0:
+    os.setsid()
+    time.sleep(60)
+    os._exit(0)
+print(json.dumps({'status':'OK','compiled':True,'value':True}),flush=True)
+''')
+    elapsed = time.monotonic() - began
+    leftover = subprocess.run(["docker","ps","-aq","--filter","label=python-fixer.owner=m1"],
+        capture_output=True,text=True,env=sandbox.environment,timeout=10)
+    checks.append({"id":"descendant-bounded","status":orphan["status"],"elapsed_s":round(elapsed,2),
+                   "passed":orphan["status"] in {"OK","TIMEOUT"} and elapsed < sandbox.policy.wall_seconds + 15
+                            and leftover.returncode==0 and not leftover.stdout.strip()})
+    # Candidate-side failures must be ordinary candidate failures, not accepted reports.
+    for name, code in (("exception","def repair(x):\n    raise ValueError('boom')\n"),
+                       ("recursion","def repair(x):\n    return repair(x)\n"),
+                       ("nested-return","def repair(x):\n    v = []\n    for i in range(200):\n        v = [v]\n    return v\n")):
+        result = sandbox.invoke(code, "repair(x)", {"args": [1], "kwargs": {}})
+        checks.append({"id":name,"status":result["status"],
+                       "passed":result["status"] not in {"INTERNAL_ERROR"} and result.get("returned") is not True})
+    # End to end through the trusted gateway: expected values never reach the sandbox.
+    sentinel = "expected-sentinel-" + os.urandom(8).hex()
+    class Spy(DockerSandbox):
+        def invoke(self, source, signature, test, **kw):
+            return super().invoke(source, signature, test, _probe_script='''import json,os,sys
+raw=sys.stdin.read()
+seen=SENTINEL in raw or any(SENTINEL in v for v in os.environ.values())
+for root in ("/tmp","/"):
+    try: names=os.listdir(root)
+    except OSError: names=[]
+    seen = seen or any(SENTINEL in n for n in names)
+print(json.dumps({'status':'OK','compiled':True,'returned':True,'value':'absent' if not seen else 'SEEN'}))
+'''.replace("SENTINEL", repr(sentinel)))
+    spy = Spy(sandbox.policy)
+    row = {"tests": [{"test_id": "1", "args": [1], "kwargs": {}, "expected": sentinel, "comparator": "exact"}],
+           "signature": "repair(x)"}
+    from .gateway import execute_suite
+    spied = [spy.invoke("def repair(x):\n    return x\n", "repair(x)", {"args": t["args"], "kwargs": t["kwargs"]}) for t in row["tests"]]
+    result = execute_suite(type("S", (), {"policy": sandbox.policy, "invoke": spy.invoke})(), row,
+                           "def repair(x):\n    return x\n")
+    checks.append({"id":"expected-values-absent","passed":all(r.get("value") == "absent" for r in spied)
+                   and result["status"] == "OK" and result["passed_ids"] == []})
     remaining = subprocess.run(["docker","ps","-aq","--filter","label=python-fixer.owner=m1"],
         capture_output=True,text=True,env=sandbox.environment,timeout=10)
     checks.append({"id":"no-container-leaks","passed":remaining.returncode==0 and not remaining.stdout.strip()})

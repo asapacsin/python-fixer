@@ -29,7 +29,7 @@ class Policy:
             raise ValueError("sandbox image must use an immutable sha256 digest")
         if not (0 < self.wall_seconds <= 5 and 0 < self.cpu_seconds <= 2 and
                 32 <= self.memory_mib <= 256 and 1 <= self.pids <= 32 and
-                self.pids < self.runtime_pids <= 256 and
+                self.runtime_pids == 128 and
                 1024 <= self.output_bytes <= 65536):
             raise ValueError("resource limits exceed approved policy")
         allowed = {"math", "collections", "itertools", "functools", "heapq", "bisect", "re", "string"}
@@ -40,7 +40,7 @@ class Policy:
     def sha256(self):
         from python_fixer.common import text_digest
         code = {name:text_digest(Path(__file__).with_name(name).read_text())
-                for name in ("child.py","docker.py","gateway.py","policy.py")}
+                for name in ("child.py","docker.py","gateway.py","policy.py","preflight.py")}
         return digest({"version": "python-pure-v1", **self.__dict__, "runner_code":code})
 
     @classmethod
