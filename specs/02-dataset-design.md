@@ -77,7 +77,15 @@ re-emission, which reformats unrelated lines). Mutants identical to another vari
 of the same function are discarded. A mutant's `bug_category` follows the edited
 construct: Compare operator -> comparison, binary operator -> operator. Recorded
 2026-11-23 after the first 50-case sample showed reformatting, duplicates and
-inherited categories.
+inherited categories. Mutants are labelled `easy` (one local edit). After sandbox
+verification two further fixed rules apply: (1) a mutant must fail at least one test
+by returning a wrong value; mutants whose every failing test raises are rejected as
+the runtime analogue of a syntax-error mutant (authored bugs are exempt and reviewed
+by hand); (2) a variant whose buggy program behaves identically on every suite test
+(returned flag and value) to an earlier variant of the same function is dropped,
+keeping the authored bug first. Rule 2 only sees suite-observable behaviour and does
+not distinguish exception types, so it may merge programs that differ off-suite.
+Manual exclusions cite review evidence by path and SHA-256 and fail closed.
 Analyze mutation survival, attrition by category and manual review of at least
 50 randomly sampled accepted cases before scaling. Difficulty labels use fixed
 human rules (one local edit / interacting branches / algorithmic change), with

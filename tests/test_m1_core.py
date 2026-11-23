@@ -170,6 +170,27 @@ class GatewayTests(unittest.TestCase):
                 "problem_id":self.row["problem_id"],"candidate_sha256":text_digest(source),
                 "candidate_source":source,"suite_role":"train_reward","limits_profile":"python-pure-v1"}
 
+    def test_unencodable_candidate_value_is_a_scored_failure_not_infrastructure(self):
+        class Surrogate(FakeSandbox):
+            def invoke(self, source, signature, test, **kwargs):
+                return {"status":"OK","compiled":True,"returned":True,"value":"\ud800","cpu_ms":1,"peak_memory_bytes":1}
+        from python_fixer.sandbox.gateway import execute_suite
+        result = execute_suite(Surrogate(), self.row, "def maximum(a, b):\n    return '?'\n")
+        self.assertEqual(result["status"], "OK")
+        self.assertEqual(result["passed_ids"], [])
+        self.assertRegex(result["outcome_sha256"], "^[0-9a-f]{64}$")
+
+    def test_child_rejects_oversized_int_and_maps_signal_deaths(self):
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("pf_child", ROOT / "src/python_fixer/sandbox/child.py")
+        child = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(child)  # defines functions only; main() is guarded
+        self.assertEqual(child.json_value(10 ** 100), 10 ** 100)
+        with self.assertRaises(ValueError):
+            child.json_value(10 ** 5000)
+        source = (ROOT / "src/python_fixer/sandbox/child.py").read_text()
+        self.assertIn("elif child.returncode < 0:", source)
+
     def test_verification_partition_and_evidence(self):
         self.assertEqual(self.verified["verification"]["status"], "VERIFIED")
         self.assertEqual(self.verified["verification"]["evidence_sha256"], digest(self.evidence))

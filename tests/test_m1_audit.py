@@ -74,6 +74,18 @@ class AuditTests(unittest.TestCase):
             "evaluation_view_excludes_test_records": lambda v, r: v["prompt"][1]["content"] + json.dumps(r["tests"]),
             "evaluation_view_excludes_provenance": lambda v, r: v["prompt"][1]["content"] + r["test_suite_sha256"],
         }
+        natural = {
+            "evaluation_view_excludes_reference": lambda v, r: v["prompt"][1]["content"] + "\n" + r["reference_code"].replace("    ", "\t").replace(", ", " , "),
+            "evaluation_view_excludes_test_records": lambda v, r: v["prompt"][1]["content"] + "".join(
+                f"\n>>> merge_sorted({t['args'][0]!r}, {t['args'][1]!r})\n{t['expected']!r}" for t in r["tests"]),
+        }
+        for check, inject in natural.items():
+            def leaky(r, role, inject=inject):
+                view = real(r, role)
+                view["prompt"][1]["content"] = inject(view, r)
+                return view
+            with self.subTest(check="natural-" + check), mock.patch.object(audit, "model_view", leaky):
+                self.assertFalse(mechanical_checks(row)[check])
         for check, inject in leaks.items():
             def leaky(r, role, inject=inject):
                 view = real(r, role)
@@ -109,6 +121,30 @@ class AuditTests(unittest.TestCase):
         self.assertEqual([r["provenance"]["mutation_operator"] for r in kept], ["authored-bug-v1"])
         self.assertEqual(len(dropped), len(rows) - 1)
         self.assertTrue(all(d["origin"] == "mutant" and d["bug_category"] for d in dropped))
+
+    def test_crash_only_mutants_rejected_authored_exempt(self):
+        from python_fixer.data.build import crash_only_mutants
+        rows = [r for r in plan_rows(fixture_seeds("authored-fixtures-v2"), source="authored-fixtures-v2",
+                                     mutations_per_train_function=2)
+                if r["source_function_id"] == "fixture-merge_sorted-v2"]
+        ids = [t["test_id"] for t in rows[0]["tests"]]
+        crash = {"passed_ids": ids[2:], "returned_ids": ids[2:]}        # failing tests all raised
+        wrong = {"passed_ids": ids[2:], "returned_ids": ids}            # failing tests returned values
+        for buggy, mutant_kept in ((crash, False), (wrong, True)):
+            evidence = {r["problem_id"]: {"runs": [{"buggy": buggy}]} for r in rows}
+            kept, dropped = crash_only_mutants(rows, evidence)
+            origins = {r["provenance"]["mutation_operator"] == "authored-bug-v1" for r in kept}
+            self.assertIn(True, origins)  # authored bug is never dropped by this rule
+            self.assertEqual(any(r["provenance"]["mutation_operator"] != "authored-bug-v1" for r in kept), mutant_kept)
+            self.assertTrue(all("raising" in d["reason"] for d in dropped))
+
+    def test_manual_exclusion_must_match_review_hash(self):
+        from python_fixer.data.build import main
+        config = json.loads(Path("configs/data-v4.json").read_text())
+        config["manual_exclusions"][0]["review_sha256"] = "0" * 64
+        path = Path(self.tmp.name) / "bad.json"
+        path.write_text(json.dumps(config))
+        self.assertEqual(main(["--config", str(path), "--plan-only"]), 3)
 
 
 if __name__ == "__main__":

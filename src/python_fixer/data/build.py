@@ -98,6 +98,21 @@ def rejection(row: dict, reason: str) -> dict:
             "mutation_operator": operator, "origin": "authored" if operator == "authored-bug-v1" else "mutant"}
 
 
+def crash_only_mutants(rows: list[dict], evidence: dict) -> tuple[list[dict], list[dict]]:
+    """Fixed rule: a mutant must fail at least one test by *returning a wrong value*.
+    Mutants whose every failing test raises are the runtime analogue of a syntax-error
+    mutant (spec 02) and are rejected. Authored bugs are exempt (reviewed by hand)."""
+    kept, dropped = [], []
+    for row in rows:
+        buggy = evidence[row["problem_id"]]["runs"][0]["buggy"]
+        failing = {t["test_id"] for t in row["tests"]} - set(buggy["passed_ids"])
+        if row["provenance"]["mutation_operator"] != "authored-bug-v1" and not failing & set(buggy["returned_ids"]):
+            dropped.append(rejection(row, "mutant fails only by raising; no wrong returned value"))
+        else:
+            kept.append(row)
+    return kept, dropped
+
+
 def dedupe_by_behaviour(rows: list[dict], evidence: dict) -> tuple[list[dict], list[dict]]:
     """Drop variants whose buggy program behaves identically, on every test, to an
     earlier variant of the same function (authored bug first, then plan order)."""
@@ -167,6 +182,11 @@ def main(argv=None):
         rows = plan_rows(seeds, source=config["source"], split_seed=config["split_seed"], clone_threshold=config["clone_threshold"],
                          mutations_per_train_function=config["mutations_per_train_function"])
         exclusions = {e["problem_id"]: e for e in config.get("manual_exclusions", [])}
+        for entry in exclusions.values():
+            # Bind each exclusion to the exact review evidence it cites.
+            review = Path(entry["review"])
+            if not review.is_file() or __import__("hashlib").sha256(review.read_bytes()).hexdigest() != entry["review_sha256"]:
+                raise ValueError("manual exclusion review evidence missing or changed: " + entry["review"])
         unknown = set(exclusions) - {r["problem_id"] for r in rows}
         if unknown:
             raise ValueError("manual exclusion names an unplanned problem: " + ", ".join(sorted(unknown)))
@@ -198,7 +218,9 @@ def main(argv=None):
         evidence = {r["problem_id"]: e for r, e, _ in results if r is not None}
         rejected = excluded + [reason for _, _, reason in results if reason is not None]
         if accepted:
+            accepted, crashing = crash_only_mutants(accepted, evidence)
             accepted, duplicates = dedupe_by_behaviour(accepted, evidence)
+            duplicates += crashing
             evidence = {r["problem_id"]: evidence[r["problem_id"]] for r in accepted}
             rejected += duplicates
         rejected.sort(key=lambda r: r["problem_id"])

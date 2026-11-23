@@ -19,11 +19,20 @@ def exact_equal(actual, expected) -> bool:
         return False
 
 
+def outcome_digest(observed: list) -> str:
+    # ASCII-escaped JSON never raises on JSON-decoded candidate data (e.g. a lone
+    # surrogate string), unlike canonical_bytes' UTF-8 encoding.
+    import hashlib, json
+    return hashlib.sha256(json.dumps(observed, ensure_ascii=True, sort_keys=True,
+                                     separators=(",", ":")).encode("ascii")).hexdigest()
+
+
 def execute_suite(sandbox, row: dict, source: str) -> dict:
     started = time.monotonic()
     cpu_ms = peak = 0
     passed = []
     observed = []  # trusted-side behaviour signature; never sent to the candidate
+    returned = []
     compiled = False
     if hasattr(sandbox,"invoke_suite"):
         results = sandbox.invoke_suite(source,row["signature"],
@@ -48,13 +57,15 @@ def execute_suite(sandbox, row: dict, source: str) -> dict:
                     "cpu_ms": cpu_ms, "peak_memory_bytes": peak}
         observed.append([test["test_id"], outcome.get("returned") is True,
                          outcome.get("value") if outcome.get("returned") is True else None])
+        if outcome.get("returned") is True:
+            returned.append(test["test_id"])
         if outcome.get("returned") is True and exact_equal(outcome.get("value"), test["expected"]):
             passed.append(test["test_id"])
     if len(results) != len(row["tests"]):
         return {"status":"INTERNAL_ERROR","compiled":compiled,"passed_ids":[],
                 "cpu_ms":cpu_ms,"peak_memory_bytes":peak}
     return {"status": "OK", "compiled": compiled, "passed_ids": passed,
-            "outcome_sha256": digest(observed), "cpu_ms": cpu_ms, "peak_memory_bytes": peak}
+            "outcome_sha256": outcome_digest(observed), "returned_ids": returned, "cpu_ms": cpu_ms, "peak_memory_bytes": peak}
 
 
 def verify_problem(sandbox, row: dict, repeats: int = 3) -> tuple[dict, dict]:

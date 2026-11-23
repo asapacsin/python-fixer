@@ -16,6 +16,7 @@ from collections import Counter
 from pathlib import Path
 
 import json
+import re
 from python_fixer.common import canonical_bytes, digest, strict_loads, write_json
 from .models import model_view, validate_problem
 
@@ -58,11 +59,18 @@ def mechanical_checks(row: dict) -> dict:
     # Bare expected values ("True", "Fizz") legitimately occur in behavior text or
     # buggy code, so a leak is a whole test record, its canonical JSON, or a
     # non-trivial expected value that also appears together with its arguments.
+    squash = lambda value: re.sub(r"\s+", "", value)
+    # Compare with all whitespace removed so re-indented or re-spaced copies count.
+    rest = squash(text.replace(row["buggy_code"].strip(), "", 1))
+    name = row["signature"].split("(", 1)[0]
     def leaked(test):
         expected = canonical(test["expected"]).decode()
         args = canonical(test["args"]).decode()
+        call = squash(name + "(" + ", ".join(repr(a) for a in test["args"]) + ")")
         return (canonical(test).decode() in text or json.dumps(test) in text
-                or (len(expected) > 3 and expected in text and args in text))
+                or (len(expected) > 3 and expected in text and args in text)
+                # doctest / example form: the exact call and its expected result
+                or (call in rest and (squash(repr(test["expected"])) in rest or squash(expected) in rest)))
     leaked_tests = [t for t in tests if leaked(t)]
     checks = {
         "at_least_four_tests": len(tests) >= 4,
@@ -77,8 +85,7 @@ def mechanical_checks(row: dict) -> dict:
         "evaluation_view_only_prompt_and_id": set(view) == {"prompt", "problem_id"},
         # The buggy module is meant to be in the prompt and may contain the reference as
         # a prefix (`value in xs` vs `value in xs[1:]`); search the rest of the text.
-        "evaluation_view_excludes_reference": (row["reference_code"].strip()
-                                               not in text.replace(row["buggy_code"].strip(), "", 1)
+        "evaluation_view_excludes_reference": (squash(row["reference_code"]) not in rest
                                                and row["reference_code"].strip() != row["buggy_code"].strip()),
         "evaluation_view_excludes_test_records": not leaked_tests,
         "evaluation_view_excludes_provenance": (row["provenance"]["source_sha256"] not in text

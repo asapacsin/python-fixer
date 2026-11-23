@@ -61,6 +61,10 @@ def check(source, signature, imports):
 def json_value(value, depth=0):
     if depth > 32:
         raise ValueError("return nesting too deep")
+    if type(value) is int and value.bit_length() > 4096:
+        # json.dumps refuses ints over sys.get_int_max_str_digits() (4300) digits;
+        # treat oversized integers as a candidate's unsupported return value.
+        raise ValueError("integer return value too large")
     if value is None or type(value) in (str, int, bool):
         return value
     if type(value) is float and math.isfinite(value):
@@ -91,8 +95,13 @@ def main():
                 child = subprocess.run([sys.executable,"-I","-B","-c",request["runner_source"]],
                     input=json.dumps(call),text=True,capture_output=True,
                     timeout=min(remaining,cpu_remaining))
-                if child.returncode:
-                    result = {"status":"RESOURCE_LIMIT" if child.returncode in {-9,-24,137,152} else "INTERNAL_ERROR", "compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
+                if child.returncode in {-9,-24,137,152}:
+                    result = {"status":"RESOURCE_LIMIT","compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
+                elif child.returncode < 0:
+                    # Any other signal death of the per-test interpreter is candidate-caused.
+                    result = {"status":"OK","compiled":True,"returned":False,"cpu_ms":0,"peak_memory_bytes":0}
+                elif child.returncode:
+                    result = {"status":"INTERNAL_ERROR","compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
                 elif len(child.stdout.encode())>65536 or len(child.stderr.encode())>65536:
                     result = {"status":"RESOURCE_LIMIT","compiled":True,"cpu_ms":0,"peak_memory_bytes":0}
                 else:
@@ -148,7 +157,11 @@ def main():
     usage = resource.getrusage(resource.RUSAGE_SELF)
     response["cpu_ms"] = int((usage.ru_utime + usage.ru_stime) * 1000)
     response["peak_memory_bytes"] = usage.ru_maxrss * 1024
-    encoded = json.dumps(response, allow_nan=False)
+    try:
+        encoded = json.dumps(response, allow_nan=False)
+    except (ValueError, TypeError):
+        encoded = json.dumps({"status": "INVALID_OUTPUT", "compiled": compiled,
+                              "cpu_ms": response["cpu_ms"], "peak_memory_bytes": response["peak_memory_bytes"]})
     if len(encoded.encode()) > 65536:
         encoded = json.dumps({"status": "RESOURCE_LIMIT", "compiled": compiled, "cpu_ms": 0, "peak_memory_bytes": 0})
     sys.stdout.write(encoded)

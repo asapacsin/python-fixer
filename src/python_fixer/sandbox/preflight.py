@@ -151,27 +151,55 @@ print(json.dumps({'status':'OK','compiled':True,'value':True}),flush=True)
         checks.append({"id":name,"status":result["status"],
                        "passed":result["status"] not in {"INTERNAL_ERROR"} and result.get("returned") is not True})
     # End to end through the trusted gateway: expected values never reach the sandbox.
+    # The probe replaces the shim and *returns the sentinel if it can see it*, so a
+    # leak would make the test pass; both the per-test and suite paths are exercised.
+    from .gateway import execute_suite
     sentinel = "expected-sentinel-" + os.urandom(8).hex()
-    class Spy(DockerSandbox):
-        def invoke(self, source, signature, test, **kw):
-            return super().invoke(source, signature, test, _probe_script='''import json,os,sys
+    leak_probe = '''import json,os,sys
 raw=sys.stdin.read()
 seen=SENTINEL in raw or any(SENTINEL in v for v in os.environ.values())
 for root in ("/tmp","/"):
     try: names=os.listdir(root)
     except OSError: names=[]
     seen = seen or any(SENTINEL in n for n in names)
-print(json.dumps({'status':'OK','compiled':True,'returned':True,'value':'absent' if not seen else 'SEEN'}))
-'''.replace("SENTINEL", repr(sentinel)))
-    spy = Spy(sandbox.policy)
-    row = {"tests": [{"test_id": "1", "args": [1], "kwargs": {}, "expected": sentinel, "comparator": "exact"}],
+one={'status':'OK','compiled':True,'returned':True,'value':SENTINEL if seen else 'absent','cpu_ms':1,'peak_memory_bytes':1}
+request=json.loads(raw)
+if "tests" in request:
+    print(json.dumps({'status':'OK','compiled':True,'results':[one for t in request["tests"]],'cpu_ms':1,'peak_memory_bytes':1}))
+else:
+    print(json.dumps(one))
+'''.replace("SENTINEL", repr(sentinel))
+    class Spy(DockerSandbox):
+        observed = []
+        def invoke(self, source, signature, test, **kw):
+            kw["_probe_script"] = leak_probe
+            outcome = super().invoke(source, signature, test, **kw)
+            self.observed.append(outcome)
+            return outcome
+    class PerTest:
+        def __init__(self, spy):
+            self.policy, self.invoke = spy.policy, spy.invoke
+    row = {"tests": [{"test_id": "1", "args": [1], "kwargs": {}, "expected": sentinel, "comparator": "exact"},
+                     {"test_id": "2", "args": [2], "kwargs": {}, "expected": sentinel, "comparator": "exact"}],
            "signature": "repair(x)"}
-    from .gateway import execute_suite
-    spied = [spy.invoke("def repair(x):\n    return x\n", "repair(x)", {"args": t["args"], "kwargs": t["kwargs"]}) for t in row["tests"]]
-    result = execute_suite(type("S", (), {"policy": sandbox.policy, "invoke": spy.invoke})(), row,
-                           "def repair(x):\n    return x\n")
-    checks.append({"id":"expected-values-absent","passed":all(r.get("value") == "absent" for r in spied)
-                   and result["status"] == "OK" and result["passed_ids"] == []})
+    candidate = "def repair(x):\n    return x\n"
+    for path, target in (("suite", Spy(sandbox.policy)), ("per-test", PerTest(Spy(sandbox.policy)))):
+        Spy.observed = []
+        result = execute_suite(target, row, candidate)
+        values = [r.get("value") for o in Spy.observed for r in o.get("results", [o])]
+        checks.append({"id": f"expected-values-absent-{path}", "status": result["status"], "values": values,
+                       "passed": result["status"] == "OK" and result["passed_ids"] == []
+                                 and len(values) == 2 and all(v == "absent" for v in values)})
+    # Candidate return values that cannot be serialized must be candidate failures
+    # on the production suite path, never INTERNAL_ERROR.
+    for name, code in (("big-int-return", "def repair(x):\n    return pow(10, 5000)\n"),
+                       ("surrogate-return", "def repair(x):\n    return '\\ud800'\n")):
+        outcome = sandbox.invoke_suite(code, "repair(x)", [{"args": [1], "kwargs": {}}])
+        suite = execute_suite(sandbox, {"tests": [{"test_id": "1", "args": [1], "kwargs": {}, "expected": 0,
+                                                    "comparator": "exact"}], "signature": "repair(x)"}, code)
+        checks.append({"id": name, "status": [o.get("status") for o in outcome], "suite_status": suite["status"],
+                       "passed": suite["status"] != "INTERNAL_ERROR" and suite["passed_ids"] == []
+                                 and all(o.get("status") != "INTERNAL_ERROR" for o in outcome)})
     remaining = subprocess.run(["docker","ps","-aq","--filter","label=python-fixer.owner=m1"],
         capture_output=True,text=True,env=sandbox.environment,timeout=10)
     checks.append({"id":"no-container-leaks","passed":remaining.returncode==0 and not remaining.stdout.strip()})

@@ -9,7 +9,8 @@ signed/versioned runtime image, test manifests and host kernel/runtime. Protect
 GPU credentials, checkpoints, private tests, other tenants and the worker host.
 Containers share a kernel and are not a complete boundary against kernel exploits;
 use gVisor `runsc` on a dedicated disposable CPU VM, patched and separate from
-the GPU node. Firecracker is a future stronger boundary if gVisor tests/compatibility
+the GPU node. M1 exception (no GPU node, model or secrets exist yet): the session
+container is the worker, see [ADR-002](../docs/adr/002-m1-session-container-worker.md). Firecracker is a future stronger boundary if gVisor tests/compatibility
 fail. Plain Docker without runtime hardening is not an approved fallback.
 
 ## Required isolation policy
