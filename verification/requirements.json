@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "requirements": [
+    {
+      "id": "M0-spec",
+      "level": "static",
+      "gate_id": "repository-contracts",
+      "required": true
+    },
+    {
+      "id": "M0-reward-oracle",
+      "level": "unit",
+      "gate_id": "spec-tests",
+      "required": true
+    },
+    {
+      "id": "M1-data-isolation",
+      "level": "unit",
+      "gate_id": "m1-unit",
+      "required": true
+    },
+    {
+      "id": "M1-real-sandbox",
+      "level": "integration",
+      "gate_id": "m1-sandbox",
+      "required": true
+    },
+    {
+      "id": "GPU-training-proof",
+      "level": "gpu",
+      "gate_id": "gpu-preflight",
+      "required": true
+    },
+    {
+      "id": "M6-heldout",
+      "level": "evaluation",
+      "gate_id": "sealed-evaluation",
+      "required": true
+    }
+  ],
+  "policy": "A milestone claims only its own executed gates; no lower evidence substitutes for a later requirement."
+}

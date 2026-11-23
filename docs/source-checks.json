@@ -1,0 +1,54 @@
+{
+  "checked_on": "2026-11-23",
+  "sources": [
+    {
+      "id": "qwen3",
+      "url": "https://huggingface.co/Qwen/Qwen3-0.6B/raw/main/README.md",
+      "sha256": "1ab64a26fcb3b461423b89a433a8c858f1bf8d4086f979cbb3ff878d47cf20e9",
+      "bytes": 13965
+    },
+    {
+      "id": "grpo_config",
+      "url": "https://raw.githubusercontent.com/huggingface/trl/v0.23.1/trl/trainer/grpo_config.py",
+      "sha256": "521b3b6f76c9bf2c29bf24447f5c56b76cc36e99ee3bad8a8a98478137da481d",
+      "bytes": 39714
+    },
+    {
+      "id": "grpo_trainer",
+      "url": "https://raw.githubusercontent.com/huggingface/trl/v0.23.1/trl/trainer/grpo_trainer.py",
+      "sha256": "f217183c84be9b38b23454920eb1b914726aa3c4b9dd4c076d455bdaa67bf1b8",
+      "bytes": 102748
+    },
+    {
+      "id": "sft_config",
+      "url": "https://raw.githubusercontent.com/huggingface/trl/v0.23.1/trl/trainer/sft_config.py",
+      "sha256": "df29c9e6a275dce7fb595a8c3c74b88567e3519684302447b0f650e51c6401a5",
+      "bytes": 13795
+    },
+    {
+      "id": "sft_trainer",
+      "url": "https://raw.githubusercontent.com/huggingface/trl/v0.23.1/trl/trainer/sft_trainer.py",
+      "sha256": "c2378bd182751cdfca788037920876456cc7702290f9e0eaf4cf2521450a7d5d",
+      "bytes": 66637
+    },
+    {
+      "id": "quixbugs",
+      "url": "https://raw.githubusercontent.com/jkoppel/QuixBugs/master/README.md",
+      "sha256": "021ddf80a87b80ec8ea3e9eff7f8f3101336862377d75dedcab51acb3ce0596d",
+      "bytes": 6947
+    },
+    {
+      "id": "bugsinpy",
+      "url": "https://raw.githubusercontent.com/soarsmu/BugsInPy/master/README.md",
+      "sha256": "3e356958a2869c1a84511e8b7a4fd84bdbef9069f2d34cb18d4985fcb07efa83",
+      "bytes": 2195
+    },
+    {
+      "id": "runsc",
+      "url": "https://gvisor.dev/docs/user_guide/quick_start/docker/",
+      "sha256": "1bc3e5b6cd34e1c32c477b4fbb7113337e83d747e7445fe6764b00405f5b7f03",
+      "bytes": 24881
+    }
+  ],
+  "note": "Hashes record retrieved documentation bytes, not package, model or dataset integrity. Mutable source URLs require revision pins during implementation."
+}

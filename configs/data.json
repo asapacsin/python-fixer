@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "source": "authored-fixtures-v1",
+  "split_seed": 17,
+  "clone_threshold": 0.92,
+  "mutations_per_train_function": 0,
+  "verification_repeats": 3,
+  "workers": 4,
+  "sandbox_config": "configs/sandbox.json",
+  "output": "artifacts/data/fixtures-v1"
+}

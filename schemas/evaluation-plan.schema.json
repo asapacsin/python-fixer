@@ -1,0 +1,379 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Frozen public-metadata evaluation plan v1; no private tests or references",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "status",
+    "study_id",
+    "study_scope",
+    "evidence_kind",
+    "model_revision",
+    "tokenizer_sha256",
+    "dataset_manifest_sha256",
+    "enable_thinking",
+    "generation",
+    "arms",
+    "problems",
+    "comparisons",
+    "bootstrap",
+    "meaningful_gain_absolute",
+    "max_regression_increase_absolute",
+    "holm_family_alpha",
+    "sandbox_image_digest",
+    "sandbox_policy_sha256",
+    "inference_profile",
+    "base_checkpoint_sha256"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "DRAFT",
+        "FROZEN"
+      ]
+    },
+    "study_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    },
+    "study_scope": {
+      "enum": [
+        "confirmatory",
+        "exploratory",
+        "synthetic-test"
+      ]
+    },
+    "evidence_kind": {
+      "enum": [
+        "observed-model",
+        "synthetic-test"
+      ]
+    },
+    "model_revision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "tokenizer_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "dataset_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "enable_thinking": {
+      "const": false
+    },
+    "generation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "do_sample",
+        "max_new_tokens",
+        "n",
+        "k",
+        "sampling_seeds"
+      ],
+      "properties": {
+        "mode": {
+          "enum": [
+            "primary-greedy",
+            "secondary-sampled"
+          ]
+        },
+        "do_sample": {
+          "type": "boolean"
+        },
+        "max_new_tokens": {
+          "const": 512
+        },
+        "n": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "k": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          }
+        },
+        "sampling_seeds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        },
+        "temperature": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "top_p": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 1
+        },
+        "top_k": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "arms": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "arm",
+          "checkpoints"
+        ],
+        "properties": {
+          "arm": {
+            "enum": [
+              "E0",
+              "E0-P",
+              "E1",
+              "E2",
+              "E3"
+            ]
+          },
+          "checkpoints": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "train_seed",
+                "checkpoint_sha256"
+              ],
+              "properties": {
+                "train_seed": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "checkpoint_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                },
+                "parent_checkpoint_sha256": {
+                  "type": "string",
+                  "pattern": "^[0-9a-f]{64}$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "problems": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 10000,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "problem_id",
+          "source_family_id",
+          "split",
+          "bug_category",
+          "difficulty",
+          "prompt_sha256_by_arm",
+          "test_suite_sha256",
+          "baseline_failed_count",
+          "baseline_passed_count"
+        ],
+        "properties": {
+          "problem_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "source_family_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "split": {
+            "const": "test"
+          },
+          "bug_category": {
+            "enum": [
+              "boundary",
+              "comparison",
+              "operator",
+              "initialization",
+              "branch",
+              "return",
+              "algorithm"
+            ]
+          },
+          "difficulty": {
+            "enum": [
+              "easy",
+              "medium",
+              "hard"
+            ]
+          },
+          "prompt_sha256_by_arm": {
+            "type": "object",
+            "minProperties": 1,
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{64}$"
+            }
+          },
+          "test_suite_sha256": {
+            "type": "string",
+            "pattern": "^[0-9a-f]{64}$"
+          },
+          "baseline_failed_count": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "baseline_passed_count": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "comparisons": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "left",
+          "right",
+          "primary"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 200
+          },
+          "left": {
+            "enum": [
+              "E0",
+              "E0-P",
+              "E1",
+              "E2",
+              "E3"
+            ]
+          },
+          "right": {
+            "enum": [
+              "E0",
+              "E0-P",
+              "E1",
+              "E2",
+              "E3"
+            ]
+          },
+          "primary": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "bootstrap": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "replicates",
+        "seed"
+      ],
+      "properties": {
+        "replicates": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 100000
+        },
+        "seed": {
+          "type": "integer"
+        }
+      }
+    },
+    "meaningful_gain_absolute": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "max_regression_increase_absolute": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "holm_family_alpha": {
+      "type": "number",
+      "exclusiveMinimum": 0,
+      "maximum": 1
+    },
+    "sandbox_image_digest": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9./_-]+@sha256:[0-9a-f]{64}$"
+    },
+    "sandbox_policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "inference_profile": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "precision",
+        "batch_size",
+        "device_model",
+        "software_lock_sha256"
+      ],
+      "properties": {
+        "precision": {
+          "const": "bf16"
+        },
+        "batch_size": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 64
+        },
+        "device_model": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 200
+        },
+        "software_lock_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      }
+    },
+    "base_checkpoint_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}

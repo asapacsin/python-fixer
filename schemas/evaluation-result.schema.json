@@ -1,0 +1,148 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "study_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "arm": {
+      "enum": [
+        "E0",
+        "E0-P",
+        "E1",
+        "E2",
+        "E3"
+      ]
+    },
+    "problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_family_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "finish_reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "status": {
+      "enum": [
+        "OK",
+        "INVALID_OUTPUT",
+        "COMPILE_ERROR",
+        "POLICY_VIOLATION",
+        "TIMEOUT",
+        "RESOURCE_LIMIT"
+      ]
+    },
+    "checkpoint_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tokenizer_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "dataset_manifest_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "prompt_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "generation_config_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "candidate_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "sandbox_report_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "model_revision": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "train_seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "sampling_seed": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "sample_index": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generated_tokens": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "generation_ms": {
+      "type": "number",
+      "minimum": 0
+    },
+    "compiled": {
+      "type": "boolean"
+    },
+    "all_tests_pass": {
+      "type": "boolean"
+    },
+    "regression": {
+      "type": "boolean"
+    },
+    "inference_profile_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "regressed_passed_count": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    }
+  },
+  "required": [
+    "study_id",
+    "arm",
+    "problem_id",
+    "source_family_id",
+    "finish_reason",
+    "status",
+    "checkpoint_sha256",
+    "tokenizer_sha256",
+    "dataset_manifest_sha256",
+    "prompt_sha256",
+    "generation_config_sha256",
+    "candidate_sha256",
+    "sandbox_report_sha256",
+    "schema_version",
+    "model_revision",
+    "train_seed",
+    "sampling_seed",
+    "sample_index",
+    "generated_tokens",
+    "generation_ms",
+    "compiled",
+    "all_tests_pass",
+    "regression",
+    "inference_profile_sha256",
+    "regressed_passed_count"
+  ]
+}

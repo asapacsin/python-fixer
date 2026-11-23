@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "task_id": "m1-data-sandbox",
+  "milestone": "M1",
+  "status": "PLANNED_NOT_EXECUTED",
+  "goal": "Implement a deterministic licensed dataset vertical slice, isolated CPU execution and behavior-v1 reward.",
+  "acceptance": [
+    "16 authored fixture problems verified reference-pass/buggy-fail through real runsc",
+    "Split grouping and model-facing projections prevent reference/test leakage",
+    "All security attack cases in spec08 produce bounded failures and no host access",
+    "Production reward matches acceptance table; infrastructure faults return no reward",
+    "Freeze manifest and independent read-only review before completing M1"
+  ],
+  "approved_paths": [
+    "src/python_fixer/data/**",
+    "src/python_fixer/sandbox/**",
+    "src/python_fixer/rewards/**",
+    "tests/**",
+    "scripts/**",
+    "configs/**",
+    "schemas/**",
+    "examples/**",
+    "pyproject.toml",
+    "requirements-dev.txt",
+    "specs/**",
+    "docs/**"
+  ],
+  "protected_paths": [
+    "AGENTS.md",
+    ".github/workflows/**",
+    "verification/requirements.json"
+  ],
+  "dependencies": [
+    "M0-spec",
+    "M0-reward-oracle"
+  ],
+  "required_requirement_ids": [
+    "M1-data-isolation",
+    "M1-real-sandbox"
+  ],
+  "boundaries": [
+    "No generated code on host",
+    "No GPU rental, weights download or training",
+    "No held-out rewards or secrets in logs",
+    "Spec changes require recorded rationale; cannot weaken required evidence"
+  ],
+  "budgets": {
+    "max_attempts": 3,
+    "max_total_seconds": 3600,
+    "scope_note": "One bounded implementation session; checkpoint unfinished M1 tasks rather than fabricate completion."
+  },
+  "gates": [
+    {
+      "id": "repository-contracts",
+      "level": "static",
+      "command": [
+        "python3",
+        "scripts/validate_repository.py"
+      ],
+      "required": true
+    },
+    {
+      "id": "m1-unit",
+      "level": "unit",
+      "command": [
+        "python3",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_m1_*.py",
+        "-v"
+      ],
+      "required": true,
+      "minimum_tests": 1,
+      "status": "TO_IMPLEMENT"
+    },
+    {
+      "id": "m1-sandbox",
+      "level": "integration",
+      "command": [
+        "python3",
+        "-m",
+        "python_fixer.sandbox.preflight",
+        "--config",
+        "configs/sandbox.json"
+      ],
+      "required": true,
+      "status": "TO_IMPLEMENT"
+    }
+  ],
+  "independent_review": {
+    "required": true,
+    "status": "NOT_VERIFIED",
+    "read_only": true,
+    "review_actual_diff": true
+  },
+  "base_commit": null,
+  "base_commit_note": "Unborn repository; set exact current HEAD in an approved task instance before implementation."
+}

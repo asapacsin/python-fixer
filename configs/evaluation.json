@@ -1,0 +1,15 @@
+{
+  "status": "PREREGISTERED_DESIGN_NOT_RESULTS",
+  "model_id": "Qwen/Qwen3-0.6B", "model_revision": null,
+  "dataset_manifest_sha256": null,
+  "enable_thinking": false,
+  "primary": {"do_sample": false, "max_new_tokens": 512, "num_return_sequences": 1},
+  "secondary": {"do_sample": true, "temperature": 0.7, "top_p": 0.8, "top_k": 20, "max_new_tokens": 512, "n": 20, "k": [1, 5, 10]},
+  "training_seeds": [17, 29, 43],
+  "sampling_seeds": [101, 202, 303],
+  "bootstrap": {"replicates": 10000, "seed": 987, "confidence": 0.95, "cluster": "source_family_id"},
+  "meaningful_gain_absolute": 0.05,
+  "max_regression_increase_absolute": 0.02,
+  "primary_comparisons": ["E1-E0", "E2-E1"],
+  "holm_family_alpha": 0.05
+}

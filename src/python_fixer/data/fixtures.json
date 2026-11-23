@@ -1,0 +1,905 @@
+[
+  {
+    "source_function_id": "fixture-maximum-v1",
+    "source_family_id": "authored-maximum",
+    "signature": "maximum(a, b)",
+    "behavior": "Return the larger integer.",
+    "reference_code": "def maximum(a, b):\n    return a if a > b else b\n",
+    "buggy_code": "def maximum(a, b):\n    return a if a < b else b\n",
+    "bug_category": "comparison",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          2,
+          1
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          1,
+          2
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          0,
+          0
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          -1,
+          -1
+        ],
+        "kwargs": {},
+        "expected": -1,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-minimum-v1",
+    "source_family_id": "authored-minimum",
+    "signature": "minimum(a, b)",
+    "behavior": "Return the smaller integer.",
+    "reference_code": "def minimum(a, b):\n    return a if a < b else b\n",
+    "buggy_code": "def minimum(a, b):\n    return a if a > b else b\n",
+    "bug_category": "comparison",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          2,
+          1
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          1,
+          2
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          0,
+          0
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          -1,
+          -1
+        ],
+        "kwargs": {},
+        "expected": -1,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-absolute-v1",
+    "source_family_id": "authored-absolute",
+    "signature": "absolute(n)",
+    "behavior": "Return the absolute value of integer n.",
+    "reference_code": "def absolute(n):\n    return -n if n < 0 else n\n",
+    "buggy_code": "def absolute(n):\n    return -n if n > 0 else n\n",
+    "bug_category": "branch",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          -2
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          2
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          0
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          -3
+        ],
+        "kwargs": {},
+        "expected": 3,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-is_even-v1",
+    "source_family_id": "authored-is_even",
+    "signature": "is_even(n)",
+    "behavior": "Return whether integer n is even.",
+    "reference_code": "def is_even(n):\n    return n % 2 == 0\n",
+    "buggy_code": "def is_even(n):\n    return n % 3 == 0\n",
+    "bug_category": "operator",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          0
+        ],
+        "kwargs": {},
+        "expected": true,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          6
+        ],
+        "kwargs": {},
+        "expected": true,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          2
+        ],
+        "kwargs": {},
+        "expected": true,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          3
+        ],
+        "kwargs": {},
+        "expected": false,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-clamp-v1",
+    "source_family_id": "authored-clamp",
+    "signature": "clamp(n, lo, hi)",
+    "behavior": "Clamp n into the inclusive integer interval lo..hi, where lo <= hi.",
+    "reference_code": "def clamp(n, lo, hi):\n    return min(max(n, lo), hi)\n",
+    "buggy_code": "def clamp(n, lo, hi):\n    return max(n, lo)\n",
+    "bug_category": "boundary",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          2,
+          0,
+          5
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          -1,
+          0,
+          5
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          6,
+          0,
+          5
+        ],
+        "kwargs": {},
+        "expected": 5,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          7,
+          0,
+          5
+        ],
+        "kwargs": {},
+        "expected": 5,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-factorial-v1",
+    "source_family_id": "authored-factorial",
+    "signature": "factorial(n)",
+    "behavior": "Return n factorial for a nonnegative integer.",
+    "reference_code": "def factorial(n):\n    r = 1\n    for i in range(1, n + 1):\n        r *= i\n    return r\n",
+    "buggy_code": "def factorial(n):\n    r = 1\n    for i in range(1, n):\n        r *= i\n    return r\n",
+    "bug_category": "boundary",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          0
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          1
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          3
+        ],
+        "kwargs": {},
+        "expected": 6,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          4
+        ],
+        "kwargs": {},
+        "expected": 24,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-count_positive-v1",
+    "source_family_id": "authored-count_positive",
+    "signature": "count_positive(xs)",
+    "behavior": "Count elements strictly greater than zero in integer list xs.",
+    "reference_code": "def count_positive(xs):\n    return sum(1 for x in xs if x > 0)\n",
+    "buggy_code": "def count_positive(xs):\n    return sum(1 for x in xs if x >= 0)\n",
+    "bug_category": "comparison",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          []
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            1,
+            -1
+          ]
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            0
+          ]
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            0,
+            1,
+            2
+          ]
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-reverse_list-v1",
+    "source_family_id": "authored-reverse_list",
+    "signature": "reverse_list(xs)",
+    "behavior": "Return a reversed copy of integer list xs.",
+    "reference_code": "def reverse_list(xs):\n    return xs[::-1]\n",
+    "buggy_code": "def reverse_list(xs):\n    return xs[:]\n",
+    "bug_category": "return",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          []
+        ],
+        "kwargs": {},
+        "expected": [],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            1
+          ]
+        ],
+        "kwargs": {},
+        "expected": [
+          1
+        ],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "kwargs": {},
+        "expected": [
+          2,
+          1
+        ],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            1,
+            2,
+            3
+          ]
+        ],
+        "kwargs": {},
+        "expected": [
+          3,
+          2,
+          1
+        ],
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-last_item-v1",
+    "source_family_id": "authored-last_item",
+    "signature": "last_item(xs)",
+    "behavior": "Return the final element of integer list xs, or None when empty.",
+    "reference_code": "def last_item(xs):\n    return xs[-1] if xs else None\n",
+    "buggy_code": "def last_item(xs):\n    return xs[0] if xs else None\n",
+    "bug_category": "boundary",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          []
+        ],
+        "kwargs": {},
+        "expected": null,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            1
+          ]
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            1,
+            2
+          ]
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            2,
+            3,
+            4
+          ]
+        ],
+        "kwargs": {},
+        "expected": 4,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-triangle-v1",
+    "source_family_id": "authored-triangle",
+    "signature": "triangle(n)",
+    "behavior": "Return the sum of integers from 1 through nonnegative n inclusive.",
+    "reference_code": "def triangle(n):\n    return n * (n + 1) // 2\n",
+    "buggy_code": "def triangle(n):\n    return n * (n - 1) // 2\n",
+    "bug_category": "operator",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          0
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          1
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          2
+        ],
+        "kwargs": {},
+        "expected": 3,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          4
+        ],
+        "kwargs": {},
+        "expected": 10,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-contains-v1",
+    "source_family_id": "authored-contains",
+    "signature": "contains(xs, value)",
+    "behavior": "Return whether integer value occurs in integer list xs.",
+    "reference_code": "def contains(xs, value):\n    return value in xs\n",
+    "buggy_code": "def contains(xs, value):\n    return value in xs[1:]\n",
+    "bug_category": "boundary",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          [],
+          1
+        ],
+        "kwargs": {},
+        "expected": false,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            1,
+            2
+          ],
+          2
+        ],
+        "kwargs": {},
+        "expected": true,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": true,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            1,
+            2
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": true,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-safe_divide-v1",
+    "source_family_id": "authored-safe_divide",
+    "signature": "safe_divide(a, b)",
+    "behavior": "Return a / b as float, or None if b equals zero.",
+    "reference_code": "def safe_divide(a, b):\n    return a / b if b != 0 else None\n",
+    "buggy_code": "def safe_divide(a, b):\n    return b / a if a != 0 else None\n",
+    "bug_category": "operator",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          2,
+          2
+        ],
+        "kwargs": {},
+        "expected": 1.0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          0,
+          0
+        ],
+        "kwargs": {},
+        "expected": null,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          4,
+          2
+        ],
+        "kwargs": {},
+        "expected": 2.0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          6,
+          3
+        ],
+        "kwargs": {},
+        "expected": 2.0,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-prefix-v1",
+    "source_family_id": "authored-prefix",
+    "signature": "prefix(xs, n)",
+    "behavior": "Return the first n elements of integer list xs, for nonnegative n.",
+    "reference_code": "def prefix(xs, n):\n    return xs[:n]\n",
+    "buggy_code": "def prefix(xs, n):\n    return xs[-n:]\n",
+    "bug_category": "boundary",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          [],
+          0
+        ],
+        "kwargs": {},
+        "expected": [],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": [
+          1
+        ],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": [
+          1
+        ],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            1,
+            2,
+            3
+          ],
+          2
+        ],
+        "kwargs": {},
+        "expected": [
+          1,
+          2
+        ],
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-count_equal-v1",
+    "source_family_id": "authored-count_equal",
+    "signature": "count_equal(xs, target)",
+    "behavior": "Count elements equal to target in integer list xs.",
+    "reference_code": "def count_equal(xs, target):\n    return sum(1 for x in xs if x == target)\n",
+    "buggy_code": "def count_equal(xs, target):\n    return sum(1 for x in xs if x < target)\n",
+    "bug_category": "comparison",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          [],
+          1
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            2
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": 0,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            1
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            0,
+            1,
+            1
+          ],
+          1
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-power_two-v1",
+    "source_family_id": "authored-power_two",
+    "signature": "power_two(n)",
+    "behavior": "Return 2 raised to a nonnegative integer n.",
+    "reference_code": "def power_two(n):\n    return 2 ** n\n",
+    "buggy_code": "def power_two(n):\n    return 2 * n\n",
+    "bug_category": "operator",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          1
+        ],
+        "kwargs": {},
+        "expected": 2,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          2
+        ],
+        "kwargs": {},
+        "expected": 4,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          0
+        ],
+        "kwargs": {},
+        "expected": 1,
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          3
+        ],
+        "kwargs": {},
+        "expected": 8,
+        "comparator": "exact"
+      }
+    ]
+  },
+  {
+    "source_function_id": "fixture-unique_sorted-v1",
+    "source_family_id": "authored-unique_sorted",
+    "signature": "unique_sorted(xs)",
+    "behavior": "Return sorted unique integers from list xs.",
+    "reference_code": "def unique_sorted(xs):\n    return sorted(set(xs))\n",
+    "buggy_code": "def unique_sorted(xs):\n    return sorted(xs)\n",
+    "bug_category": "algorithm",
+    "difficulty": "easy",
+    "license": "CC0-1.0",
+    "tests": [
+      {
+        "test_id": "1",
+        "args": [
+          []
+        ],
+        "kwargs": {},
+        "expected": [],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "2",
+        "args": [
+          [
+            2,
+            1
+          ]
+        ],
+        "kwargs": {},
+        "expected": [
+          1,
+          2
+        ],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "3",
+        "args": [
+          [
+            1,
+            1
+          ]
+        ],
+        "kwargs": {},
+        "expected": [
+          1
+        ],
+        "comparator": "exact"
+      },
+      {
+        "test_id": "4",
+        "args": [
+          [
+            2,
+            1,
+            2
+          ]
+        ],
+        "kwargs": {},
+        "expected": [
+          1,
+          2
+        ],
+        "comparator": "exact"
+      }
+    ]
+  }
+]

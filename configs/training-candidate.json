@@ -1,0 +1,21 @@
+{
+  "status": "UNVERIFIED_CANDIDATE_NOT_A_LOCKFILE",
+  "python": "3.11",
+  "packages": {
+    "torch": "2.8.0",
+    "transformers": "4.56.2",
+    "trl": "0.23.1",
+    "peft": "0.17.1",
+    "accelerate": "1.10.1",
+    "datasets": "4.1.1"
+  },
+  "optional_packages": {"bitsandbytes": "0.47.0"},
+  "torch_wheel_variant": "cu128",
+  "gpu_target": "RTX 4090 24 GB",
+  "required_before_training": [
+    "resolve all transitive dependencies and generate a hash-locked lockfile",
+    "record trusted wheel indexes, container digest and CUDA driver compatibility",
+    "run SFT and GRPO API and GPU smoke tests",
+    "pin model/tokenizer commits and dataset manifests"
+  ]
+}

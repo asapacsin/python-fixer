@@ -1,0 +1,24 @@
+{
+  "status": "UNVERIFIED_INITIAL_CONFIGURATION",
+  "model_id": "Qwen/Qwen3-0.6B",
+  "model_revision": null,
+  "enable_thinking": false,
+  "seed": 17,
+  "lora": {
+    "r": 16, "lora_alpha": 32, "lora_dropout": 0.05,
+    "bias": "none", "task_type": "CAUSAL_LM",
+    "target_modules": ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"]
+  },
+  "trainer": {
+    "max_length": 2048, "packing": false,
+    "completion_only_loss": true, "assistant_only_loss": false,
+    "per_device_train_batch_size": 1, "gradient_accumulation_steps": 16,
+    "num_train_epochs": 2, "learning_rate": 0.0002,
+    "lr_scheduler_type": "cosine", "warmup_ratio": 0.05,
+    "optim": "adamw_torch", "weight_decay": 0.01, "max_grad_norm": 1.0,
+    "bf16": true, "fp16": false, "gradient_checkpointing": true,
+    "eval_strategy": "steps", "eval_steps": 50, "save_steps": 50,
+    "save_total_limit": 3, "logging_steps": 5, "report_to": "none"
+  },
+  "quantization": {"enabled": false, "fallback": "NF4 4-bit, double quantization, bfloat16 compute; separate ablation"}
+}

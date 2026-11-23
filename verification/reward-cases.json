@@ -1,0 +1,200 @@
+{
+  "reward_version": "behavior-v1",
+  "cases": [
+    {
+      "name": "no-fix",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": 0
+    },
+    {
+      "name": "half-fixed",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 2,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": 0.25
+    },
+    {
+      "name": "full-repair",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 4,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": true
+      },
+      "expected_reward": 1
+    },
+    {
+      "name": "fix-with-regression",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 4,
+        "total_failed": 4,
+        "preserved_passed": 1,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": 0
+    },
+    {
+      "name": "compile-failure",
+      "input": {
+        "status": "COMPILE_ERROR",
+        "compiled": false,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": -0.5
+    },
+    {
+      "name": "invalid-format",
+      "input": {
+        "status": "INVALID_OUTPUT",
+        "compiled": false,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": -0.5
+    },
+    {
+      "name": "timeout-discards-partial",
+      "input": {
+        "status": "TIMEOUT",
+        "compiled": true,
+        "fixed_failed": 2,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": -1
+    },
+    {
+      "name": "policy-violation-even-with-full-counts",
+      "input": {
+        "status": "POLICY_VIOLATION",
+        "compiled": true,
+        "fixed_failed": 4,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": true
+      },
+      "expected_reward": -1
+    },
+    {
+      "name": "resource-limit",
+      "input": {
+        "status": "RESOURCE_LIMIT",
+        "compiled": true,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_reward": -1
+    },
+    {
+      "name": "infrastructure",
+      "input": {
+        "status": "INTERNAL_ERROR",
+        "compiled": true,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_error": true
+    },
+    {
+      "name": "empty-failing-baseline",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 0,
+        "total_failed": 0,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_error": true
+    },
+    {
+      "name": "empty-regression-baseline",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 0,
+        "total_passed": 0,
+        "all_passed": false
+      },
+      "expected_error": true
+    },
+    {
+      "name": "impossible-count",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 5,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_error": true
+    },
+    {
+      "name": "forged-all-pass",
+      "input": {
+        "status": "OK",
+        "compiled": true,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": true
+      },
+      "expected_error": true
+    },
+    {
+      "name": "ok-uncompiled",
+      "input": {
+        "status": "OK",
+        "compiled": false,
+        "fixed_failed": 0,
+        "total_failed": 4,
+        "preserved_passed": 2,
+        "total_passed": 2,
+        "all_passed": false
+      },
+      "expected_error": true
+    }
+  ]
+}

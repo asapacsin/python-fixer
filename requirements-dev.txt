@@ -1,0 +1,10 @@
+# M0 CPU validation only; resolved on Linux / Python 3.12 on 2026-11-23.
+# Pin the complete small dependency set. CI also checks Python 3.11.
+attrs==26.1.0
+jsonschema==4.25.1
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==2026.9.1
+typing-extensions==4.16.0
+setuptools==80.9.0
+wheel==0.45.1

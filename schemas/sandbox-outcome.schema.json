@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "request_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runner_version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "image_digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "candidate_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "suite_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "policy_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "status": {
+      "enum": [
+        "OK",
+        "INVALID_OUTPUT",
+        "COMPILE_ERROR",
+        "POLICY_VIOLATION",
+        "TIMEOUT",
+        "RESOURCE_LIMIT",
+        "INTERNAL_ERROR"
+      ]
+    },
+    "compiled": {
+      "type": "boolean"
+    },
+    "all_passed": {
+      "type": "boolean"
+    },
+    "truncated_output": {
+      "type": "boolean"
+    },
+    "fixed_failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total_failed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "preserved_passed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "total_passed": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "wall_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "cpu_ms": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "peak_memory_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "diagnostics": {
+      "type": "string",
+      "maxLength": 65536
+    }
+  },
+  "required": [
+    "request_id",
+    "runner_version",
+    "image_digest",
+    "candidate_sha256",
+    "suite_sha256",
+    "policy_sha256",
+    "schema_version",
+    "status",
+    "compiled",
+    "all_passed",
+    "truncated_output",
+    "fixed_failed",
+    "total_failed",
+    "preserved_passed",
+    "total_passed",
+    "wall_ms",
+    "cpu_ms",
+    "peak_memory_bytes",
+    "diagnostics"
+  ]
+}

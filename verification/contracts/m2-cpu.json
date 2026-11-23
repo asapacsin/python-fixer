@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "task_id": "m2-independent-cpu-analysis",
+  "milestone": "M2-CPU-only",
+  "status": "PLANNED_NOT_EXECUTED",
+  "goal": "Implement model-free frozen-result validation, repair metrics, paired family statistics and analysis CLI while M1 execution security remains blocked.",
+  "acceptance": [
+    "Reject missing, duplicated, inconsistent or unpinned result records",
+    "Compute primary greedy and secondary sampled pass metrics separately",
+    "Compute deterministic paired family-cluster bootstrap and Holm-adjusted permutation tests",
+    "Never execute candidate code, download weights or claim model improvement from synthetic fixtures",
+    "Keep M1 security and real-model M2 gates unfulfilled until separately verified"
+  ],
+  "approved_paths": ["src/python_fixer/evaluation/**", "tests/test_m2_*.py", "schemas/**", "specs/06-evaluation-protocol.md", "docs/**", "README.md"],
+  "dependencies": ["M0-spec", "M0-reward-oracle"],
+  "external_dependencies_not_satisfied": ["M1 approved sandbox", "real baseline model artifacts"],
+  "boundaries": ["No candidate execution", "No GPU or model download", "No weakening of security gates", "Analysis is not authenticated model-run evidence"],
+  "budgets": {"max_attempts": 3, "max_total_seconds": 3600},
+  "gates": [
+    {"id": "m2-cpu", "level": "unit", "command": ["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_m2_*.py", "-v"], "minimum_tests": 1, "required": true},
+    {"id": "repository-contracts", "level": "static", "command": ["python3", "scripts/validate_repository.py"], "required": true}
+  ],
+  "independent_review": {"required": true, "read_only": true, "status": "NOT_VERIFIED"},
+  "base_commit": null,
+  "base_commit_note": "Repository remains unborn; no base SHA invented. Runtime evidence binds complete source fingerprint."
+}

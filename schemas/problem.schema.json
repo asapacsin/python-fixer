@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:python-fixer:problem:v1",
+  "title": "Private canonical problem v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "problem_id",
+    "source_function_id",
+    "source_family_id",
+    "signature",
+    "behavior",
+    "buggy_code",
+    "reference_code",
+    "test_suite_id",
+    "split",
+    "bug_category",
+    "difficulty",
+    "provenance",
+    "test_suite_sha256",
+    "tests",
+    "verification"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": 1
+    },
+    "problem_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_function_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_family_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 1
+    },
+    "behavior": {
+      "type": "string",
+      "minLength": 1
+    },
+    "buggy_code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reference_code": {
+      "type": "string",
+      "minLength": 1
+    },
+    "test_suite_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "split": {
+      "enum": [
+        "train",
+        "validation",
+        "test"
+      ]
+    },
+    "bug_category": {
+      "enum": [
+        "boundary",
+        "comparison",
+        "operator",
+        "initialization",
+        "branch",
+        "return",
+        "algorithm"
+      ]
+    },
+    "difficulty": {
+      "enum": [
+        "easy",
+        "medium",
+        "hard"
+      ]
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_uri",
+        "revision",
+        "path",
+        "license",
+        "source_sha256",
+        "mutation_operator",
+        "mutation_seed"
+      ],
+      "properties": {
+        "source_uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "license": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mutation_operator": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "mutation_seed": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "test_suite_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "tests": {
+      "type": "array",
+      "minItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "test_id",
+          "args",
+          "kwargs",
+          "expected",
+          "comparator"
+        ],
+        "properties": {
+          "test_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "args": {
+            "type": "array"
+          },
+          "kwargs": {
+            "type": "object"
+          },
+          "expected": {},
+          "comparator": {
+            "const": "exact"
+          }
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "NOT_RUN",
+            "VERIFIED"
+          ]
+        },
+        "baseline_failed_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "baseline_passed_ids": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "image_digest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "policy_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "evidence_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "VERIFIED"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "baseline_failed_ids",
+              "baseline_passed_ids",
+              "image_digest",
+              "policy_sha256",
+              "evidence_sha256"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
