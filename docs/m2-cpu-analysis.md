@@ -18,6 +18,10 @@ No weights, GPU, model generation or candidate execution are needed by these too
   family weighting, category/difficulty strata and generation token/latency metrics.
 - `evaluation.statistics`: paired two-level family/seed bootstrap, paired cluster
   permutation tests and Holm correction. Details are in spec06's implementation addendum.
+- `evaluation.extraction`: strict text-only extraction of one candidate module from a
+  raw completion (UTF-8, <=64 KiB, one trailing `<|im_end|>` allowed, no fences,
+  thinking or chat-control markers). Violations return INVALID, never raise; nothing
+  is parsed, compiled or executed. AST/signature policy stays in the sandbox worker.
 - `evaluation.run`: `validate` or `analyze` saved results, with an external plan pin
   and immutable new output artifact. This is not an inference command.
 
