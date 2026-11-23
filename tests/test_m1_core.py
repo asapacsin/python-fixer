@@ -165,6 +165,14 @@ class GatewayTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             Policy("python:latest")
 
+    def test_candidate_and_runtime_process_limits_are_distinct_and_bounded(self):
+        command = DockerSandbox(Policy(IMAGE)).command("pf-test", 2)
+        self.assertIn("--ulimit=nproc=32:32", command)  # candidate cap inside gVisor
+        self.assertIn("--pids-limit=128", command)      # whole-sandbox host cgroup bound
+        for pids, runtime in ((32, 32), (32, 257), (33, 128)):
+            with self.subTest(pids=pids, runtime=runtime), self.assertRaises(ValueError):
+                Policy(IMAGE, pids=pids, runtime_pids=runtime)
+
 
 if __name__ == "__main__":
     unittest.main()

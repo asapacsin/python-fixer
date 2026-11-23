@@ -25,7 +25,11 @@ expected values stay outside the container; no bundle of hidden tests is mounted
 
 Limits: 1 CPU, 256 MiB memory, no additional swap, 32 processes, 2 CPU seconds
 per candidate suite and 5 seconds wall time, 16 MiB noexec/nosuid/nodev tmpfs,
-64 KiB total stdout/stderr, 128 KiB request envelope. The gateway enforces a
+64 KiB total stdout/stderr, 128 KiB request envelope. The 32-process candidate limit is enforced inside gVisor
+(RLIMIT_NPROC). A separate host pids cgroup of 128 bounds the whole runsc sandbox,
+including Sentry/Gofer threads: setting it to 32 was observed (2026-11-23,
+runsc 20261109.0) to kill the Sentry on a 4-child fork storm (INTERNAL_ERROR) instead
+of returning EAGAIN, violating "worker remains healthy". The candidate limit is unchanged. The gateway enforces a
 **suite-wide** budget across per-call processes; per-test resets cannot multiply
 the allowed runtime. Kill the entire job cgroup/container on limit, verify no
 orphaned descendants, remove workspace and release concurrency slot. No test

@@ -1,6 +1,7 @@
 # M1 CPU implementation and observed readiness
 
-Status: **CPU vertical slice implemented; security acceptance BLOCKED**.
+Status: **real runsc security preflight PASS (22/22) and 16-fixture dataset CPU_VERIFIED
+on 2026-11-23; 50-case audit and independent review NOT_VERIFIED**.
 No GPU, model weights, model generation or training was used.
 
 ## Implemented
@@ -20,7 +21,31 @@ No GPU, model weights, model generation or training was used.
 - Atomic dataset writes, manifest published last, no overwrite of existing outputs.
   Plan/split IDs are deterministic; runtime metrics/evidence hashes naturally vary.
 
-## Actual observations
+## 2026-11-23 enforcing-runtime run
+
+Runtime: gVisor `runsc` release-20261109.0 (official release tarball, SHA-512
+verified), `--platform=systrap`, **cgroups enforced** (no `--ignore-cgroups`),
+cgroup v1, Docker 29.10.0, pinned image from `configs/sandbox.json`. Worker: the
+ephemeral cloud session container, not yet the dedicated `separate_cpu_worker`.
+
+- Preflight: **PASS 22/22**, including the aggregate container-memory cap that failed
+  previously. Policy sha256 `7740fea4…48b`.
+- Fix required: the host `--pids-limit=32` also counted gVisor Sentry threads, so a
+  4-child fork storm killed the sandbox (exit 2, INTERNAL_ERROR). The candidate cap
+  stays 32 via in-sandbox `RLIMIT_NPROC`; a separate host bound
+  `runtime_host_pids_limit=128` contains the whole sandbox (64 was insufficient).
+  Rationale recorded in spec 08; covered by a unit test.
+- Dataset `artifacts/data/m1-approved-v1` (ignored): accepted 16, rejected 0,
+  train 10 / validation 3 / test 3, manifest sha256 `44e98389…693f`. A rebuild gave
+  identical content-plan, split-membership, source and config hashes; row/partition
+  hashes differ only through embedded runtime evidence.
+- Evidence: `.ai-native/m1-approved-worker.json`, `.ai-native/m1-evidence-20261123.json`.
+
+Still open: 50-case audit (needs a licensed acquired corpus beyond 16 fixtures),
+deployment on the dedicated worker with operator mTLS, and independent read-only
+review (NOT_VERIFIED; self-review does not count).
+
+## Earlier observations
 
 The runtime uses `runsc --platform=systrap --ignore-cgroups`. The initial
 functional build at ignored `artifacts/data/m1-second` verified all 16 authored

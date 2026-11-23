@@ -33,8 +33,8 @@ paid work requires a measured cost estimate and explicit authorization.
   - [x] Implement requests, limits, cleanup, hash verification, idempotent cache and bounded infrastructure retries.
   - [x] Implement reference-pass / buggy-fail verification and flakiness quarantine.
   - [x] Implement production reward v1 independently and run the shared acceptance table.
-  - [ ] Pass the full security suite on an enforcing CPU worker; current aggregate memory cap failed.
-  - [ ] Freeze the first data manifest, attrition ledger and 50-case review.
+  - [x] Pass the full security suite on an enforcing runsc worker (22/22, 2026-11-23; session container, not yet the dedicated worker).
+  - [ ] Freeze the first data manifest, attrition ledger and 50-case review (16-fixture manifest built; 50-case audit needs an acquired corpus).
 - Deliverables: `src/python_fixer/data`, `sandbox`, `rewards`, CPU CLIs and tests;
   external verified corpus/manifests; worker image digest and isolation report.
 - Automated tests: schema roundtrip; duplicate/clone-family leakage; deterministic

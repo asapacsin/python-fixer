@@ -40,7 +40,7 @@ class DockerSandbox:
                 "--runtime=runsc", "--network=none",
                 "--read-only", "--user=65532:65532", "--cap-drop=ALL", "--security-opt=no-new-privileges",
                 f"--memory={p.memory_mib}m", f"--memory-swap={p.memory_mib}m", "--cpus=1",
-                f"--pids-limit={p.pids}", f"--ulimit=cpu={cpu_seconds}:{cpu_seconds}",
+                f"--pids-limit={p.runtime_pids}", f"--ulimit=cpu={cpu_seconds}:{cpu_seconds}",
                 f"--ulimit=nproc={p.pids}:{p.pids}", "--ulimit=nofile=64:64", "--tmpfs=/tmp:rw,noexec,nosuid,nodev,size=16m",
                 "--log-driver=none", "-i", p.image, "python", "-I", "-B", "-c",
                 (Path(__file__).with_name("child.py")).read_text()]

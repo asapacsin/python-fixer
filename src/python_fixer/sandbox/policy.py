@@ -16,6 +16,11 @@ class Policy:
     cpu_seconds: int = 2
     memory_mib: int = 256
     pids: int = 32
+    # Host-side cgroup bound on the whole runsc sandbox (Sentry/Gofer threads plus
+    # guest tasks). Under gVisor the candidate's 32-process limit is enforced inside
+    # the sandbox via RLIMIT_NPROC; a host pids cgroup equal to that limit kills the
+    # Sentry itself on a fork storm instead of returning EAGAIN (observed 2026-11-23).
+    runtime_pids: int = 128
     output_bytes: int = 65536
     imports: tuple[str, ...] = ("math", "collections", "itertools", "functools", "heapq", "bisect", "re", "string")
 
@@ -24,6 +29,7 @@ class Policy:
             raise ValueError("sandbox image must use an immutable sha256 digest")
         if not (0 < self.wall_seconds <= 5 and 0 < self.cpu_seconds <= 2 and
                 32 <= self.memory_mib <= 256 and 1 <= self.pids <= 32 and
+                self.pids < self.runtime_pids <= 256 and
                 1024 <= self.output_bytes <= 65536):
             raise ValueError("resource limits exceed approved policy")
         allowed = {"math", "collections", "itertools", "functools", "heapq", "bisect", "re", "string"}
@@ -48,5 +54,6 @@ class Policy:
             raise ValueError("unexpected CPU/swap/tmpfs policy")
         return cls(image=data["image_digest"], wall_seconds=data["wall_timeout_seconds"],
                    cpu_seconds=data["cpu_timeout_seconds"], memory_mib=data["memory_mib"],
-                   pids=data["pids_limit"], output_bytes=data["output_limit_bytes"],
+                   pids=data["pids_limit"], runtime_pids=data["runtime_host_pids_limit"],
+                   output_bytes=data["output_limit_bytes"],
                    imports=tuple(data["allowed_candidate_imports"]))

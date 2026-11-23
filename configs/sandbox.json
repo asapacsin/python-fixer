@@ -15,6 +15,7 @@
   "memory_mib": 256,
   "swap_mib": 0,
   "pids_limit": 32,
+  "runtime_host_pids_limit": 128,
   "wall_timeout_seconds": 5,
   "cpu_timeout_seconds": 2,
   "tmpfs_mib": 16,
