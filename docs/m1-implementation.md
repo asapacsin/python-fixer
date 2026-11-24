@@ -1,9 +1,16 @@
 # M1 CPU implementation and observed readiness
 
-Status (2026-11-24): **real runsc preflight PASS 35/35; v7 fixture dataset (67 cases)
-frozen with LLM manual review; independent code review rounds 1-5 recorded, final round
-pending at the time of writing.** Not exercised: dedicated worker + operator mTLS,
-hosted CI, human review. Current pointers: [m1-data-audit.md](m1-data-audit.md),
+Status (2026-11-24, final): **real runsc preflight PASS 35/35 (re-run in a fresh
+container, gVisor release-20261109.0 SHA-512 verified, cgroups enforced); unit suite
+109/109 on Python 3.12; v7 fixture dataset (67 cases) frozen with LLM manual review;
+independent LLM code review rounds 1-6 recorded.** Round 6 (final): fresh read-only
+Opus 5.5 agent, verdict PASS with limited scope. It confirmed the N-R5-1 fix and the
+complete outcome-to-reward map. It did not re-audit fixtures, splits or docs, and
+relies on rounds 1-5 for those. One non-blocking finding: a signal death during parsing
+scores 0 instead of -0.5 (no positive reward, never observed). Python 3.13 is outside
+`requires-python` and its stricter TLS defaults break the local mTLS tests.
+Not exercised: dedicated worker + operator mTLS, hosted CI, human review.
+Current pointers: [m1-data-audit.md](m1-data-audit.md),
 [m1-security-coverage.md](m1-security-coverage.md), ADR-002.
 No GPU, model weights, model generation or training was used.
 
