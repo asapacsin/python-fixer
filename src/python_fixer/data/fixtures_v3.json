@@ -1518,7 +1518,7 @@
  },
  {
   "source_function_id": "fixture-rotate_matrix-v3",
-  "source_family_id": "authored-rotate_matrix",
+  "source_family_id": "authored-transpose",
   "signature": "rotate_matrix(m)",
   "behavior": "Return the square matrix m rotated 90 degrees clockwise.",
   "reference_code": "def rotate_matrix(m):\n    return [list(row) for row in zip(*m[::-1])]\n",
