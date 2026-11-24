@@ -65,4 +65,4 @@ Dataset sizing implication: the E0 -> E1 gap is expected to be large because for
 of failures, and 62 held-out problems can detect a large effect. A 5-10pp
 E2-vs-E1 difference cannot be resolved at this size (paired test, assuming about 20% discordant problems, needs
 several hundred problems). The decisive number is the E1 validation pass rate, which needs the GPU preflight.
-Until then, report E2-vs-E1 at the current size as exploratory, not confirmatory.
+Decision and power table: `docs/adr/004-heldout-size-and-preregistration.md`.
