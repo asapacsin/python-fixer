@@ -1,5 +1,9 @@
 # M1 CPU implementation and observed readiness
 
+Status (2026-11-24): **M1 COMPLETE under ADR-003 (owner decision: automated dataset
+verification, no human review).** The evidence is in `verification/evidence/m1-final/`.
+Round-7 LLM review (full scope, advisory): items 1-4 PASS; documentation findings F1-F4
+fixed in this change.
 Status (2026-11-24, final): **real runsc preflight PASS 35/35 (re-run in a fresh
 container, gVisor release-20261109.0 SHA-512 verified, cgroups enforced); unit suite
 109/109 on Python 3.12; v7 fixture dataset (67 cases) frozen with LLM manual review;
@@ -61,7 +65,7 @@ ephemeral cloud session container, not yet the dedicated `separate_cpu_worker`.
 
 Follow-up the same day: source `authored-fixtures-v2` (53 authored CC0 functions,
 `configs/data-v2.json`) built to `artifacts/data/m1-fixtures-v2` with 74 accepted /
-12 rejected (all rejections are mutants), deterministic on rebuild. Attrition ledger,
+12 rejected (all rejections are mutants), deterministic on rebuild (content/split hashes). Attrition ledger,
 mutation survival and a seeded 50-case worksheet are in
 [m1-data-audit.md](m1-data-audit.md); mechanical checks 50/50, manual review PENDING.
 
@@ -73,11 +77,9 @@ Worker decision (user, 2026-11-23): for M1, which has no GPU trainer, the sessio
 container is accepted as the CPU worker. Spec 01/08's "separate worker" is about
 isolating generated code from the trainer, model weights, credentials and held-out
 data; none of these exist in this session. Before any GPU trainer exists (M3/M4) the
-worker must be a separate machine, and the operator-mTLS deployment is still unexercised.
+worker must be a separate machine. The operator-mTLS deployment was exercised on 2026-11-24 (ADR-002).
 
-Still open: the manual review's second pass on 14 v3 cases,
-deployment on the dedicated worker with operator mTLS, and independent read-only
-review (NOT_VERIFIED; self-review does not count).
+Historical (2026-11-23); superseded by the 2026-11-24 status above and ADR-003.
 
 ## Earlier observations
 

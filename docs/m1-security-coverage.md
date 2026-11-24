@@ -24,5 +24,6 @@ the path production verification and reward use.
 | Cross-candidate tmp file | Real | `fresh-workspace` |
 
 Gaps that remain: a real worker crash mid-request (killed daemon) and a real stale-cache
-scenario are only exercised with doubles; kernel-escape resistance is out of scope; the
-dedicated worker and operator mTLS deployment have not been exercised.
+scenario are only exercised with doubles; kernel-escape resistance is out of scope; a
+separate worker machine (required before M3/M4). The operator-mTLS deployment was
+exercised on 2026-11-24: `verification/evidence/m1-final/m1-mtls-deploy-20261124.json`.

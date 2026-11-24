@@ -1,0 +1,34 @@
+{
+ "schema_version": 1,
+ "kind": "m1-operator-mtls-deployment",
+ "date": "2026-11-24",
+ "commit": "31d8db8dafb76a9a01b6542681d082409c0d02c7",
+ "runsc": "runsc version release-20261109.0",
+ "runsc_sha256": "c58f1dc2a3855487bf3bedc2edf074123ad433f1d98fb7f451f56790e87b5c9f",
+ "server_command": "python -m python_fixer.sandbox.server --config configs/sandbox.json --dataset artifacts/data/m1-fixtures-v7-recheck2 --manifest-sha256 9217f00343e735c557508a350a376afed04e3a6068a4472d33cab76ab3934483 --ca ca.crt --certificate worker.crt --key worker.key --client-name trainer --host 127.0.0.1 --port 18443",
+ "client_script_sha256": "f17723e3d75e899e517969b0e72cf8b31823f06de745a4bbed3f80eeac483325",
+ "cert_sha256_fingerprints": {
+  "ca": "F2:27:AB:4E:74:9B:40:17:15:76:6A:92:1A:95:25:15:CE:5D:7A:C9:42:4B:5A:56:CB:26:AA:03:2B:9F:A2:36",
+  "worker": "3E:1B:13:F8:6A:0B:26:3E:2E:7C:FA:31:0E:55:4A:9A:1B:42:E2:21:27:AA:10:FE:BB:3C:89:22:D9:D6:D6:EE",
+  "trainer": "1D:A2:C2:FA:9D:28:02:72:A2:94:BC:3D:05:05:A6:B6:DD:C7:40:33:CE:42:63:A1:20:28:9F:78:66:FC:F5:C5",
+  "outsider": "3E:55:A2:18:6E:FE:C5:04:86:2A:16:84:6D:49:83:88:69:54:2B:F1:19:A7:C4:47:9E:E6:F6:4A:F3:DD:9C:2C"
+ },
+ "config_sandbox_sha256": "15adf3392bf9061065d6c28df148181766c8c67f2955d075ea512586c6454bf6",
+ "results": {
+  "fixture-absolute-v1-2bec0df63097": {
+   "reference": 1.0,
+   "buggy": 0.0
+  },
+  "fixture-binary_search-v2-2bec0df63097": {
+   "reference": 1.0,
+   "buggy": 0.0
+  },
+  "fixture-binary_search-v2-da1b555b76a6": {
+   "reference": 1.0,
+   "buggy": 0.0
+  },
+  "attack": -1.0,
+  "outsider": "REJECTED SandboxUnavailable"
+ },
+ "preflight_report_sha256": "6b39622cda4230079bf06a31ecfe9602352a2a3e8275afaec57a8a7ac859fd1e"
+}

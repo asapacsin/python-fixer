@@ -1,7 +1,7 @@
 # M1 pre-scaling data audit (spec 02)
 
 Status (2026-11-24): **v7 frozen for the M1 pipeline-fixture scope.** Built from
-committed code `e5cf562`, deterministic on rebuild, mechanical audit 50/50 (with one
+committed code `e5cf562`, deterministic on rebuild in content-plan, split-membership, source and config hashes (row/partition hashes embed runtime evidence and vary), mechanical audit 50/50 (with one
 reviewed waiver), manual review recommends FREEZE. Freeze record
 `.ai-native/m1-freeze-v7.json` (sha256 `bf107516…f06b`) binds every file below by hash.
 
