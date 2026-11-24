@@ -201,8 +201,9 @@ else:
     suite = sandbox.invoke_suite(crash, "repair(x)", [{"args": [1], "kwargs": {}}])
     checks.append({"id": "segfault-candidate-failure", "single_status": single["status"],
                    "suite_status": [o.get("status") for o in suite],
-                   "passed": single["status"] not in {"INTERNAL_ERROR"} and single.get("returned") is not True
-                             and all(o.get("status") != "INTERNAL_ERROR" and o.get("returned") is not True for o in suite)})
+                   "passed": single["status"] == "OK" and single.get("compiled") is True and single.get("returned") is not True
+                             and all(o.get("status") == "OK" and o.get("compiled") is True and o.get("returned") is not True
+                                     for o in suite)})
     # Candidate return values that cannot be serialized must be candidate failures
     # on the production suite path, never INTERNAL_ERROR.
     for name, code in (("big-int-return", "def repair(x):\n    return pow(10, 5000)\n"),

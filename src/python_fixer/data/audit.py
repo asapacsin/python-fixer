@@ -17,7 +17,7 @@ from pathlib import Path
 
 import json
 import re
-from python_fixer.common import canonical_bytes, digest, strict_loads, write_json
+from python_fixer.common import canonical_bytes, digest, strict_loads, text_digest, write_json
 from .models import model_view, validate_problem
 
 AUTHORED = "authored-bug-v1"
@@ -62,8 +62,17 @@ def load_waivers(path: Path | None) -> list[dict]:
 
 
 def spec_stated(row: dict, waivers: list[dict]) -> set[str]:
-    return {test_id for w in waivers if w["test_suite_sha256"] == row["test_suite_sha256"]
-            for test_id in w["test_ids"]}
+    # A waiver applies only to the exact suite *and* behaviour text it was reviewed
+    # against; any rewrite of either needs a new review.
+    stated = set()
+    for w in waivers:
+        if (w["test_suite_sha256"] == row["test_suite_sha256"] and w["source_function_id"] == row["source_function_id"]
+                and w["behavior_sha256"] == text_digest(row["behavior"])):
+            unknown = set(w["test_ids"]) - {t["test_id"] for t in row["tests"]}
+            if unknown:
+                raise ValueError("waiver names tests absent from the suite: " + ", ".join(sorted(unknown)))
+            stated |= set(w["test_ids"])
+    return stated
 
 
 def mechanical_checks(row: dict, waivers: list[dict] = ()) -> dict:

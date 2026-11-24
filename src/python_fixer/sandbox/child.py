@@ -97,9 +97,12 @@ def main():
                     timeout=min(remaining,cpu_remaining))
                 if child.returncode in {-9,-24,137,152}:
                     result = {"status":"RESOURCE_LIMIT","compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
-                elif child.returncode < 0:
-                    # Any other signal death of the per-test interpreter is candidate-caused.
-                    result = {"status":"OK","compiled":False,"returned":False,"cpu_ms":0,"peak_memory_bytes":0}
+                elif child.returncode in {-11, -6}:
+                    # SIGSEGV/SIGABRT from pure candidate code (e.g. a deeply nested hash)
+                    # happens while calling the compiled function: a scored candidate
+                    # failure (reward 0), not infrastructure. Compilation errors are
+                    # caught by the shim, so compiled=True is accurate here.
+                    result = {"status":"OK","compiled":True,"returned":False,"cpu_ms":0,"peak_memory_bytes":0}
                 elif child.returncode:
                     result = {"status":"INTERNAL_ERROR","compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
                 elif len(child.stdout.encode())>65536 or len(child.stderr.encode())>65536:

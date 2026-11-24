@@ -170,7 +170,9 @@ class AuditTests(unittest.TestCase):
         self.assertFalse(mechanical_checks(row)["evaluation_view_excludes_test_records"])
         review = Path(self.tmp.name) / "waiver-review.json"
         review.write_text('{"decision": "ACCEPTABLE"}')
+        from python_fixer.common import text_digest
         waiver = {"test_suite_sha256": row["test_suite_sha256"], "test_ids": ["1", "2"],
+                  "source_function_id": row["source_function_id"], "behavior_sha256": text_digest(row["behavior"]),
                   "check": "evaluation_view_excludes_test_records", "reason": "spec-stated convention",
                   "review": str(review), "review_sha256": hashlib.sha256(review.read_bytes()).hexdigest()}
         path = Path(self.tmp.name) / "waivers.json"
@@ -178,8 +180,14 @@ class AuditTests(unittest.TestCase):
         checks = mechanical_checks(row, load_waivers(path))
         self.assertTrue(checks["evaluation_view_excludes_test_records"])
         self.assertTrue(checks["at_least_four_tests"])  # 7 tests, 2 spec-stated
-        other = dict(waiver, test_suite_sha256="0" * 64)
-        self.assertFalse(mechanical_checks(row, [other])["evaluation_view_excludes_test_records"])
+        for field in ("test_suite_sha256", "behavior_sha256"):
+            other = dict(waiver, **{field: "0" * 64})
+            with self.subTest(unbound=field):
+                self.assertFalse(mechanical_checks(row, [other])["evaluation_view_excludes_test_records"])
+        reworded = dict(row, behavior=row["behavior"] + " Reworded.")
+        self.assertFalse(mechanical_checks(reworded, [waiver])["evaluation_view_excludes_test_records"])
+        with self.assertRaises(ValueError):
+            mechanical_checks(row, [dict(waiver, test_ids=["1", "99"])])
         path.write_text(json.dumps([dict(waiver, review_sha256="0" * 64)]))
         with self.assertRaises(ValueError):
             load_waivers(path)

@@ -197,7 +197,7 @@ class GatewayTests(unittest.TestCase):
         done = subprocess.run([_sys.executable, "-I", str(ROOT / "src/python_fixer/sandbox/child.py")],
                               input=json.dumps(request), capture_output=True, text=True, timeout=30)
         result = json.loads(done.stdout)["results"][0]
-        self.assertEqual((result["status"], result["returned"], result["compiled"]), ("OK", False, False))
+        self.assertEqual((result["status"], result["returned"], result["compiled"]), ("OK", False, True))
 
     def test_container_crash_exit_is_candidate_failure(self):
         from unittest import mock
@@ -215,13 +215,30 @@ class GatewayTests(unittest.TestCase):
                 def kill(self): pass
                 def wait(self, timeout=None): pass
             return Process()
-        for code, expected in ((139, "OK"), (134, "OK"), (137, "RESOURCE_LIMIT"), (1, "INTERNAL_ERROR")):
+        for code, expected in ((139, "OK"), (134, "OK"), (137, "RESOURCE_LIMIT"), (135, "INTERNAL_ERROR"),
+                               (132, "INTERNAL_ERROR"), (1, "INTERNAL_ERROR")):
             with self.subTest(code=code), mock.patch.object(sandbox, "available"), \
                     mock.patch.object(docker_module.subprocess, "run", return_value=Done()), \
                     mock.patch.object(docker_module.subprocess, "Popen", side_effect=fake_popen):
                 result = sandbox.invoke("def repair(x):\n    return x\n", "repair(x)", {"args": [1], "kwargs": {}})
                 self.assertEqual(result["status"], expected)
                 self.assertIsNot(result.get("returned"), True)
+                if expected == "OK":
+                    self.assertIs(result["compiled"], True)
+
+    def test_crashing_candidate_scores_zero_end_to_end(self):
+        # A crash on every test must yield a scalar reward of 0, like a wrong answer.
+        class Crash(FakeSandbox):
+            def invoke(self, source, signature, test, **kwargs):
+                if source == self.reference:
+                    return super().invoke(source, signature, test)
+                return {"status":"OK","compiled":True,"returned":False,"cpu_ms":1,"peak_memory_bytes":1}
+        sandbox = Crash()
+        sandbox.reference = self.row["reference_code"]
+        gateway = Gateway(sandbox, [self.verified])
+        response = gateway.handle(self.request("def maximum(a, b):\n    return maximum(a, b)\n"))
+        self.assertEqual(response["status"], "OK")
+        self.assertEqual(behavior_reward(response), 0.0)
 
     def test_verification_partition_and_evidence(self):
         self.assertEqual(self.verified["verification"]["status"], "VERIFIED")

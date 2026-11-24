@@ -7,8 +7,9 @@
       "2"
     ],
     "check": "evaluation_view_excludes_test_records",
-    "reason": "behaviour text states the indexing convention fibonacci(0) == 0 and fibonacci(1) == 1; reviewer ruled it definitional, not a leak, on condition of extra private tests (3-7 added)",
+    "reason": "behaviour text states the indexing convention fibonacci(0) == 0 and fibonacci(1) == 1 (tests 1-2); reviewer ruled it definitional, not a leak, on condition of extra private tests (test ids 5-7: n = 3, 7, 20)",
     "review": ".ai-native/m1-manual-review-v4-pass3.json",
-    "review_sha256": "9278b10d51d164230f8e3fb3c44cf039ece0e1e524c7d3ce3ff7b935e80cdc9f"
+    "review_sha256": "9278b10d51d164230f8e3fb3c44cf039ece0e1e524c7d3ce3ff7b935e80cdc9f",
+    "behavior_sha256": "1dccebafa60f5ad5e5f2917366a28a957c973ac3f6591c836cd54f2c8499f24a"
   }
 ]

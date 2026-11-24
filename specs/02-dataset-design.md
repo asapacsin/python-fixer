@@ -89,7 +89,11 @@ Manual exclusions cite review evidence by path and SHA-256 and fail closed. Beha
 definitional convention that coincides with a test (e.g. a base case); such tests are
 "specification-stated" only through a reviewed waiver bound to the test-suite hash and
 review file (`configs/audit-waivers.json`), and they do not count toward the four
-substantive tests.
+substantive tests. A waiver is also bound to the function id and the behaviour text's
+digest; rewording either requires a new review. The manifest `split_namespace`
+includes a digest of the planned seeds: `fixtures_v2.json` was edited in place
+(fibonacci tests added for v5), so v2-v4 manifests cannot be rebuilt from current
+files and must never be mixed with v5+ splits.
 Analyze mutation survival, attrition by category and manual review of at least
 50 randomly sampled accepted cases before scaling. Difficulty labels use fixed
 human rules (one local edit / interacting branches / algorithmic change), with

@@ -10,9 +10,10 @@ from python_fixer.common import canonical_bytes, strict_loads
 from .policy import Policy, SandboxUnavailable
 
 
-# 128 + SIGILL/SIGTRAP/SIGABRT/SIGBUS/SIGFPE/SIGSEGV. SIGKILL (137) and SIGXCPU (152)
-# stay RESOURCE_LIMIT.
-CANDIDATE_CRASH_CODES = frozenset({132, 133, 134, 135, 136, 139})
+# 128 + SIGABRT/SIGSEGV only. SIGBUS/SIGILL can come from the host (memory pressure,
+# wrong-CPU image) and stay INTERNAL_ERROR; SIGKILL (137) and SIGXCPU (152) stay
+# RESOURCE_LIMIT.
+CANDIDATE_CRASH_CODES = frozenset({134, 139})
 
 
 class DockerSandbox:
@@ -109,9 +110,10 @@ class DockerSandbox:
                         outcome["status"] = "RESOURCE_LIMIT"
                     elif process.returncode in CANDIDATE_CRASH_CODES:
                         # 128+signal from a crash the candidate caused (e.g. a segfault from
-                        # a deeply nested hash): a scored candidate failure, not
-                        # infrastructure. `compiled` is unknown, so report False.
-                        outcome = {"status": "OK", "compiled": False, "returned": False,
+                        # a deeply nested hash): a scored candidate failure (reward 0),
+                        # not infrastructure. The shim catches compile errors itself, so
+                        # a signal death happens after compilation: compiled=True.
+                        outcome = {"status": "OK", "compiled": True, "returned": False,
                                    "cpu_ms": 0, "peak_memory_bytes": 0}
         except (OSError, ValueError, UnicodeError, subprocess.TimeoutExpired):
             pass

@@ -143,7 +143,11 @@ def write_dataset(destination: Path, rows: list[dict], evidence: dict, rejected:
         "config_sha256": digest(config), "source_sha256": digest(seeds if seeds is not None else fixture_seeds(config.get("source", "authored-fixtures-v1"))),
         # Splits are only comparable within one namespace; adding seeds can regroup
         # families (v1 -> v2 moved count_equal/count_positive from train to validation).
-        "split_namespace": f"{config.get('source', 'authored-fixtures-v1')}:split-seed-{config.get('split_seed', 17)}",
+        # Includes the seed content hash: editing a source's files in place (as v2 was
+        # for v5) yields a different namespace even under the same source id.
+        "split_namespace": (f"{config.get('source', 'authored-fixtures-v1')}:"
+                            f"{digest(seeds if seeds is not None else fixture_seeds(config.get('source', 'authored-fixtures-v1')))[:16]}:"
+                            f"split-seed-{config.get('split_seed', 17)}"),
         "row_count": len(rows), "family_count": len({r["source_family_id"] for r in rows}),
         "split_counts": dict(Counter(r["split"] for r in rows)),
         "category_counts": dict(Counter(r["bug_category"] for r in rows)),
