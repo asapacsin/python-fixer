@@ -9,7 +9,7 @@
     "Split grouping and model-facing projections prevent reference/test leakage",
     "All security attack cases in spec08 produce bounded failures and no host access",
     "Production reward matches acceptance table; infrastructure faults return no reward",
-    "Freeze manifest and independent read-only review before completing M1"
+    "Freeze manifest and, per owner decision ADR-003, automated dataset verification (reference > buggy > attack through the deployed mTLS gateway, frozen-manifest rebuild match) before completing M1; LLM reviews are advisory"
   ],
   "approved_paths": [
     "src/python_fixer/data/**",
