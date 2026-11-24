@@ -111,8 +111,9 @@ class DockerSandbox:
                     elif process.returncode in CANDIDATE_CRASH_CODES:
                         # 128+signal from a crash the candidate caused (e.g. a segfault from
                         # a deeply nested hash): a scored candidate failure (reward 0),
-                        # not infrastructure. The shim catches compile errors itself, so
-                        # a signal death happens after compilation: compiled=True.
+                        # not infrastructure. The shim maps every pre-compilation failure
+                        # it can catch to COMPILE_ERROR; a C-level crash during parsing
+                        # (not observed) would also land here and score 0, not -0.5.
                         outcome = {"status": "OK", "compiled": True, "returned": False,
                                    "cpu_ms": 0, "peak_memory_bytes": 0}
         except (OSError, ValueError, UnicodeError, subprocess.TimeoutExpired):

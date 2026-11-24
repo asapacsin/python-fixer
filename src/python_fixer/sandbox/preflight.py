@@ -204,6 +204,23 @@ else:
                    "passed": single["status"] == "OK" and single.get("compiled") is True and single.get("returned") is not True
                              and all(o.get("status") == "OK" and o.get("compiled") is True and o.get("returned") is not True
                                      for o in suite)})
+    # Pre-compilation failures from deeply nested source must be scored (rewardable),
+    # never "OK but not compiled". Checked on both paths through behavior_reward's rule.
+    from python_fixer.rewards.behavior import behavior_reward, InvalidOutcome
+    deep = "def repair(xs):\n    return xs" + "[0]" * 3000 + "\n"
+    def rewardable(outcome):
+        probe = {"status": outcome.get("status"), "compiled": outcome.get("compiled"), "fixed_failed": 0,
+                 "total_failed": 1, "preserved_passed": 0, "total_passed": 1, "all_passed": False}
+        try:
+            behavior_reward(probe)
+            return True
+        except InvalidOutcome:
+            return False
+    single = sandbox.invoke(deep, "repair(xs)", {"args": [[1]], "kwargs": {}})
+    suite = sandbox.invoke_suite(deep, "repair(xs)", [{"args": [[1]], "kwargs": {}}])
+    checks.append({"id": "deep-source-rewardable", "single_status": single.get("status"),
+                   "suite_status": [o.get("status") for o in suite],
+                   "passed": rewardable(single) and all(rewardable(o) for o in suite)})
     # Candidate return values that cannot be serialized must be candidate failures
     # on the production suite path, never INTERNAL_ERROR.
     for name, code in (("big-int-return", "def repair(x):\n    return pow(10, 5000)\n"),

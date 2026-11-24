@@ -199,6 +199,27 @@ class GatewayTests(unittest.TestCase):
         result = json.loads(done.stdout)["results"][0]
         self.assertEqual((result["status"], result["returned"], result["compiled"]), ("OK", False, True))
 
+    def test_pre_compilation_failures_are_compile_errors(self):
+        # check() is patched to raise, so no candidate source is parsed, compiled or run.
+        import importlib.util, io
+        from unittest import mock
+        spec = importlib.util.spec_from_file_location("pf_child2", ROOT / "src/python_fixer/sandbox/child.py")
+        child = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(child)
+        request = {"source": "x", "signature": "repair(x)", "imports": [], "args": [1], "kwargs": {},
+                   "cpu_seconds": 2, "memory_mib": 256}
+        for error in (RecursionError("deep"), KeyError("unexpected")):
+            stdin = io.TextIOWrapper(io.BytesIO(json.dumps(request).encode()))
+            out = io.StringIO()
+            with self.subTest(error=type(error).__name__), mock.patch.object(child, "check", side_effect=error), \
+                    mock.patch.object(child.resource, "setrlimit"), mock.patch.object(child.sys, "stdin", stdin), \
+                    mock.patch.object(child.sys, "stdout", out):
+                child.main()
+                response = json.loads(out.getvalue())
+                self.assertEqual((response["status"], response["compiled"]), ("COMPILE_ERROR", False))
+                self.assertEqual(behavior_reward({**response, "fixed_failed": 0, "total_failed": 1,
+                                                  "preserved_passed": 0, "total_passed": 1, "all_passed": False}), -0.5)
+
     def test_container_crash_exit_is_candidate_failure(self):
         from unittest import mock
         import python_fixer.sandbox.docker as docker_module

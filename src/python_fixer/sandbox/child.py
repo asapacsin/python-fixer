@@ -99,9 +99,9 @@ def main():
                     result = {"status":"RESOURCE_LIMIT","compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
                 elif child.returncode in {-11, -6}:
                     # SIGSEGV/SIGABRT from pure candidate code (e.g. a deeply nested hash)
-                    # happens while calling the compiled function: a scored candidate
-                    # failure (reward 0), not infrastructure. Compilation errors are
-                    # caught by the shim, so compiled=True is accurate here.
+                    # is a scored candidate failure (reward 0), not infrastructure. The
+                    # shim maps catchable pre-compilation failures to COMPILE_ERROR; a
+                    # C-level crash during parsing (not observed) would also score 0.
                     result = {"status":"OK","compiled":True,"returned":False,"cpu_ms":0,"peak_memory_bytes":0}
                 elif child.returncode:
                     result = {"status":"INTERNAL_ERROR","compiled":False,"cpu_ms":0,"peak_memory_bytes":0}
@@ -128,8 +128,13 @@ def main():
     resource.setrlimit(resource.RLIMIT_AS, (memory, memory))
     compiled = False
     try:
-        tree, function = check(request["source"], request["signature"], request["imports"])
-        code = compile(tree, "<candidate>", "exec")
+        try:
+            tree, function = check(request["source"], request["signature"], request["imports"])
+            code = compile(tree, "<candidate>", "exec")
+        except RecursionError:
+            # Deeply nested source can exhaust the parser/compiler stack: the candidate
+            # did not compile (scored COMPILE_ERROR), not an infrastructure fault.
+            raise SyntaxError("source nesting too deep")
         compiled = True
         names = ("abs", "all", "any", "bool", "dict", "divmod", "enumerate", "filter", "float", "frozenset", "int", "isinstance", "issubclass", "iter", "len", "list", "map", "max", "min", "next", "pow", "range", "reversed", "round", "set", "slice", "sorted", "str", "sum", "tuple", "zip", "Exception", "ValueError", "TypeError", "IndexError", "KeyError", "ZeroDivisionError", "StopIteration")
         safe = {name: getattr(builtins, name) for name in names}
@@ -156,7 +161,10 @@ def main():
     except (ValueError, TypeError):
         response = {"status": "INVALID_OUTPUT", "compiled": compiled}
     except Exception:
-        response = {"status": "OK", "compiled": compiled, "returned": False}
+        # Before compilation any other failure is a compile failure; after it, a
+        # candidate runtime failure. Never "OK, not compiled", which carries no reward.
+        response = ({"status": "OK", "compiled": True, "returned": False} if compiled
+                    else {"status": "COMPILE_ERROR", "compiled": False})
     usage = resource.getrusage(resource.RUSAGE_SELF)
     response["cpu_ms"] = int((usage.ru_utime + usage.ru_stime) * 1000)
     response["peak_memory_bytes"] = usage.ru_maxrss * 1024
