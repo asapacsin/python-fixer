@@ -1,0 +1,42 @@
+{
+ "schema_version": 1,
+ "recorded_utc": "2026-11-24T01:03:16Z",
+ "dataset": "artifacts/data/m1-fixtures-v7",
+ "manifest_pin": "299e7adf74a25a1ae80943a68a44047bff22f8521cf90ea27efecb4f06bf0737",
+ "rebuild": "artifacts/data/m1-fixtures-v7-rebuild",
+ "builder_commit": "e5cf562",
+ "head": "e5cf56238b7cc6b9d9453c2e11bf74f615d123e5",
+ "policy_sha256": "5bea6490a29968b31282f5e032d43f3cad7f7aab915f83f5ba26eae90dc0096d",
+ "preflight": "PASS 35/35",
+ "accepted": 67,
+ "rejected": 19,
+ "split_counts": {
+  "train": 53,
+  "validation": 10,
+  "test": 4
+ },
+ "manual_review": {
+  "status": "FREEZE recommended (pass 4) on content identical to v7 rows except verification",
+  "reviewer": "user-designated fresh Opus 5.5 agent, read-only; same model family; not human"
+ },
+ "evidence_sha256": {
+  ".ai-native/m1-preflight-v7.json": "6dea2ca55afdb9e0ef2644fa25684a7da6c7e731e2eaa84311efb229dae0ea30",
+  ".ai-native/m1-audit-v7.json": "cd8c8f1eacda25066ca449e5686c1b3666bd99f59d57d2304040d5b63ac29683",
+  ".ai-native/m1-manual-review-v2.json": "5631f696d42a06401651f9d5b3de57258eae2c50fd17308433fd3d117792a539",
+  ".ai-native/m1-manual-review-v3.json": "e03709468aff89f4510c3208a85c11e6087efe25687b83b8ec3b86a1247ce778",
+  ".ai-native/m1-manual-review-v4-pass3.json": "9278b10d51d164230f8e3fb3c44cf039ece0e1e524c7d3ce3ff7b935e80cdc9f",
+  ".ai-native/m1-manual-review-v5-pass4.json": "9e2b61838047cc807de23ab4b41a92947b0367f96db999b04db2bc7314bf0416",
+  ".ai-native/m1-code-review-r1.md": "d7d878b1eeda748dacb8dc5c382f2d82e9ffe738ce248ee105d1d405950541f5",
+  ".ai-native/m1-pids-limit-negative.json": "49bafd4459b43479d296e722dd008dc3bc5fbd7276223076c191c2d3ad7e2ae7",
+  "configs/data-v7.json": "c969384fcd25254706bc44560c42f107efe6606a246826bbd9559dff6f31488a",
+  "configs/audit-waivers.json": "f268a8647066e3d09c22fb27357fb578300488bc13707fb18444f4cf70e43551",
+  "configs/sandbox.json": "15adf3392bf9061065d6c28df148181766c8c67f2955d075ea512586c6454bf6"
+ },
+ "scope_limits": [
+  "16+37 authored pipeline fixtures, not a research benchmark",
+  "authored difficulty labels inconsistent: no difficulty-stratified claims",
+  "leak check is a heuristic",
+  "LLM review only; human spot-check advised before scaling",
+  "session container worker (ADR-002); dedicated worker and operator mTLS not exercised"
+ ]
+}

@@ -1,0 +1,42 @@
+{
+ "recorded_utc": "2026-11-23T10:14:51Z",
+ "head": "c1e41da5bfa2e4e32080e8e7c7414bb76cb168c1",
+ "working_diff_sha256": "9b6fe60d1c563c210c28b3063ec37fdefff4fb47febc85c132becdde417bc62a",
+ "untracked_sha256": {
+  "configs/data-v2.json": "c5c9631c6cac9b3181354352cf003ed8feb2f29e1b53dc22327d52c025a884ad",
+  "docs/m1-data-audit.md": "13612ffde81434f08b0a83aaa732d849ffccad715183170f4072fa37c91e4f05",
+  "src/python_fixer/data/audit.py": "668506bb50986cfe6b28a7e87d6b73fbc80ecc3d7fb544e09186c75e6cc67861",
+  "src/python_fixer/data/fixtures_v2.json": "8f2807c18ed91b90a87a7a7ad532877ffb8d79e5f3d4b8a3160a637f26bbf97b",
+  "tests/test_m1_audit.py": "7afcfecb965121c35a7eeb2a40243da0f364bc7f89ed55cf2eca17b07dcf3cdb"
+ },
+ "config_sha256": {
+  "configs/data-v2.json": "c5c9631c6cac9b3181354352cf003ed8feb2f29e1b53dc22327d52c025a884ad",
+  "configs/sandbox.json": "15adf3392bf9061065d6c28df148181766c8c67f2955d075ea512586c6454bf6"
+ },
+ "preflight": "PASS",
+ "dataset": {
+  "path": "artifacts/data/m1-fixtures-v2",
+  "manifest_pin": "230a246f8fd5b53ca428a3f0b30d2ed2fbe47ce6b5587cfea4330105b40d44ad",
+  "manifest_file_sha256": "e85ca4a85d113d715b9bf226f02800429cc535e8b495e6fba5945c1e83c64745",
+  "accepted": 74,
+  "rejected": 12
+ },
+ "audit": {
+  "path": ".ai-native/m1-audit-v2.json",
+  "sha256": "09379cf5a907ccaa2c35566cd8706ed82c8836b6c74181a3d9cf0810b4759c35",
+  "mechanical": "50/50",
+  "manual_review": "PENDING"
+ },
+ "gates": {
+  "unit": "97 OK",
+  "validate_repository": "PASS",
+  "run_cpu_checks": "PASS",
+  "sandbox_preflight": "PASS 22/22"
+ },
+ "not_verified": [
+  "manual 50-case review by a non-author",
+  "independent read-only review",
+  "dedicated worker / operator mTLS deployment",
+  "hosted CI"
+ ]
+}

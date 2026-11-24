@@ -1,0 +1,57 @@
+{
+ "recorded_utc": "2026-11-23T14:50:41Z",
+ "runtime": "runsc release-20261109.0 systrap, cgroup v1",
+ "candidate_limit": "--ulimit nproc=32 (RLIMIT_NPROC inside gVisor)",
+ "image": "python@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535",
+ "runs": [
+  {
+   "host_pids_limit": 32,
+   "probe": "fork",
+   "exit_code": 2,
+   "stdout": ""
+  },
+  {
+   "host_pids_limit": 32,
+   "probe": "thread",
+   "exit_code": 0,
+   "stdout": "[true, 31]"
+  },
+  {
+   "host_pids_limit": 64,
+   "probe": "fork",
+   "exit_code": 2,
+   "stdout": ""
+  },
+  {
+   "host_pids_limit": 64,
+   "probe": "thread",
+   "exit_code": 0,
+   "stdout": "[true, 31]"
+  },
+  {
+   "host_pids_limit": 96,
+   "probe": "fork",
+   "exit_code": 0,
+   "stdout": "[true, 31]"
+  },
+  {
+   "host_pids_limit": 96,
+   "probe": "thread",
+   "exit_code": 0,
+   "stdout": "[true, 31]"
+  },
+  {
+   "host_pids_limit": 128,
+   "probe": "fork",
+   "exit_code": 0,
+   "stdout": "[true, 31]"
+  },
+  {
+   "host_pids_limit": 128,
+   "probe": "thread",
+   "exit_code": 0,
+   "stdout": "[true, 31]"
+  }
+ ],
+ "interpretation": "exit 2 with no output = Sentry killed by host pids cgroup (INTERNAL_ERROR in production)"
+}

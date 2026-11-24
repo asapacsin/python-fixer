@@ -1,0 +1,1 @@
+{"candidate_execution":"NOT_RUN","checks":[],"reason":"Docker daemon must expose runsc; no fallback allowed","schema_version":1,"scope":"real-runsc-cpu-preflight","status":"BLOCKED"}

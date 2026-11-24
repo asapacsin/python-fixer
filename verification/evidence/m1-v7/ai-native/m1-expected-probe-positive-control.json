@@ -1,0 +1,1 @@
+{"control": "sentinel placed in request signature field", "leaked_value": "expected-sentinel-control", "clean_value": "absent"}

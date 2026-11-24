@@ -1,0 +1,37 @@
+{
+ "recorded_utc": "2026-11-23T09:34:18Z",
+ "head": "4a4a001a7d4bfcbb94f4f67f157dc7bb81cefd6e",
+ "working_diff_sha256": "ceb4214d749c334b685d36a2e862abd3011d1ae098db7c73ff5c2f7474b1dcfb",
+ "runtime": "runsc release-20261109.0 --platform=systrap (cgroups enforced, cgroup v1)",
+ "worker": "ephemeral cloud session container; not the dedicated separate_cpu_worker of configs/sandbox.json",
+ "preflight": {
+  "status": "PASS",
+  "passed": 22,
+  "total": 22,
+  "policy_sha256": "7740fea4ecd45ab3979d7f4d164d2d508f7520e3c479e46a4c10a545df41648b",
+  "image_digest": "python@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535"
+ },
+ "dataset": {
+  "path": "artifacts/data/m1-approved-v1",
+  "manifest_sha256": "44e983897f0cfeb2d227c51d544251837b6ef6ed4d706e2e405af8b7f32d693f",
+  "accepted": 16,
+  "rejected": 0,
+  "split_counts": {
+   "train": 10,
+   "validation": 3,
+   "test": 3
+  }
+ },
+ "rebuild_determinism": "content_plan/split_membership/source/config hashes equal; row/partition hashes differ by runtime evidence only",
+ "commands": [
+  "python -m python_fixer.sandbox.preflight --config configs/sandbox.json --report .ai-native/m1-approved-worker.json (exit 0)",
+  "python -m python_fixer.data.build --config configs/data.json --output artifacts/data/m1-approved-v1 (exit 0)",
+  "python -m unittest discover -s tests (91 OK)",
+  "python scripts/validate_repository.py (PASS)"
+ ],
+ "not_verified": [
+  "50-case audit (only 16 fixtures; corpus not acquired)",
+  "independent read-only review",
+  "dedicated worker deployment / hosted CI"
+ ]
+}
