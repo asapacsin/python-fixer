@@ -1,0 +1,21 @@
+{
+ "base_head": "90dd0554972479c860353646226cfdb76070c063",
+ "note": "new source files below are untracked at evidence time; hashes bind their content",
+ "source_sha256": {
+  "requirements-train.lock": "18787760888cb5f4b129edc7fc5ea265d4a1c82409a1544a5e910ff251bfb627",
+  "scripts/check_artifacts.py": "74874338f19d7319ea8ee90e866f22393967fd117fa33b4bd1b3d09a443aff68",
+  "scripts/m4_cpu_smoke.py": "052d16dc050e354f253f41c819a232df2a43f80286c69b2bd7d5a6ec09ca78a3",
+  "src/python_fixer/evaluation/leakage.py": "d6f219423b50a00694560b3a53e1756ee4dbd0026e094c863630ffcc79183d7b",
+  "src/python_fixer/training/__init__.py": "b73e8fe04fc1d14f2fd7d625ecd08b850b011a671cbc8e7b7f668d1d1ee9cae3",
+  "src/python_fixer/training/grpo.py": "0da2175bb7f047ee881481358b21ff2cb553540a432a03b731e914b75718872f",
+  "src/python_fixer/training/runs.py": "859b9a40dcae355c598ba0b902fa6352db57e6b5918a3ff4f469a604674dda14",
+  "src/python_fixer/training/sft.py": "86bb4c675b25f5e8874dc08d48b47cf33404ca392bc04c568f82c6dd2abdc1a6",
+  "tests/test_m3_sft.py": "421d25d5993afe382e67e8b0753c2afc159be0b5b01e80e23e2d00f85b0c4e2a",
+  "tests/test_m4_grpo.py": "bcda24f02341dff2a0e972758b19a25e1157a94bd45b7bf3106baab1948a734e",
+  "tests/test_m5_runs.py": "f9f8b24da81f530295e7e455f86b9ea08e37b42fbdcd7e001c99bb7677497231",
+  "tests/test_m6_leakage.py": "e00a5754db6f7341473cc735708bc2a24771e2a82ef0ccfb06575eea1e682ae0",
+  "tests/training_fixtures.py": "565ed8a41cb1d279c95d89661dcb0901d1ee7a3edf6d873bf3372d4cff84647a"
+ },
+ "python": "3.12",
+ "env": "requirements-train.lock"
+}

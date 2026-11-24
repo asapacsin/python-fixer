@@ -1,0 +1,75 @@
+{
+ "kind": "m4-cpu-grpo-smoke",
+ "known_candidate_rewards": [
+  1.0,
+  0.0,
+  1.0,
+  -0.5
+ ],
+ "known_expected": [
+  1.0,
+  0.0,
+  1.0,
+  -0.5
+ ],
+ "global_step": 2,
+ "group_summary": {
+  "groups": 4,
+  "zero_std": 1.0,
+  "all_pass": 0.0,
+  "all_fail": 1.0
+ },
+ "groups": [
+  {
+   "problem_id": "fixture-celsius_to_fahrenheit-v2-2bec0df63097",
+   "rewards": [
+    -0.5,
+    -0.5,
+    -0.5,
+    -0.5
+   ],
+   "zero_std": true,
+   "all_pass": false,
+   "all_fail": true
+  },
+  {
+   "problem_id": "fixture-binary_search-v2-2bec0df63097",
+   "rewards": [
+    -0.5,
+    -0.5,
+    -0.5,
+    -0.5
+   ],
+   "zero_std": true,
+   "all_pass": false,
+   "all_fail": true
+  },
+  {
+   "problem_id": "fixture-absolute-v1-2bec0df63097",
+   "rewards": [
+    -0.5,
+    -0.5,
+    -0.5,
+    -0.5
+   ],
+   "zero_std": true,
+   "all_pass": false,
+   "all_fail": true
+  },
+  {
+   "problem_id": "fixture-binary_search-v2-da1b555b76a6",
+   "rewards": [
+    -0.5,
+    -0.5,
+    -0.5,
+    -0.5
+   ],
+   "zero_std": true,
+   "all_pass": false,
+   "all_fail": true
+  }
+ ],
+ "lora_changed": false,
+ "base_unchanged": true,
+ "limitations": "random tiny model; CPU; no GPU/Qwen; not M4 completion evidence"
+}

@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "task_id": "m3-m7-cpu-slice",
+  "milestone": "M3-M7-CPU-only",
+  "status": "PLANNED_NOT_EXECUTED",
+  "goal": "Implement and CPU-test the GPU-independent parts of M3-M7: SFT and GRPO library adapters, trusted reward callback, run-state rules, leakage audits, artifact checks and a hash-locked training environment.",
+  "acceptance": [
+    "SFT adapter: prompt prefix, single EOS, prompt/pad labels masked on collated batches, only LoRA trainable, base frozen, finite falling toy loss, exact checkpoint resume, adapter reload logits",
+    "GRPO adapter: SFT-identical prompts, train-only rows, reward order/group alignment, invalid output -0.5, infrastructure faults abort, equal rewards give no update at beta=0, mixed rewards update LoRA",
+    "Real-sandbox CPU smoke: known candidates through the mTLS gateway score 1.0/0.0/-0.5 and two GRPO updates complete",
+    "Candidate budget hard cap; validation-only earliest-tie selection; verified checkpoints ignore partial/tampered; manifest completeness",
+    "Leakage audit clean on frozen v7 and detects injected leaks; committed checksums and doc links verify",
+    "Training dependency tuple installs from a --require-hashes lock",
+    "No weights download, GPU, Qwen tokenizer, or model-quality claim"
+  ],
+  "approved_paths": [
+    "src/python_fixer/training/**",
+    "src/python_fixer/evaluation/leakage.py",
+    "tests/test_m3_*.py", "tests/test_m4_*.py", "tests/test_m5_*.py", "tests/test_m6_*.py",
+    "tests/training_fixtures.py",
+    "scripts/m4_cpu_smoke.py", "scripts/check_artifacts.py",
+    "requirements-train.lock",
+    "verification/contracts/m3-m7-cpu.json", "verification/evidence/m3-m7-cpu/**",
+    "docs/**"
+  ],
+  "gates": [
+    {"id": "cpu-training-unit", "level": "unit",
+     "command": ["python3", "-m", "unittest", "discover", "-s", "tests", "-p", "test_m[3-6]_*.py", "-v"],
+     "required": true, "note": "needs requirements-train.lock installed; torch-free tests run anywhere"},
+    {"id": "artifact-checks", "level": "static", "command": ["python3", "scripts/check_artifacts.py"], "required": true},
+    {"id": "repository-contracts", "level": "static", "command": ["python3", "scripts/validate_repository.py"], "required": true}
+  ],
+  "boundaries": [
+    "No GPU, model weights or Hub download",
+    "Tiny random-weight model only; no model-quality or improvement claim",
+    "Does not satisfy M3/M4 GPU completion gates (real Qwen3, GPU preflight)"
+  ],
+  "independent_review": {"required": true, "read_only": true, "status": "NOT_VERIFIED"}
+}
