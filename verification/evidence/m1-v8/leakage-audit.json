@@ -1,0 +1,8 @@
+{
+ "data_access_issues": [],
+ "heldout": 36,
+ "contamination_flagged": [],
+ "max_overlap": 0.18181818181818182,
+ "n": 13,
+ "threshold": 0.5
+}

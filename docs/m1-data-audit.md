@@ -135,3 +135,24 @@ python -m python_fixer.data.audit --dataset artifacts/data/m1-fixtures-v3 \
   --manifest-sha256 d68a564d28ac640461b2e09495016e752f31a48f452b1adef4312ec46ea94f1b \
   --output .ai-native/<new-audit>.json
 ```
+
+## v8: expanded authored dataset (2026-11-24)
+
+- Source `authored-fixtures-v3` = v1 (16) + v2 (37) + **116 new authored CC0 functions**
+  (`src/python_fixer/data/fixtures_v3.json`). Expected values are hand-written, not
+  produced by running the reference. Each authored bug was hand-checked to fail at least
+  one test and pass at least one.
+- Config `configs/data-v8.json`; frozen copy and checksums in `verification/evidence/m1-v8/`.
+  Build: accepted 247 / rejected 75 (all 169 authored pairs accepted; rejections are
+  mutants plus the existing v2 manual exclusion). Splits: train 211 / validation 17 /
+  test 19; 159 families. Held-out difficulty: easy 18, medium 11, hard 7.
+- Fixes found by the real sandbox and audits before freezing: (1) 9 functions used `_` as
+  a variable, which the sandbox policy forbids, so they were renamed and none of the
+  expected values changed; (2) the 13-gram audit found `rotate_matrix` (train) to be a
+  near-clone of `transpose` (test), so they were declared one family and the split was
+  regenerated (spec 02).
+- Leakage audit (`leakage-audit.json`): no data-access issues; max held-out/train
+  13-gram overlap 0.18, none flagged.
+- Limits: still small for a confirmatory benchmark (36 held-out problems). Same author
+  for functions, tests and bugs, so a human spot-check of the new functions is advisable.
+  Manual review of v8 is NOT_VERIFIED.
