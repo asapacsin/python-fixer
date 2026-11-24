@@ -190,6 +190,19 @@ else:
         checks.append({"id": f"expected-values-absent-{path}", "status": result["status"], "values": values,
                        "passed": result["status"] == "OK" and result["passed_ids"] == []
                                  and len(values) == 2 and all(v == "absent" for v in values)})
+    # Positive control: the same probe must report the sentinel when it *is* visible.
+    control = sandbox.invoke("", sentinel, {"args": [1], "kwargs": {}}, _probe_script=leak_probe)
+    checks.append({"id": "expected-probe-positive-control", "value_matches": control.get("value") == sentinel,
+                   "passed": control.get("value") == sentinel})
+    # A real segfault from pure candidate code (deeply nested tuple hash) must be a
+    # candidate failure on both paths.
+    crash = "def repair(x):\n    t = ()\n    for i in range(1000000):\n        t = (t,)\n    return len({t})\n"
+    single = sandbox.invoke(crash, "repair(x)", {"args": [1], "kwargs": {}})
+    suite = sandbox.invoke_suite(crash, "repair(x)", [{"args": [1], "kwargs": {}}])
+    checks.append({"id": "segfault-candidate-failure", "single_status": single["status"],
+                   "suite_status": [o.get("status") for o in suite],
+                   "passed": single["status"] not in {"INTERNAL_ERROR"} and single.get("returned") is not True
+                             and all(o.get("status") != "INTERNAL_ERROR" and o.get("returned") is not True for o in suite)})
     # Candidate return values that cannot be serialized must be candidate failures
     # on the production suite path, never INTERNAL_ERROR.
     for name, code in (("big-int-return", "def repair(x):\n    return pow(10, 5000)\n"),

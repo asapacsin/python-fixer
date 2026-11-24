@@ -99,15 +99,15 @@ def rejection(row: dict, reason: str) -> dict:
 
 
 def crash_only_mutants(rows: list[dict], evidence: dict) -> tuple[list[dict], list[dict]]:
-    """Fixed rule: a mutant must fail at least one test by *returning a wrong value*.
+    """Fixed rule: a buggy variant must fail at least one test by *returning a wrong value*.
     Mutants whose every failing test raises are the runtime analogue of a syntax-error
-    mutant (spec 02) and are rejected. Authored bugs are exempt (reviewed by hand)."""
+    mutant (spec 02) and are rejected. Applies to every variant, authored bugs included."""
     kept, dropped = [], []
     for row in rows:
         buggy = evidence[row["problem_id"]]["runs"][0]["buggy"]
         failing = {t["test_id"] for t in row["tests"]} - set(buggy["passed_ids"])
-        if row["provenance"]["mutation_operator"] != "authored-bug-v1" and not failing & set(buggy["returned_ids"]):
-            dropped.append(rejection(row, "mutant fails only by raising; no wrong returned value"))
+        if not failing & set(buggy["returned_ids"]):
+            dropped.append(rejection(row, "bug fails only by raising; no wrong returned value"))
         else:
             kept.append(row)
     return kept, dropped

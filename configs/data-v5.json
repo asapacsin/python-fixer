@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "source": "authored-fixtures-v2",
+  "split_seed": 17,
+  "clone_threshold": 0.92,
+  "mutations_per_train_function": 2,
+  "verification_repeats": 3,
+  "workers": 4,
+  "sandbox_config": "configs/sandbox.json",
+  "output": "artifacts/data/fixtures-v5",
+  "manual_exclusions": [
+    {
+      "problem_id": "fixture-rotate_left-v2-0ec61f37bdc1",
+      "reason": "list - list raises TypeError on every non-empty input; never a wrong value (runtime analogue of a syntax-error mutant)",
+      "review": ".ai-native/m1-manual-review-v2.json",
+      "review_sha256": "5631f696d42a06401651f9d5b3de57258eae2c50fd17308433fd3d117792a539"
+    }
+  ]
+}

@@ -131,7 +131,7 @@ class AuditTests(unittest.TestCase):
         self.assertEqual(len(dropped), len(rows) - 1)
         self.assertTrue(all(d["origin"] == "mutant" and d["bug_category"] for d in dropped))
 
-    def test_crash_only_mutants_rejected_authored_exempt(self):
+    def test_crash_only_rule_applies_to_every_variant(self):
         from python_fixer.data.build import crash_only_mutants
         rows = [r for r in plan_rows(fixture_seeds("authored-fixtures-v2"), source="authored-fixtures-v2",
                                      mutations_per_train_function=2)
@@ -139,21 +139,50 @@ class AuditTests(unittest.TestCase):
         ids = [t["test_id"] for t in rows[0]["tests"]]
         crash = {"passed_ids": ids[2:], "returned_ids": ids[2:]}        # failing tests all raised
         wrong = {"passed_ids": ids[2:], "returned_ids": ids}            # failing tests returned values
-        for buggy, mutant_kept in ((crash, False), (wrong, True)):
+        self.assertIn("authored-bug-v1", {r["provenance"]["mutation_operator"] for r in rows})
+        # Rule changed after review round 3: authored bugs are no longer exempt.
+        for buggy, kept_expected in ((crash, 0), (wrong, len(rows))):
             evidence = {r["problem_id"]: {"runs": [{"buggy": buggy}]} for r in rows}
             kept, dropped = crash_only_mutants(rows, evidence)
-            origins = {r["provenance"]["mutation_operator"] == "authored-bug-v1" for r in kept}
-            self.assertIn(True, origins)  # authored bug is never dropped by this rule
-            self.assertEqual(any(r["provenance"]["mutation_operator"] != "authored-bug-v1" for r in kept), mutant_kept)
+            self.assertEqual(len(kept), kept_expected)
+            self.assertEqual(len(dropped), len(rows) - kept_expected)
             self.assertTrue(all("raising" in d["reason"] for d in dropped))
 
     def test_manual_exclusion_must_match_review_hash(self):
         from python_fixer.data.build import main
+        import hashlib
+        # Self-contained: does not depend on ignored runtime evidence being present.
+        review = Path(self.tmp.name) / "review.json"
+        review.write_text('{"verdict": "REJECT"}')
         config = json.loads(Path("configs/data-v4.json").read_text())
-        config["manual_exclusions"][0]["review_sha256"] = "0" * 64
-        path = Path(self.tmp.name) / "bad.json"
-        path.write_text(json.dumps(config))
-        self.assertEqual(main(["--config", str(path), "--plan-only"]), 3)
+        config["manual_exclusions"][0]["review"] = str(review)
+        for digest_value, expected_exit in (("0" * 64, 3), (hashlib.sha256(review.read_bytes()).hexdigest(), 0)):
+            config["manual_exclusions"][0]["review_sha256"] = digest_value
+            path = Path(self.tmp.name) / "config.json"
+            path.write_text(json.dumps(config))
+            with self.subTest(expected_exit=expected_exit):
+                self.assertEqual(main(["--config", str(path), "--plan-only"]), expected_exit)
+
+    def test_spec_stated_waiver_is_hash_bound(self):
+        import hashlib
+        from python_fixer.data.audit import load_waivers
+        row = next(r for r in self.rows if r["source_function_id"] == "fixture-fibonacci-v2")
+        self.assertFalse(mechanical_checks(row)["evaluation_view_excludes_test_records"])
+        review = Path(self.tmp.name) / "waiver-review.json"
+        review.write_text('{"decision": "ACCEPTABLE"}')
+        waiver = {"test_suite_sha256": row["test_suite_sha256"], "test_ids": ["1", "2"],
+                  "check": "evaluation_view_excludes_test_records", "reason": "spec-stated convention",
+                  "review": str(review), "review_sha256": hashlib.sha256(review.read_bytes()).hexdigest()}
+        path = Path(self.tmp.name) / "waivers.json"
+        path.write_text(json.dumps([waiver]))
+        checks = mechanical_checks(row, load_waivers(path))
+        self.assertTrue(checks["evaluation_view_excludes_test_records"])
+        self.assertTrue(checks["at_least_four_tests"])  # 7 tests, 2 spec-stated
+        other = dict(waiver, test_suite_sha256="0" * 64)
+        self.assertFalse(mechanical_checks(row, [other])["evaluation_view_excludes_test_records"])
+        path.write_text(json.dumps([dict(waiver, review_sha256="0" * 64)]))
+        with self.assertRaises(ValueError):
+            load_waivers(path)
 
 
 if __name__ == "__main__":

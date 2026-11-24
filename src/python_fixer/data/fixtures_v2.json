@@ -1420,6 +1420,33 @@
     "kwargs": {},
     "expected": 55,
     "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     3
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     7
+    ],
+    "kwargs": {},
+    "expected": 13,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "7",
+    "args": [
+     20
+    ],
+    "kwargs": {},
+    "expected": 6765,
+    "comparator": "exact"
    }
   ]
  },

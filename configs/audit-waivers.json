@@ -1,0 +1,14 @@
+[
+  {
+    "source_function_id": "fixture-fibonacci-v2",
+    "test_suite_sha256": "9ead15dd99d492c9896146c3e336463671ef9c09c0155db1373c73fea59b0581",
+    "test_ids": [
+      "1",
+      "2"
+    ],
+    "check": "evaluation_view_excludes_test_records",
+    "reason": "behaviour text states the indexing convention fibonacci(0) == 0 and fibonacci(1) == 1; reviewer ruled it definitional, not a leak, on condition of extra private tests (3-7 added)",
+    "review": ".ai-native/m1-manual-review-v4-pass3.json",
+    "review_sha256": "9278b10d51d164230f8e3fb3c44cf039ece0e1e524c7d3ce3ff7b935e80cdc9f"
+  }
+]

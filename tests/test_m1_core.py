@@ -188,8 +188,40 @@ class GatewayTests(unittest.TestCase):
         self.assertEqual(child.json_value(10 ** 100), 10 ** 100)
         with self.assertRaises(ValueError):
             child.json_value(10 ** 5000)
-        source = (ROOT / "src/python_fixer/sandbox/child.py").read_text()
-        self.assertIn("elif child.returncode < 0:", source)
+        # Behavioural: run the trusted shim's suite branch with a trusted runner that
+        # kills itself with SIGSEGV (test code only; no candidate code runs on the host).
+        import subprocess, sys as _sys
+        request = {"tests": [{"args": [1], "kwargs": {}}], "wall_seconds": 5, "cpu_seconds": 2,
+                   "runner_source": "import os, signal\nos.kill(os.getpid(), signal.SIGSEGV)\n",
+                   "source": "", "signature": "repair(x)", "imports": [], "memory_mib": 256}
+        done = subprocess.run([_sys.executable, "-I", str(ROOT / "src/python_fixer/sandbox/child.py")],
+                              input=json.dumps(request), capture_output=True, text=True, timeout=30)
+        result = json.loads(done.stdout)["results"][0]
+        self.assertEqual((result["status"], result["returned"], result["compiled"]), ("OK", False, False))
+
+    def test_container_crash_exit_is_candidate_failure(self):
+        from unittest import mock
+        import python_fixer.sandbox.docker as docker_module
+        sandbox = DockerSandbox(Policy(IMAGE))
+        class Done:
+            returncode = 0
+            stderr = b""
+        def fake_popen(*args, **kwargs):
+            class Process:
+                returncode = None
+                def poll(self):
+                    self.returncode = code
+                    return code
+                def kill(self): pass
+                def wait(self, timeout=None): pass
+            return Process()
+        for code, expected in ((139, "OK"), (134, "OK"), (137, "RESOURCE_LIMIT"), (1, "INTERNAL_ERROR")):
+            with self.subTest(code=code), mock.patch.object(sandbox, "available"), \
+                    mock.patch.object(docker_module.subprocess, "run", return_value=Done()), \
+                    mock.patch.object(docker_module.subprocess, "Popen", side_effect=fake_popen):
+                result = sandbox.invoke("def repair(x):\n    return x\n", "repair(x)", {"args": [1], "kwargs": {}})
+                self.assertEqual(result["status"], expected)
+                self.assertIsNot(result.get("returned"), True)
 
     def test_verification_partition_and_evidence(self):
         self.assertEqual(self.verified["verification"]["status"], "VERIFIED")

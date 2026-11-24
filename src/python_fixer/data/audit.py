@@ -47,8 +47,28 @@ def changed_lines(reference: str, buggy: str) -> int:
     return sum(1 for line in diff if line.startswith("- "))
 
 
-def mechanical_checks(row: dict) -> dict:
+def load_waivers(path: Path | None) -> list[dict]:
+    """Reviewed waivers, each bound to a test-suite hash and to its review file by SHA-256."""
+    if path is None:
+        return []
+    waivers = strict_loads(Path(path).read_text())
+    for waiver in waivers:
+        review = Path(waiver["review"])
+        if not review.is_file() or hashlib.sha256(review.read_bytes()).hexdigest() != waiver["review_sha256"]:
+            raise ValueError("waiver review evidence missing or changed: " + waiver["review"])
+        if waiver["check"] != "evaluation_view_excludes_test_records" or not waiver["test_ids"]:
+            raise ValueError("unsupported waiver")
+    return waivers
+
+
+def spec_stated(row: dict, waivers: list[dict]) -> set[str]:
+    return {test_id for w in waivers if w["test_suite_sha256"] == row["test_suite_sha256"]
+            for test_id in w["test_ids"]}
+
+
+def mechanical_checks(row: dict, waivers: list[dict] = ()) -> dict:
     tests = row["tests"]
+    stated = spec_stated(row, list(waivers))
     passed = set(row["verification"]["baseline_passed_ids"])
     failed = set(row["verification"]["baseline_failed_ids"])
     inputs = {digest({"args": t["args"], "kwargs": t["kwargs"]}) for t in tests}
@@ -71,9 +91,13 @@ def mechanical_checks(row: dict) -> dict:
                 or (len(expected) > 3 and expected in text and args in text)
                 # doctest / example form: the exact call and its expected result
                 or (call in rest and (squash(repr(test["expected"])) in rest or squash(expected) in rest)))
-    leaked_tests = [t for t in tests if leaked(t)]
+    # This is a heuristic over known formats (canonical/JSON records, repr-style calls);
+    # other phrasings can evade it. Production views are separately guarded by the
+    # model_view projection tests.
+    leaked_tests = [t for t in tests if leaked(t) and t["test_id"] not in stated]
     checks = {
-        "at_least_four_tests": len(tests) >= 4,
+        # Specification-stated tests (reviewed waivers) do not count as substantive.
+        "at_least_four_tests": len([t for t in tests if t["test_id"] not in stated]) >= 4,
         "distinct_test_inputs": len(inputs) == len(tests),
         "baseline_has_failure": bool(failed),
         "baseline_has_regression_pass": bool(passed),
@@ -135,12 +159,13 @@ def sample(rows: list[dict], seed: int, size: int = SAMPLE_SIZE) -> list[dict]:
     return sorted(random.Random(seed).sample(ordered, size), key=lambda r: r["problem_id"])
 
 
-def build_audit(directory: Path, seed: int, manifest_sha256: str | None = None) -> dict:
+def build_audit(directory: Path, seed: int, manifest_sha256: str | None = None,
+                waivers: list[dict] = ()) -> dict:
     manifest, rows = load_dataset(directory, manifest_sha256)
     chosen = sample(rows, seed)
     cases = []
     for row in chosen:
-        checks = mechanical_checks(row)
+        checks = mechanical_checks(row, waivers)
         cases.append({
             "problem_id": row["problem_id"], "split": row["split"], "bug_category": row["bug_category"],
             "difficulty": row["difficulty"], "origin": "authored" if row["provenance"]["mutation_operator"] == AUTHORED else "mutant",
@@ -152,6 +177,7 @@ def build_audit(directory: Path, seed: int, manifest_sha256: str | None = None) 
             "baseline_passed_ids": row["verification"]["baseline_passed_ids"],
             "baseline_failed_ids": row["verification"]["baseline_failed_ids"],
             "mechanical_checks": checks, "mechanical_pass": all(checks.values()),
+            "spec_stated_test_ids": sorted(spec_stated(row, list(waivers))),
             "manual_review": {"reviewer": None, "verdict": "PENDING", "notes": None,
                               "questions": ["Behavior text unambiguous and matches reference?",
                                             "Tests cover boundary, ordinary and invariant cases?",
@@ -176,12 +202,15 @@ def main(argv=None):
     parser.add_argument("--manifest-sha256")
     parser.add_argument("--seed", type=int, default=17)
     parser.add_argument("--output", required=True)
+    parser.add_argument("--waivers", help="reviewed, hash-bound audit waivers (JSON)")
     args = parser.parse_args(argv)
     try:
         output = Path(args.output)
         if output.exists():
             raise ValueError("refuse to overwrite an existing audit")
-        report = build_audit(Path(args.dataset), args.seed, args.manifest_sha256)
+        waivers = load_waivers(Path(args.waivers) if args.waivers else None)
+        report = build_audit(Path(args.dataset), args.seed, args.manifest_sha256, waivers)
+        report["waivers"] = waivers
         write_json(output, report)
         summary = report["mechanical_summary"]
         print(f"AUDIT SAMPLE: {report['sample_size']} cases; mechanical pass "

@@ -10,6 +10,11 @@ from python_fixer.common import canonical_bytes, strict_loads
 from .policy import Policy, SandboxUnavailable
 
 
+# 128 + SIGILL/SIGTRAP/SIGABRT/SIGBUS/SIGFPE/SIGSEGV. SIGKILL (137) and SIGXCPU (152)
+# stay RESOURCE_LIMIT.
+CANDIDATE_CRASH_CODES = frozenset({132, 133, 134, 135, 136, 139})
+
+
 class DockerSandbox:
     def __init__(self, policy: Policy):
         self.policy = policy
@@ -102,6 +107,12 @@ class DockerSandbox:
                             outcome["status"] = "RESOURCE_LIMIT"
                     elif process.returncode in {137, 152}:
                         outcome["status"] = "RESOURCE_LIMIT"
+                    elif process.returncode in CANDIDATE_CRASH_CODES:
+                        # 128+signal from a crash the candidate caused (e.g. a segfault from
+                        # a deeply nested hash): a scored candidate failure, not
+                        # infrastructure. `compiled` is unknown, so report False.
+                        outcome = {"status": "OK", "compiled": False, "returned": False,
+                                   "cpu_ms": 0, "peak_memory_bytes": 0}
         except (OSError, ValueError, UnicodeError, subprocess.TimeoutExpired):
             pass
         finally:
