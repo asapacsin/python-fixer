@@ -1,0 +1,9242 @@
+[
+ {
+  "source_function_id": "fixture-count_set_bits-v4",
+  "source_family_id": "authored-count_set_bits",
+  "signature": "count_set_bits(n)",
+  "behavior": "Return the number of 1 bits in the binary form of n >= 0.",
+  "reference_code": "def count_set_bits(n):\n    count = 0\n    while n:\n        count += n & 1\n        n >>= 1\n    return count\n",
+  "buggy_code": "def count_set_bits(n):\n    count = 0\n    while n > 1:\n        count += n & 1\n        n >>= 1\n    return count\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     7
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     8
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     10
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-is_power_of_two-v4",
+  "source_family_id": "authored-is_power_of_two",
+  "signature": "is_power_of_two(n)",
+  "behavior": "Return True if n is a positive power of two.",
+  "reference_code": "def is_power_of_two(n):\n    return n > 0 and n & (n - 1) == 0\n",
+  "buggy_code": "def is_power_of_two(n):\n    return n >= 0 and n & (n - 1) == 0\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     16
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     6
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     -8
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-reverse_bits8-v4",
+  "source_family_id": "authored-reverse_bits8",
+  "signature": "reverse_bits8(n)",
+  "behavior": "Reverse the 8-bit binary representation of 0 <= n < 256.",
+  "reference_code": "def reverse_bits8(n):\n    out = 0\n    for i in range(8):\n        out = (out << 1) | (n >> i & 1)\n    return out\n",
+  "buggy_code": "def reverse_bits8(n):\n    out = 0\n    for i in range(7):\n        out = (out << 1) | (n >> i & 1)\n    return out\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 128,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     128
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     255
+    ],
+    "kwargs": {},
+    "expected": 255,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     6
+    ],
+    "kwargs": {},
+    "expected": 96,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-gray_code-v4",
+  "source_family_id": "authored-gray_code",
+  "signature": "gray_code(n)",
+  "behavior": "Return the n-bit reflected Gray code sequence as integers starting at 0.",
+  "reference_code": "def gray_code(n):\n    return [i ^ (i >> 1) for i in range(1 << n)]\n",
+  "buggy_code": "def gray_code(n):\n    return [i ^ (i << 1) for i in range(1 << n)]\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": [
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1,
+     3,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     3
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1,
+     3,
+     2,
+     6,
+     7,
+     5,
+     4
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-isqrt-v4",
+  "source_family_id": "authored-isqrt",
+  "signature": "isqrt(n)",
+  "behavior": "Return the largest integer r with r*r <= n for n >= 0, using binary search.",
+  "reference_code": "def isqrt(n):\n    lo, hi = 0, n\n    while lo < hi:\n        mid = (lo + hi + 1) // 2\n        if mid * mid <= n:\n            lo = mid\n        else:\n            hi = mid - 1\n    return lo\n",
+  "buggy_code": "def isqrt(n):\n    lo, hi = 0, n\n    while lo < hi:\n        mid = (lo + hi + 1) // 2\n        if mid * mid < n:\n            lo = mid\n        else:\n            hi = mid - 1\n    return lo\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     15
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     16
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     26
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     99
+    ],
+    "kwargs": {},
+    "expected": 9,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-power_mod-v4",
+  "source_family_id": "authored-power_mod",
+  "signature": "power_mod(base, exp, mod)",
+  "behavior": "Return base**exp % mod by repeated squaring (exp >= 0, mod >= 1).",
+  "reference_code": "def power_mod(base, exp, mod):\n    result = 1 % mod\n    base %= mod\n    while exp:\n        if exp & 1:\n            result = result * base % mod\n        base = base * base % mod\n        exp >>= 1\n    return result\n",
+  "buggy_code": "def power_mod(base, exp, mod):\n    result = 1 % mod\n    base %= mod\n    while exp:\n        if exp & 1:\n            result = result * base % mod\n        base = base * 2 % mod\n        exp >>= 1\n    return result\n",
+  "bug_category": "operator",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     2,
+     10,
+     1000
+    ],
+    "kwargs": {},
+    "expected": 24,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     3,
+     0,
+     7
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     5,
+     1,
+     7
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     7,
+     2,
+     10
+    ],
+    "kwargs": {},
+    "expected": 9,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     2,
+     5,
+     1
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-factorial_trailing_zeros-v4",
+  "source_family_id": "authored-factorial_trailing_zeros",
+  "signature": "factorial_trailing_zeros(n)",
+  "behavior": "Return the number of trailing zeros of n! for n >= 0.",
+  "reference_code": "def factorial_trailing_zeros(n):\n    count, p = 0, 5\n    while p <= n:\n        count += n // p\n        p *= 5\n    return count\n",
+  "buggy_code": "def factorial_trailing_zeros(n):\n    count, p = 0, 5\n    while p < n:\n        count += n // p\n        p *= 5\n    return count\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     4
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     5
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     25
+    ],
+    "kwargs": {},
+    "expected": 6,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     100
+    ],
+    "kwargs": {},
+    "expected": 24,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     30
+    ],
+    "kwargs": {},
+    "expected": 7,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-sum_of_divisors-v4",
+  "source_family_id": "authored-sum_of_divisors",
+  "signature": "sum_of_divisors(n)",
+  "behavior": "Return the sum of all positive divisors of n >= 1, including n.",
+  "reference_code": "def sum_of_divisors(n):\n    total, d = 0, 1\n    while d * d <= n:\n        if n % d == 0:\n            total += d\n            if d != n // d:\n                total += n // d\n        d += 1\n    return total\n",
+  "buggy_code": "def sum_of_divisors(n):\n    total, d = 0, 1\n    while d * d <= n:\n        if n % d == 0:\n            total += d\n            total += n // d\n        d += 1\n    return total\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     6
+    ],
+    "kwargs": {},
+    "expected": 12,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     9
+    ],
+    "kwargs": {},
+    "expected": 13,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     12
+    ],
+    "kwargs": {},
+    "expected": 28,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     7
+    ],
+    "kwargs": {},
+    "expected": 8,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-totient-v4",
+  "source_family_id": "authored-totient",
+  "signature": "totient(n)",
+  "behavior": "Return Euler's totient of n >= 1: how many 1 <= k <= n have gcd(k, n) == 1.",
+  "reference_code": "def totient(n):\n    result, m, p = n, n, 2\n    while p * p <= m:\n        if m % p == 0:\n            while m % p == 0:\n                m //= p\n            result -= result // p\n        p += 1\n    if m > 1:\n        result -= result // m\n    return result\n",
+  "buggy_code": "def totient(n):\n    result, m, p = n, n, 2\n    while p * p <= m:\n        if m % p == 0:\n            while m % p == 0:\n                m //= p\n            result -= result // p\n        p += 1\n    return result\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     9
+    ],
+    "kwargs": {},
+    "expected": 6,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     10
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     13
+    ],
+    "kwargs": {},
+    "expected": 12,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     36
+    ],
+    "kwargs": {},
+    "expected": 12,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-is_happy-v4",
+  "source_family_id": "authored-is_happy",
+  "signature": "is_happy(n)",
+  "behavior": "Return True if repeatedly summing the squares of the digits of n >= 1 reaches 1.",
+  "reference_code": "def is_happy(n):\n    seen = set()\n    while n != 1 and n not in seen:\n        seen.add(n)\n        n = sum(int(d) ** 2 for d in str(n))\n    return n == 1\n",
+  "buggy_code": "def is_happy(n):\n    seen = set()\n    while n != 1 and n not in seen:\n        seen.add(n)\n        n = sum(int(d) * 2 for d in str(n))\n    return n == 1\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     7
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     19
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     2
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     4
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-kaprekar_steps-v4",
+  "source_family_id": "authored-kaprekar_steps",
+  "signature": "kaprekar_steps(n)",
+  "behavior": "For a 4-digit n with at least two different digits, count iterations of (digits descending - digits ascending, zero-padded to 4) until reaching 6174.",
+  "reference_code": "def kaprekar_steps(n):\n    steps = 0\n    while n != 6174:\n        digits = str(n).zfill(4)\n        n = int(''.join(sorted(digits, reverse=True))) - int(''.join(sorted(digits)))\n        steps += 1\n    return steps\n",
+  "buggy_code": "def kaprekar_steps(n):\n    steps = 0\n    while n != 6174:\n        digits = str(n)\n        n = int(''.join(sorted(digits, reverse=True))) - int(''.join(sorted(digits)))\n        steps += 1\n        if steps > 20:\n            return -1\n    return steps\n",
+  "bug_category": "initialization",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     6174
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     3524
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2111
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     9831
+    ],
+    "kwargs": {},
+    "expected": 7,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     1000
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-look_and_say-v4",
+  "source_family_id": "authored-look_and_say",
+  "signature": "look_and_say(s)",
+  "behavior": "Return the next term of the look-and-say sequence for a digit string s.",
+  "reference_code": "def look_and_say(s):\n    out, i = '', 0\n    while i < len(s):\n        j = i\n        while j < len(s) and s[j] == s[i]:\n            j += 1\n        out += str(j - i) + s[i]\n        i = j\n    return out\n",
+  "buggy_code": "def look_and_say(s):\n    out, i = '', 0\n    while i < len(s):\n        j = i\n        while j < len(s) and s[j] == s[i]:\n            j += 1\n        out += s[i] + str(j - i)\n        i = j\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "1"
+    ],
+    "kwargs": {},
+    "expected": "11",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "11"
+    ],
+    "kwargs": {},
+    "expected": "21",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "21"
+    ],
+    "kwargs": {},
+    "expected": "1211",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "1211"
+    ],
+    "kwargs": {},
+    "expected": "111221",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "22"
+    ],
+    "kwargs": {},
+    "expected": "22",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-pig_latin-v4",
+  "source_family_id": "authored-pig_latin",
+  "signature": "pig_latin(word)",
+  "behavior": "Translate a lowercase word: if it starts with a vowel add 'way'; else move the leading consonants to the end and add 'ay'.",
+  "reference_code": "def pig_latin(word):\n    for i, ch in enumerate(word):\n        if ch in 'aeiou':\n            return word + 'way' if i == 0 else word[i:] + word[:i] + 'ay'\n    return word + 'ay'\n",
+  "buggy_code": "def pig_latin(word):\n    for i, ch in enumerate(word):\n        if ch in 'aeiou':\n            return word + 'way' if i == 0 else word[i:] + word[0] + 'ay'\n    return word + 'ay'\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "apple"
+    ],
+    "kwargs": {},
+    "expected": "appleway",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "pig"
+    ],
+    "kwargs": {},
+    "expected": "igpay",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "string"
+    ],
+    "kwargs": {},
+    "expected": "ingstray",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "rhythm"
+    ],
+    "kwargs": {},
+    "expected": "rhythmay",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "egg"
+    ],
+    "kwargs": {},
+    "expected": "eggway",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-vowel_positions-v4",
+  "source_family_id": "authored-vowel_positions",
+  "signature": "vowel_positions(s)",
+  "behavior": "Return the indices of vowels (aeiou, either case) in s.",
+  "reference_code": "def vowel_positions(s):\n    return [i for i, ch in enumerate(s) if ch.lower() in 'aeiou']\n",
+  "buggy_code": "def vowel_positions(s):\n    return [i for i, ch in enumerate(s) if ch in 'aeiou']\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "hello"
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     4
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "xyz"
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "Apple"
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     4
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-remove_repeated_chars-v4",
+  "source_family_id": "authored-remove_repeated_chars",
+  "signature": "remove_repeated_chars(s)",
+  "behavior": "Remove every character that equals the character immediately before it in the original string.",
+  "reference_code": "def remove_repeated_chars(s):\n    return ''.join(ch for i, ch in enumerate(s) if i == 0 or s[i - 1] != ch)\n",
+  "buggy_code": "def remove_repeated_chars(s):\n    return ''.join(ch for i, ch in enumerate(s) if i == 0 or s[i - 1] == ch)\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "aabbcc"
+    ],
+    "kwargs": {},
+    "expected": "abc",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "ab"
+    ],
+    "kwargs": {},
+    "expected": "ab",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "a"
+    ],
+    "kwargs": {},
+    "expected": "a",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "abba"
+    ],
+    "kwargs": {},
+    "expected": "aba",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-expand_ranges-v4",
+  "source_family_id": "authored-expand_ranges",
+  "signature": "expand_ranges(spec)",
+  "behavior": "Expand a comma-separated list like '1-3,5' into the list of integers in order.",
+  "reference_code": "def expand_ranges(spec):\n    out = []\n    for part in spec.split(','):\n        if '-' in part:\n            lo, hi = part.split('-')\n            out.extend(range(int(lo), int(hi) + 1))\n        elif part:\n            out.append(int(part))\n    return out\n",
+  "buggy_code": "def expand_ranges(spec):\n    out = []\n    for part in spec.split(','):\n        if '-' in part:\n            lo, hi = part.split('-')\n            out.extend(range(int(lo), int(hi)))\n        elif part:\n            out.append(int(part))\n    return out\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "1-3,5"
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2,
+     3,
+     5
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "7"
+    ],
+    "kwargs": {},
+    "expected": [
+     7
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "2-2"
+    ],
+    "kwargs": {},
+    "expected": [
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "4,1-2"
+    ],
+    "kwargs": {},
+    "expected": [
+     4,
+     1,
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-compress_ranges-v4",
+  "source_family_id": "authored-compress_ranges",
+  "signature": "compress_ranges(xs)",
+  "behavior": "Summarize a sorted list of distinct integers as strings: runs of length >= 2 as 'a-b', singles as 'a'.",
+  "reference_code": "def compress_ranges(xs):\n    out, i = [], 0\n    while i < len(xs):\n        j = i\n        while j + 1 < len(xs) and xs[j + 1] == xs[j] + 1:\n            j += 1\n        out.append(str(xs[i]) if i == j else str(xs[i]) + '-' + str(xs[j]))\n        i = j + 1\n    return out\n",
+  "buggy_code": "def compress_ranges(xs):\n    out, i = [], 0\n    while i < len(xs):\n        j = i\n        while j + 1 < len(xs) and xs[j + 1] == xs[j] + 1:\n            j += 1\n        out.append(str(xs[i]) if i == j else str(xs[i]) + '-' + str(xs[j]))\n        i = j + 2\n    return out\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "1-3",
+     "5"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "4"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      3,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "1",
+     "3",
+     "5"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      0,
+      1,
+      4,
+      5,
+      6
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "0-1",
+     "4-6"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-missing_number-v4",
+  "source_family_id": "authored-missing_number",
+  "signature": "missing_number(xs)",
+  "behavior": "xs holds every integer 0..n except one (n = len(xs)); return the missing one.",
+  "reference_code": "def missing_number(xs):\n    n = len(xs)\n    return n * (n + 1) // 2 - sum(xs)\n",
+  "buggy_code": "def missing_number(xs):\n    n = len(xs)\n    return n * (n + 1) // 2 - sum(xs[1:])\n",
+  "bug_category": "boundary",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      0,
+      1,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-single_number-v4",
+  "source_family_id": "authored-single_number",
+  "signature": "single_number(xs)",
+  "behavior": "Every value in xs appears twice except one; return it.",
+  "reference_code": "def single_number(xs):\n    result = 0\n    for x in xs:\n        result ^= x\n    return result\n",
+  "buggy_code": "def single_number(xs):\n    result = 0\n    for x in xs:\n        result |= x\n    return result\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      2,
+      2,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4,
+      1,
+      2,
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      7,
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-product_except_self-v4",
+  "source_family_id": "authored-product_except_self",
+  "signature": "product_except_self(xs)",
+  "behavior": "Return a list where position i is the product of all items except xs[i].",
+  "reference_code": "def product_except_self(xs):\n    out = [1] * len(xs)\n    left = 1\n    for i in range(len(xs)):\n        out[i] = left\n        left *= xs[i]\n    right = 1\n    for i in range(len(xs) - 1, -1, -1):\n        out[i] *= right\n        right *= xs[i]\n    return out\n",
+  "buggy_code": "def product_except_self(xs):\n    out = [1] * len(xs)\n    left = 1\n    for i in range(len(xs)):\n        out[i] = left\n        left *= xs[i]\n    right = 1\n    for i in range(len(xs) - 1, 0, -1):\n        out[i] *= right\n        right *= xs[i]\n    return out\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     24,
+     12,
+     8,
+     6
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     1
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-max_profit-v4",
+  "source_family_id": "authored-max_profit",
+  "signature": "max_profit(prices)",
+  "behavior": "Return the best profit from one buy followed by one later sell, or 0.",
+  "reference_code": "def max_profit(prices):\n    best, low = 0, None\n    for p in prices:\n        if low is None or p < low:\n            low = p\n        best = max(best, p - low)\n    return best\n",
+  "buggy_code": "def max_profit(prices):\n    best, low = 0, None\n    for p in prices:\n        best = max(best, p - (low if low is not None else p))\n        if low is None or p > low:\n            low = p\n    return best\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      7,
+      1,
+      5,
+      3,
+      6,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      7,
+      6,
+      4,
+      3,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-trapped_water-v4",
+  "source_family_id": "authored-trapped_water",
+  "signature": "trapped_water(heights)",
+  "behavior": "Return how many units of water are trapped between bars of the given heights.",
+  "reference_code": "def trapped_water(heights):\n    total = 0\n    for i in range(len(heights)):\n        left = max(heights[:i + 1])\n        right = max(heights[i:])\n        total += min(left, right) - heights[i]\n    return total\n",
+  "buggy_code": "def trapped_water(heights):\n    total = 0\n    for i in range(len(heights)):\n        left = max(heights[:i + 1])\n        right = max(heights[i:])\n        total += max(left, right) - heights[i]\n    return total\n",
+  "bug_category": "algorithm",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      1,
+      0,
+      2,
+      1,
+      0,
+      1,
+      3,
+      2,
+      1,
+      2,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 6,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4,
+      2,
+      0,
+      3,
+      2,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 9,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      3,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-max_area-v4",
+  "source_family_id": "authored-max_area",
+  "signature": "max_area(heights)",
+  "behavior": "Return the largest area formed by two lines and the x-axis (width times the shorter height).",
+  "reference_code": "def max_area(heights):\n    best, i, j = 0, 0, len(heights) - 1\n    while i < j:\n        best = max(best, (j - i) * min(heights[i], heights[j]))\n        if heights[i] < heights[j]:\n            i += 1\n        else:\n            j -= 1\n    return best\n",
+  "buggy_code": "def max_area(heights):\n    best, i, j = 0, 0, len(heights) - 1\n    while i < j:\n        best = max(best, (j - i) * max(heights[i], heights[j]))\n        if heights[i] < heights[j]:\n            i += 1\n        else:\n            j -= 1\n    return best\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      8,
+      6,
+      2,
+      5,
+      4,
+      8,
+      3,
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": 49,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      3,
+      4,
+      5,
+      18,
+      17,
+      6
+     ]
+    ],
+    "kwargs": {},
+    "expected": 17,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-can_reach_end-v4",
+  "source_family_id": "authored-can_reach_end",
+  "signature": "can_reach_end(steps)",
+  "behavior": "Each value is the max jump length from that index; return True if the last index is reachable from index 0.",
+  "reference_code": "def can_reach_end(steps):\n    reach = 0\n    for i, s in enumerate(steps):\n        if i > reach:\n            return False\n        reach = max(reach, i + s)\n    return True\n",
+  "buggy_code": "def can_reach_end(steps):\n    reach = 0\n    for i, s in enumerate(steps):\n        if i > reach + 1:\n            return False\n        reach = max(reach, i + s)\n    return True\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2,
+      3,
+      1,
+      1,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      3,
+      2,
+      1,
+      0,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1,
+      0,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-min_jumps-v4",
+  "source_family_id": "authored-min_jumps",
+  "signature": "min_jumps(steps)",
+  "behavior": "Return the fewest jumps to reach the last index (each value is the max jump length); assume it is reachable.",
+  "reference_code": "def min_jumps(steps):\n    jumps, end, far = 0, 0, 0\n    for i in range(len(steps) - 1):\n        far = max(far, i + steps[i])\n        if i == end:\n            jumps += 1\n            end = far\n    return jumps\n",
+  "buggy_code": "def min_jumps(steps):\n    jumps, end, far = 0, 0, 0\n    for i in range(len(steps)):\n        far = max(far, i + steps[i])\n        if i == end:\n            jumps += 1\n            end = far\n    return jumps\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2,
+      3,
+      1,
+      1,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5,
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-max_loot-v4",
+  "source_family_id": "authored-max_loot",
+  "signature": "max_loot(values)",
+  "behavior": "Return the largest sum of non-adjacent items of values (non-negative).",
+  "reference_code": "def max_loot(values):\n    take, skip = 0, 0\n    for v in values:\n        take, skip = skip + v, max(take, skip)\n    return max(take, skip)\n",
+  "buggy_code": "def max_loot(values):\n    take, skip = 0, 0\n    for v in values:\n        take, skip = take + v, max(take, skip)\n    return max(take, skip)\n",
+  "bug_category": "algorithm",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      2,
+      7,
+      9,
+      3,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 12,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      2,
+      1,
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-decode_ways-v4",
+  "source_family_id": "authored-decode_ways",
+  "signature": "decode_ways(s)",
+  "behavior": "Count decodings of a digit string where 'A'..'Z' map to '1'..'26' (no leading zeros in a code).",
+  "reference_code": "def decode_ways(s):\n    if not s:\n        return 0\n    prev, cur = 1, 1 if s[0] != '0' else 0\n    for i in range(1, len(s)):\n        nxt = cur if s[i] != '0' else 0\n        if s[i - 1] == '1' or (s[i - 1] == '2' and s[i] <= '6'):\n            nxt += prev\n        prev, cur = cur, nxt\n    return cur\n",
+  "buggy_code": "def decode_ways(s):\n    if not s:\n        return 0\n    prev, cur = 1, 1 if s[0] != '0' else 0\n    for i in range(1, len(s)):\n        nxt = cur if s[i] != '0' else 0\n        if s[i - 1] == '1' or (s[i - 1] == '2' and s[i] < '6'):\n            nxt += prev\n        prev, cur = cur, nxt\n    return cur\n",
+  "bug_category": "comparison",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "12"
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "226"
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "0"
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "06"
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "11106"
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     "26"
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-word_break-v4",
+  "source_family_id": "authored-word_break",
+  "signature": "word_break(s, words)",
+  "behavior": "Return True if s can be split into a sequence of words from the list (words may repeat).",
+  "reference_code": "def word_break(s, words):\n    ok = [True] + [False] * len(s)\n    for i in range(1, len(s) + 1):\n        ok[i] = any(ok[j] and s[j:i] in words for j in range(i))\n    return ok[-1]\n",
+  "buggy_code": "def word_break(s, words):\n    ok = [True] + [False] * len(s)\n    for i in range(1, len(s) + 1):\n        ok[i] = any(ok[j] and s[j:i] in words for j in range(i - 1))\n    return ok[-1]\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "leetcode",
+     [
+      "leet",
+      "code"
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "applepenapple",
+     [
+      "apple",
+      "pen"
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "catsandog",
+     [
+      "cats",
+      "dog",
+      "sand",
+      "and",
+      "cat"
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "",
+     [
+      "a"
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "a",
+     [
+      "a"
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-one_edit_away-v4",
+  "source_family_id": "authored-one_edit_away",
+  "signature": "one_edit_away(a, b)",
+  "behavior": "Return True if a and b differ by at most one insertion, deletion or substitution.",
+  "reference_code": "def one_edit_away(a, b):\n    if abs(len(a) - len(b)) > 1:\n        return False\n    if len(a) > len(b):\n        a, b = b, a\n    i = j = edits = 0\n    while i < len(a) and j < len(b):\n        if a[i] != b[j]:\n            edits += 1\n            if edits > 1:\n                return False\n            if len(a) == len(b):\n                i += 1\n        else:\n            i += 1\n        j += 1\n    return True\n",
+  "buggy_code": "def one_edit_away(a, b):\n    if abs(len(a) - len(b)) > 1:\n        return False\n    if len(a) > len(b):\n        a, b = b, a\n    i = j = edits = 0\n    while i < len(a) and j < len(b):\n        if a[i] != b[j]:\n            edits += 1\n            if edits > 1:\n                return False\n        i += 1\n        j += 1\n    return True\n",
+  "bug_category": "branch",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "pale",
+     "ple"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "pales",
+     "pale"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "pale",
+     "bale"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "pale",
+     "bake"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "ab",
+     "abcd"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     "abc",
+     "bc"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-is_rotation-v4",
+  "source_family_id": "authored-is_rotation",
+  "signature": "is_rotation(a, b)",
+  "behavior": "Return True if b is a rotation of a (same length and b appears in a+a).",
+  "reference_code": "def is_rotation(a, b):\n    return len(a) == len(b) and b in a + a\n",
+  "buggy_code": "def is_rotation(a, b):\n    return b in a + a\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "waterbottle",
+     "erbottlewat"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "abc",
+     "acb"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "",
+     ""
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "abc",
+     "ab"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-longest_palindrome-v4",
+  "source_family_id": "authored-longest_palindrome",
+  "signature": "longest_palindrome(s)",
+  "behavior": "Return the longest palindromic substring of s (the leftmost one on ties).",
+  "reference_code": "def longest_palindrome(s):\n    best = ''\n    for c in range(len(s)):\n        for lo, hi in ((c, c), (c, c + 1)):\n            while lo >= 0 and hi < len(s) and s[lo] == s[hi]:\n                lo -= 1\n                hi += 1\n            if hi - lo - 1 > len(best):\n                best = s[lo + 1:hi]\n    return best\n",
+  "buggy_code": "def longest_palindrome(s):\n    best = ''\n    for c in range(len(s)):\n        for lo, hi in ((c, c),):\n            while lo >= 0 and hi < len(s) and s[lo] == s[hi]:\n                lo -= 1\n                hi += 1\n            if hi - lo - 1 > len(best):\n                best = s[lo + 1:hi]\n    return best\n",
+  "bug_category": "algorithm",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "babad"
+    ],
+    "kwargs": {},
+    "expected": "bab",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "cbbd"
+    ],
+    "kwargs": {},
+    "expected": "bb",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "a"
+    ],
+    "kwargs": {},
+    "expected": "a",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "racecar"
+    ],
+    "kwargs": {},
+    "expected": "racecar",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     "abba"
+    ],
+    "kwargs": {},
+    "expected": "abba",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-longest_unique_run-v4",
+  "source_family_id": "authored-longest_unique_run",
+  "signature": "longest_unique_run(s)",
+  "behavior": "Return the length of the longest substring of s without repeated characters.",
+  "reference_code": "def longest_unique_run(s):\n    last, start, best = {}, 0, 0\n    for i, ch in enumerate(s):\n        if ch in last and last[ch] >= start:\n            start = last[ch] + 1\n        last[ch] = i\n        best = max(best, i - start + 1)\n    return best\n",
+  "buggy_code": "def longest_unique_run(s):\n    last, start, best = {}, 0, 0\n    for i, ch in enumerate(s):\n        if ch in last:\n            start = last[ch] + 1\n        last[ch] = i\n        best = max(best, i - start + 1)\n    return best\n",
+  "bug_category": "branch",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "abcabcbb"
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "bbbbb"
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "pwwkew"
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "abba"
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     "tmmzuxt"
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-shortest_subarray_at_least-v4",
+  "source_family_id": "authored-shortest_subarray_at_least",
+  "signature": "shortest_subarray_at_least(xs, target)",
+  "behavior": "Return the length of the shortest contiguous slice of positive integers xs with sum >= target, or 0.",
+  "reference_code": "def shortest_subarray_at_least(xs, target):\n    best, total, lo = 0, 0, 0\n    for hi, x in enumerate(xs):\n        total += x\n        while total >= target:\n            best = hi - lo + 1 if best == 0 else min(best, hi - lo + 1)\n            total -= xs[lo]\n            lo += 1\n    return best\n",
+  "buggy_code": "def shortest_subarray_at_least(xs, target):\n    best, total, lo = 0, 0, 0\n    for hi, x in enumerate(xs):\n        total += x\n        while total > target:\n            best = hi - lo + 1 if best == 0 else min(best, hi - lo + 1)\n            total -= xs[lo]\n            lo += 1\n    return best\n",
+  "bug_category": "comparison",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2,
+      3,
+      1,
+      2,
+      4,
+      3
+     ],
+     7
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      4,
+      4
+     ],
+     4
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      1,
+      1
+     ],
+     11
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5,
+      1,
+      3
+     ],
+     8
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      10
+     ],
+     3
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-count_pairs_with_sum-v4",
+  "source_family_id": "authored-count_pairs_with_sum",
+  "signature": "count_pairs_with_sum(xs, target)",
+  "behavior": "Count index pairs i < j with xs[i] + xs[j] == target.",
+  "reference_code": "def count_pairs_with_sum(xs, target):\n    seen, count = {}, 0\n    for x in xs:\n        count += seen.get(target - x, 0)\n        seen[x] = seen.get(x, 0) + 1\n    return count\n",
+  "buggy_code": "def count_pairs_with_sum(xs, target):\n    seen, count = {}, 0\n    for x in xs:\n        seen[x] = seen.get(x, 0) + 1\n        count += seen.get(target - x, 0)\n    return count\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      5,
+      7,
+      -1
+     ],
+     6
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      1,
+      1,
+      1
+     ],
+     2
+    ],
+    "kwargs": {},
+    "expected": 6,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [],
+     3
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      4
+     ],
+     6
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-three_sum_zero-v4",
+  "source_family_id": "authored-three_sum_zero",
+  "signature": "three_sum_zero(xs)",
+  "behavior": "Return the sorted list of distinct sorted triples of values from xs that sum to 0.",
+  "reference_code": "def three_sum_zero(xs):\n    found = set()\n    n = len(xs)\n    for i in range(n):\n        for j in range(i + 1, n):\n            for k in range(j + 1, n):\n                if xs[i] + xs[j] + xs[k] == 0:\n                    found.add(tuple(sorted((xs[i], xs[j], xs[k]))))\n    return [list(t) for t in sorted(found)]\n",
+  "buggy_code": "def three_sum_zero(xs):\n    found = set()\n    n = len(xs)\n    for i in range(n):\n        for j in range(i + 1, n):\n            for k in range(j, n):\n                if xs[i] + xs[j] + xs[k] == 0:\n                    found.add(tuple(sorted((xs[i], xs[j], xs[k]))))\n    return [list(t) for t in sorted(found)]\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      -1,
+      0,
+      1,
+      2,
+      -1,
+      -4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      -1,
+      -1,
+      2
+     ],
+     [
+      -1,
+      0,
+      1
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      0,
+      0,
+      0
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      -2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-count_subarrays_sum-v4",
+  "source_family_id": "authored-count_subarrays_sum",
+  "signature": "count_subarrays_sum(xs, k)",
+  "behavior": "Count contiguous slices of xs whose sum equals k.",
+  "reference_code": "def count_subarrays_sum(xs, k):\n    counts, total, found = {0: 1}, 0, 0\n    for x in xs:\n        total += x\n        found += counts.get(total - k, 0)\n        counts[total] = counts.get(total, 0) + 1\n    return found\n",
+  "buggy_code": "def count_subarrays_sum(xs, k):\n    counts, total, found = {}, 0, 0\n    for x in xs:\n        total += x\n        found += counts.get(total - k, 0)\n        counts[total] = counts.get(total, 0) + 1\n    return found\n",
+  "bug_category": "initialization",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      1,
+      1
+     ],
+     2
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ],
+     3
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [],
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      -1,
+      0
+     ],
+     0
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-rotate_right-v4",
+  "source_family_id": "authored-rotate_right",
+  "signature": "rotate_right(s, k)",
+  "behavior": "Rotate string s right by k positions (k may exceed the length).",
+  "reference_code": "def rotate_right(s, k):\n    if not s:\n        return s\n    k %= len(s)\n    return s[-k:] + s[:-k] if k else s\n",
+  "buggy_code": "def rotate_right(s, k):\n    if not s:\n        return s\n    return s[-k:] + s[:-k] if k else s\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "abcde",
+     2
+    ],
+    "kwargs": {},
+    "expected": "deabc",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "abc",
+     0
+    ],
+    "kwargs": {},
+    "expected": "abc",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "abc",
+     4
+    ],
+    "kwargs": {},
+    "expected": "cab",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "",
+     3
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "ab",
+     1
+    ],
+    "kwargs": {},
+    "expected": "ba",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-next_permutation-v4",
+  "source_family_id": "authored-next_permutation",
+  "signature": "next_permutation(xs)",
+  "behavior": "Return the next lexicographic permutation of xs, or the ascending order if xs is the last one.",
+  "reference_code": "def next_permutation(xs):\n    a = list(xs)\n    i = len(a) - 2\n    while i >= 0 and a[i] >= a[i + 1]:\n        i -= 1\n    if i >= 0:\n        j = len(a) - 1\n        while a[j] <= a[i]:\n            j -= 1\n        a[i], a[j] = a[j], a[i]\n    a[i + 1:] = reversed(a[i + 1:])\n    return a\n",
+  "buggy_code": "def next_permutation(xs):\n    a = list(xs)\n    i = len(a) - 2\n    while i >= 0 and a[i] >= a[i + 1]:\n        i -= 1\n    if i >= 0:\n        j = len(a) - 1\n        while a[j] <= a[i]:\n            j -= 1\n        a[i], a[j] = a[j], a[i]\n    return a\n",
+  "bug_category": "return",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     3,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      3,
+      2,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2,
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      1,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     5,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      3,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     1,
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-search_rotated-v4",
+  "source_family_id": "authored-search_rotated",
+  "signature": "search_rotated(xs, target)",
+  "behavior": "Find target's index in a rotated ascending list of distinct values using binary search; -1 if absent.",
+  "reference_code": "def search_rotated(xs, target):\n    lo, hi = 0, len(xs) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if xs[mid] == target:\n            return mid\n        if xs[lo] <= xs[mid]:\n            if xs[lo] <= target < xs[mid]:\n                hi = mid - 1\n            else:\n                lo = mid + 1\n        else:\n            if xs[mid] < target <= xs[hi]:\n                lo = mid + 1\n            else:\n                hi = mid - 1\n    return -1\n",
+  "buggy_code": "def search_rotated(xs, target):\n    lo, hi = 0, len(xs) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if xs[mid] == target:\n            return mid\n        if xs[lo] <= xs[mid]:\n            if xs[lo] <= target < xs[mid]:\n                hi = mid - 1\n            else:\n                lo = mid + 1\n        else:\n            if xs[mid] < target <= xs[hi]:\n                hi = mid - 1\n            else:\n                lo = mid + 1\n    return -1\n",
+  "bug_category": "branch",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      4,
+      5,
+      6,
+      7,
+      0,
+      1,
+      2
+     ],
+     0
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      4,
+      5,
+      6,
+      7,
+      0,
+      1,
+      2
+     ],
+     3
+    ],
+    "kwargs": {},
+    "expected": -1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [],
+     5
+    ],
+    "kwargs": {},
+    "expected": -1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      5,
+      1,
+      3
+     ],
+     3
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     [
+      3,
+      1
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-first_true_index-v4",
+  "source_family_id": "authored-first_true_index",
+  "signature": "first_true_index(flags)",
+  "behavior": "flags is a list of False values followed by True values; return the index of the first True using binary search, or len(flags) if none.",
+  "reference_code": "def first_true_index(flags):\n    lo, hi = 0, len(flags)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if flags[mid]:\n            hi = mid\n        else:\n            lo = mid + 1\n    return lo\n",
+  "buggy_code": "def first_true_index(flags):\n    lo, hi = 0, len(flags)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if flags[mid]:\n            hi = mid - 1\n        else:\n            lo = mid + 1\n    return lo\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      false,
+      false,
+      true,
+      true
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      true
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      false
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      false,
+      true,
+      true,
+      true,
+      true
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-peak_index-v4",
+  "source_family_id": "authored-peak_index",
+  "signature": "peak_index(xs)",
+  "behavior": "Return the index of the maximum of a strictly increasing then strictly decreasing list (length >= 3).",
+  "reference_code": "def peak_index(xs):\n    lo, hi = 0, len(xs) - 1\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if xs[mid] < xs[mid + 1]:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n",
+  "buggy_code": "def peak_index(xs):\n    lo, hi = 0, len(xs) // 2\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if xs[mid] < xs[mid + 1]:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      0,
+      1,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      2,
+      1,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      3,
+      5,
+      4,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      10,
+      5,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-matrix_contains-v4",
+  "source_family_id": "authored-matrix_contains",
+  "signature": "matrix_contains(m, target)",
+  "behavior": "Return True if target is in a matrix whose rows are sorted and each row starts after the previous row ends.",
+  "reference_code": "def matrix_contains(m, target):\n    flat = [x for row in m for x in row]\n    lo, hi = 0, len(flat) - 1\n    while lo <= hi:\n        mid = (lo + hi) // 2\n        if flat[mid] == target:\n            return True\n        if flat[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return False\n",
+  "buggy_code": "def matrix_contains(m, target):\n    flat = [x for row in m for x in row]\n    lo, hi = 0, len(flat) - 1\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if flat[mid] == target:\n            return True\n        if flat[mid] < target:\n            lo = mid + 1\n        else:\n            hi = mid - 1\n    return False\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      [
+       1,
+       3,
+       5,
+       7
+      ],
+      [
+       10,
+       11,
+       16,
+       20
+      ]
+     ],
+     3
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      [
+       1,
+       3
+      ]
+     ],
+     4
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      [
+       5
+      ]
+     ],
+     5
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       1,
+       2
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     4
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [],
+     1
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-count_at_most-v4",
+  "source_family_id": "authored-count_at_most",
+  "signature": "count_at_most(sorted_xs, v)",
+  "behavior": "Return how many items of the ascending list sorted_xs are <= v, using binary search.",
+  "reference_code": "def count_at_most(sorted_xs, v):\n    lo, hi = 0, len(sorted_xs)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if sorted_xs[mid] <= v:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n",
+  "buggy_code": "def count_at_most(sorted_xs, v):\n    lo, hi = 0, len(sorted_xs)\n    while lo < hi:\n        mid = (lo + hi) // 2\n        if sorted_xs[mid] < v:\n            lo = mid + 1\n        else:\n            hi = mid\n    return lo\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      2,
+      3
+     ],
+     2
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     5
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4,
+      5
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ],
+     9
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      2,
+      2
+     ],
+     2
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-knight_moves-v4",
+  "source_family_id": "authored-knight_moves",
+  "signature": "knight_moves(square)",
+  "behavior": "Return the sorted list of squares (like 'b1') a knight can move to from a square on an 8x8 board.",
+  "reference_code": "def knight_moves(square):\n    f, r = ord(square[0]) - ord('a'), int(square[1]) - 1\n    out = []\n    for df, dr in ((1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)):\n        nf, nr = f + df, r + dr\n        if 0 <= nf < 8 and 0 <= nr < 8:\n            out.append(chr(ord('a') + nf) + str(nr + 1))\n    return sorted(out)\n",
+  "buggy_code": "def knight_moves(square):\n    f, r = ord(square[0]) - ord('a'), int(square[1]) - 1\n    out = []\n    for df, dr in ((1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)):\n        nf, nr = f + df, r + dr\n        if 0 <= nf < 8 and 0 <= nr <= 8:\n            out.append(chr(ord('a') + nf) + str(nr + 1))\n    return sorted(out)\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "a1"
+    ],
+    "kwargs": {},
+    "expected": [
+     "b3",
+     "c2"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "d4"
+    ],
+    "kwargs": {},
+    "expected": [
+     "b3",
+     "b5",
+     "c2",
+     "c6",
+     "e2",
+     "e6",
+     "f3",
+     "f5"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "h8"
+    ],
+    "kwargs": {},
+    "expected": [
+     "f7",
+     "g6"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "b7"
+    ],
+    "kwargs": {},
+    "expected": [
+     "a5",
+     "c5",
+     "d6",
+     "d8"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-queens_attack-v4",
+  "source_family_id": "authored-queens_attack",
+  "signature": "queens_attack(a, b)",
+  "behavior": "Given two queen positions as [row, col], return True if they attack each other.",
+  "reference_code": "def queens_attack(a, b):\n    return a[0] == b[0] or a[1] == b[1] or abs(a[0] - b[0]) == abs(a[1] - b[1])\n",
+  "buggy_code": "def queens_attack(a, b):\n    return a[0] == b[0] or a[1] == b[1] or a[0] - b[0] == a[1] - b[1]\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2,
+      3
+     ],
+     [
+      2,
+      6
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      0
+     ],
+     [
+      7,
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      6
+     ],
+     [
+      6,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      4,
+      4
+     ],
+     [
+      0,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-valid_sudoku_group-v4",
+  "source_family_id": "authored-valid_sudoku_group",
+  "signature": "valid_sudoku_group(cells)",
+  "behavior": "Given 9 cells as integers 0..9 (0 = empty), return True if no digit 1..9 repeats.",
+  "reference_code": "def valid_sudoku_group(cells):\n    digits = [c for c in cells if c != 0]\n    return len(digits) == len(set(digits))\n",
+  "buggy_code": "def valid_sudoku_group(cells):\n    digits = [c for c in cells]\n    return len(digits) == len(set(digits))\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      5,
+      3,
+      0,
+      0,
+      7,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-mine_counts-v4",
+  "source_family_id": "authored-mine_counts",
+  "signature": "mine_counts(board)",
+  "behavior": "Given rows of '*' (mine) and '.', return rows where each '.' becomes the number of adjacent mines (8 directions) and mines stay '*'.",
+  "reference_code": "def mine_counts(board):\n    rows = len(board)\n    out = []\n    for r in range(rows):\n        line = ''\n        for c in range(len(board[r])):\n            if board[r][c] == '*':\n                line += '*'\n                continue\n            n = 0\n            for dr in (-1, 0, 1):\n                for dc in (-1, 0, 1):\n                    y, x = r + dr, c + dc\n                    if 0 <= y < rows and 0 <= x < len(board[y]) and board[y][x] == '*':\n                        n += 1\n            line += str(n)\n        out.append(line)\n    return out\n",
+  "buggy_code": "def mine_counts(board):\n    rows = len(board)\n    out = []\n    for r in range(rows):\n        line = ''\n        for c in range(len(board[r])):\n            if board[r][c] == '*':\n                line += '*'\n                continue\n            n = 0\n            for dr in (-1, 0, 1):\n                for dc in (-1, 0, 1):\n                    y, x = r + dr, c + dc\n                    if 0 <= y < rows and 0 <= x < len(board[y]) and board[y][x] == '*' and dr != dc:\n                        n += 1\n            line += str(n)\n        out.append(line)\n    return out\n",
+  "bug_category": "branch",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      "*.",
+      ".."
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "*1",
+     "11"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      "..",
+      ".."
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "00",
+     "00"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      ".*."
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "1*1"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      "*..",
+      "...",
+      "..*"
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "*10",
+     "121",
+     "01*"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-one_letter_neighbors-v4",
+  "source_family_id": "authored-one_letter_neighbors",
+  "signature": "one_letter_neighbors(word, words)",
+  "behavior": "Return the words from the list (in order) that differ from word in exactly one position and have the same length.",
+  "reference_code": "def one_letter_neighbors(word, words):\n    return [w for w in words if len(w) == len(word) and sum(a != b for a, b in zip(w, word)) == 1]\n",
+  "buggy_code": "def one_letter_neighbors(word, words):\n    return [w for w in words if sum(a != b for a, b in zip(w, word)) == 1]\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "cat",
+     [
+      "cot",
+      "cats",
+      "dog",
+      "bat"
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "cot",
+     "bat"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "a",
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "ab",
+     [
+      "ab",
+      "ac",
+      "bb"
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "ac",
+     "bb"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "cat",
+     [
+      "ca",
+      "cab"
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "cab"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "cat",
+     [
+      "bats",
+      "cut"
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "cut"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-phone_words-v4",
+  "source_family_id": "authored-phone_words",
+  "signature": "phone_words(digits)",
+  "behavior": "Return all letter strings for digits 2-9 on a phone keypad, in keypad order; [] for empty input.",
+  "reference_code": "def phone_words(digits):\n    keys = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}\n    if not digits:\n        return []\n    out = ['']\n    for d in digits:\n        out = [p + ch for p in out for ch in keys[d]]\n    return out\n",
+  "buggy_code": "def phone_words(digits):\n    keys = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno', '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}\n    if not digits:\n        return []\n    out = ['']\n    for d in digits:\n        out = [p + ch for ch in keys[d] for p in out]\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "2"
+    ],
+    "kwargs": {},
+    "expected": [
+     "a",
+     "b",
+     "c"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "23"
+    ],
+    "kwargs": {},
+    "expected": [
+     "ad",
+     "ae",
+     "af",
+     "bd",
+     "be",
+     "bf",
+     "cd",
+     "ce",
+     "cf"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "7"
+    ],
+    "kwargs": {},
+    "expected": [
+     "p",
+     "q",
+     "r",
+     "s"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-balanced_parens-v4",
+  "source_family_id": "authored-balanced_parens",
+  "signature": "balanced_parens(n)",
+  "behavior": "Return all strings of n pairs of balanced parentheses in lexicographic order where '(' < ')'.",
+  "reference_code": "def balanced_parens(n):\n    out = []\n    def build(s, opened, closed):\n        if len(s) == 2 * n:\n            out.append(s)\n            return\n        if opened < n:\n            build(s + '(', opened + 1, closed)\n        if closed < opened:\n            build(s + ')', opened, closed + 1)\n    build('', 0, 0)\n    return out\n",
+  "buggy_code": "def balanced_parens(n):\n    out = []\n    def build(s, opened, closed):\n        if len(s) == 2 * n:\n            out.append(s)\n            return\n        if opened < n:\n            build(s + '(', opened + 1, closed)\n        if closed < n:\n            build(s + ')', opened, closed + 1)\n    build('', 0, 0)\n    return out\n",
+  "bug_category": "comparison",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": [
+     ""
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     "()"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2
+    ],
+    "kwargs": {},
+    "expected": [
+     "(())",
+     "()()"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     3
+    ],
+    "kwargs": {},
+    "expected": [
+     "((()))",
+     "(()())",
+     "(())()",
+     "()(())",
+     "()()()"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-combinations_sum-v4",
+  "source_family_id": "authored-combinations_sum",
+  "signature": "combinations_sum(candidates, target)",
+  "behavior": "Return all ascending combinations (repetition allowed) of distinct positive candidates summing to target, in lexicographic order.",
+  "reference_code": "def combinations_sum(candidates, target):\n    cs = sorted(candidates)\n    out = []\n    def search(start, remaining, chosen):\n        if remaining == 0:\n            out.append(chosen)\n            return\n        for i in range(start, len(cs)):\n            if cs[i] > remaining:\n                break\n            search(i, remaining - cs[i], chosen + [cs[i]])\n    search(0, target, [])\n    return out\n",
+  "buggy_code": "def combinations_sum(candidates, target):\n    cs = sorted(candidates)\n    out = []\n    def search(start, remaining, chosen):\n        if remaining == 0:\n            out.append(chosen)\n            return\n        for i in range(start, len(cs)):\n            if cs[i] > remaining:\n                break\n            search(i + 1, remaining - cs[i], chosen + [cs[i]])\n    search(0, target, [])\n    return out\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2,
+      3,
+      6,
+      7
+     ],
+     7
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      2,
+      2,
+      3
+     ],
+     [
+      7
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      2,
+      3,
+      5
+     ],
+     8
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      2,
+      2,
+      2,
+      2
+     ],
+     [
+      2,
+      3,
+      3
+     ],
+     [
+      3,
+      5
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      2
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      2
+     ],
+     3
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      1,
+      1,
+      1
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      4,
+      5
+     ],
+     9
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      4,
+      5
+     ]
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-triangle_rows-v4",
+  "source_family_id": "authored-triangle_rows",
+  "signature": "triangle_rows(n)",
+  "behavior": "Return the first n rows of Pascal's triangle.",
+  "reference_code": "def triangle_rows(n):\n    rows = []\n    for i in range(n):\n        row = [1] * (i + 1)\n        for j in range(1, i):\n            row[j] = rows[i - 1][j - 1] + rows[i - 1][j]\n        rows.append(row)\n    return rows\n",
+  "buggy_code": "def triangle_rows(n):\n    rows = []\n    for i in range(n):\n        row = [1] * (i + 1)\n        for j in range(1, i):\n            row[j] = rows[i - 1][j - 1] + rows[i - 1][j - 1]\n        rows.append(row)\n    return rows\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      1
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     3
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2,
+      1
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     5
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      2,
+      1
+     ],
+     [
+      1,
+      3,
+      3,
+      1
+     ],
+     [
+      1,
+      4,
+      6,
+      4,
+      1
+     ]
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-catalan-v4",
+  "source_family_id": "authored-catalan",
+  "signature": "catalan(n)",
+  "behavior": "Return the n-th Catalan number for n >= 0.",
+  "reference_code": "def catalan(n):\n    c = [1] + [0] * n\n    for i in range(1, n + 1):\n        c[i] = sum(c[j] * c[i - 1 - j] for j in range(i))\n    return c[n]\n",
+  "buggy_code": "def catalan(n):\n    c = [1] + [0] * n\n    for i in range(1, n + 1):\n        c[i] = sum(c[j] * c[i - j] for j in range(i))\n    return c[n]\n",
+  "bug_category": "operator",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     3
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     5
+    ],
+    "kwargs": {},
+    "expected": 42,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     2
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-tribonacci-v4",
+  "source_family_id": "authored-tribonacci",
+  "signature": "tribonacci(n)",
+  "behavior": "Return T(n) where T(0)=0, T(1)=T(2)=1 and T(n)=T(n-1)+T(n-2)+T(n-3).",
+  "reference_code": "def tribonacci(n):\n    a, b, c = 0, 1, 1\n    for step in range(n):\n        a, b, c = b, c, a + b + c\n    return a\n",
+  "buggy_code": "def tribonacci(n):\n    a, b, c = 0, 1, 1\n    for step in range(n):\n        a, b, c = b, c, b + c\n    return a\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     4
+    ],
+    "kwargs": {},
+    "expected": 4,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     10
+    ],
+    "kwargs": {},
+    "expected": 149,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-is_arithmetic-v4",
+  "source_family_id": "authored-is_arithmetic",
+  "signature": "is_arithmetic(xs)",
+  "behavior": "Return True if consecutive differences of xs are all equal (lists of length < 3 count as arithmetic).",
+  "reference_code": "def is_arithmetic(xs):\n    return all(xs[i + 1] - xs[i] == xs[1] - xs[0] for i in range(len(xs) - 1))\n",
+  "buggy_code": "def is_arithmetic(xs):\n    return all(xs[i + 1] - xs[i] == xs[1] - xs[0] for i in range(len(xs) - 2))\n",
+  "bug_category": "boundary",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      3,
+      5,
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-geometric_sum-v4",
+  "source_family_id": "authored-geometric_sum",
+  "signature": "geometric_sum(a, r, n)",
+  "behavior": "Return a + a*r + ... + a*r**(n-1) for integers a, r and n >= 0.",
+  "reference_code": "def geometric_sum(a, r, n):\n    total, term = 0, a\n    for step in range(n):\n        total += term\n        term *= r\n    return total\n",
+  "buggy_code": "def geometric_sum(a, r, n):\n    total, term = 0, a\n    for step in range(n):\n        term *= r\n        total += term\n    return total\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     1,
+     2,
+     4
+    ],
+    "kwargs": {},
+    "expected": 15,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     3,
+     1,
+     3
+    ],
+    "kwargs": {},
+    "expected": 9,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     5,
+     3,
+     0
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     2,
+     -1,
+     3
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-digits_to_words-v4",
+  "source_family_id": "authored-digits_to_words",
+  "signature": "digits_to_words(n)",
+  "behavior": "Spell each decimal digit of n >= 0 as an English word joined by '-'.",
+  "reference_code": "def digits_to_words(n):\n    names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']\n    return '-'.join(names[int(d)] for d in str(n))\n",
+  "buggy_code": "def digits_to_words(n):\n    names = ['zero', 'one', 'two', 'three', 'for', 'five', 'six', 'seven', 'eight', 'nine']\n    return '-'.join(names[int(d)] for d in str(n))\n",
+  "bug_category": "initialization",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": "zero",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     42
+    ],
+    "kwargs": {},
+    "expected": "four-two",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     907
+    ],
+    "kwargs": {},
+    "expected": "nine-zero-seven",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": "one",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-number_words-v4",
+  "source_family_id": "authored-number_words",
+  "signature": "number_words(n)",
+  "behavior": "Write 0 <= n < 100 in English words, e.g. 42 -> 'forty-two'.",
+  "reference_code": "def number_words(n):\n    ones = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',\n            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']\n    tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']\n    if n < 20:\n        return ones[n]\n    return tens[n // 10] + ('' if n % 10 == 0 else '-' + ones[n % 10])\n",
+  "buggy_code": "def number_words(n):\n    ones = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',\n            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']\n    tens = ['', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']\n    if n < 20:\n        return ones[n]\n    return tens[n // 10] + '-' + ones[n % 10]\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": "zero",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     13
+    ],
+    "kwargs": {},
+    "expected": "thirteen",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     42
+    ],
+    "kwargs": {},
+    "expected": "forty-two",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     90
+    ],
+    "kwargs": {},
+    "expected": "ninety",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     21
+    ],
+    "kwargs": {},
+    "expected": "twenty-one",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-ordinal-v4",
+  "source_family_id": "authored-ordinal",
+  "signature": "ordinal(n)",
+  "behavior": "Return n >= 0 with its English ordinal suffix: 1st, 2nd, 3rd, 4th, 11th, 12th, 13th, 21st ...",
+  "reference_code": "def ordinal(n):\n    if n % 100 in (11, 12, 13):\n        return str(n) + 'th'\n    return str(n) + {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')\n",
+  "buggy_code": "def ordinal(n):\n    if n % 100 in (11, 12):\n        return str(n) + 'th'\n    return str(n) + {1: 'st', 2: 'nd', 3: 'rd'}.get(n % 10, 'th')\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     1
+    ],
+    "kwargs": {},
+    "expected": "1st",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     2
+    ],
+    "kwargs": {},
+    "expected": "2nd",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     13
+    ],
+    "kwargs": {},
+    "expected": "13th",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     21
+    ],
+    "kwargs": {},
+    "expected": "21st",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     111
+    ],
+    "kwargs": {},
+    "expected": "111th",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     0
+    ],
+    "kwargs": {},
+    "expected": "0th",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-pluralize-v4",
+  "source_family_id": "authored-pluralize",
+  "signature": "pluralize(word)",
+  "behavior": "Pluralize a lowercase English noun: -s, -x, -z, -ch, -sh add 'es'; consonant + 'y' becomes 'ies'; otherwise add 's'.",
+  "reference_code": "def pluralize(word):\n    if word.endswith(('s', 'x', 'z', 'ch', 'sh')):\n        return word + 'es'\n    if word.endswith('y') and len(word) > 1 and word[-2] not in 'aeiou':\n        return word[:-1] + 'ies'\n    return word + 's'\n",
+  "buggy_code": "def pluralize(word):\n    if word.endswith(('s', 'x', 'z', 'ch', 'sh')):\n        return word + 'es'\n    if word.endswith('y') and len(word) > 1:\n        return word[:-1] + 'ies'\n    return word + 's'\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "cat"
+    ],
+    "kwargs": {},
+    "expected": "cats",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "box"
+    ],
+    "kwargs": {},
+    "expected": "boxes",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "city"
+    ],
+    "kwargs": {},
+    "expected": "cities",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "day"
+    ],
+    "kwargs": {},
+    "expected": "days",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "church"
+    ],
+    "kwargs": {},
+    "expected": "churches",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-initials-v4",
+  "source_family_id": "authored-initials",
+  "signature": "initials(name)",
+  "behavior": "Return the uppercase initials of each space-separated part of name, each followed by '.'.",
+  "reference_code": "def initials(name):\n    return ''.join(p[0].upper() + '.' for p in name.split())\n",
+  "buggy_code": "def initials(name):\n    return ''.join(p[0] + '.' for p in name.split())\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "Ada Lovelace"
+    ],
+    "kwargs": {},
+    "expected": "A.L.",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "grace brewster hopper"
+    ],
+    "kwargs": {},
+    "expected": "G.B.H.",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "X"
+    ],
+    "kwargs": {},
+    "expected": "X.",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-redact_digits-v4",
+  "source_family_id": "authored-redact_digits",
+  "signature": "redact_digits(s)",
+  "behavior": "Replace every decimal digit in s with '#'.",
+  "reference_code": "def redact_digits(s):\n    return ''.join('#' if ch.isdigit() else ch for ch in s)\n",
+  "buggy_code": "def redact_digits(s):\n    return ''.join('#' if ch.isalnum() else ch for ch in s)\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "a1b2"
+    ],
+    "kwargs": {},
+    "expected": "a#b#",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "123"
+    ],
+    "kwargs": {},
+    "expected": "###",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "no-digits!"
+    ],
+    "kwargs": {},
+    "expected": "no-digits!",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-strip_vowels-v4",
+  "source_family_id": "authored-strip_vowels",
+  "signature": "strip_vowels(s)",
+  "behavior": "Remove the vowels a, e, i, o, u (either case) from s.",
+  "reference_code": "def strip_vowels(s):\n    return ''.join(ch for ch in s if ch.lower() not in 'aeiou')\n",
+  "buggy_code": "def strip_vowels(s):\n    return ''.join(ch for ch in s if ch not in 'aeiou')\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "hello"
+    ],
+    "kwargs": {},
+    "expected": "hll",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "AEIOUx"
+    ],
+    "kwargs": {},
+    "expected": "x",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "rhythm"
+    ],
+    "kwargs": {},
+    "expected": "rhythm",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-case_counts-v4",
+  "source_family_id": "authored-case_counts",
+  "signature": "case_counts(s)",
+  "behavior": "Return [uppercase letter count, lowercase letter count] of s.",
+  "reference_code": "def case_counts(s):\n    return [sum(ch.isupper() for ch in s), sum(ch.islower() for ch in s)]\n",
+  "buggy_code": "def case_counts(s):\n    return [sum(ch.isupper() for ch in s), sum(not ch.isupper() for ch in s)]\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "Hello"
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     4
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "ABC def"
+    ],
+    "kwargs": {},
+    "expected": [
+     3,
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "x"
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-longest_word-v4",
+  "source_family_id": "authored-longest_word",
+  "signature": "longest_word(s)",
+  "behavior": "Return the first longest word of s (words split on whitespace); '' if none.",
+  "reference_code": "def longest_word(s):\n    best = ''\n    for w in s.split():\n        if len(w) > len(best):\n            best = w\n    return best\n",
+  "buggy_code": "def longest_word(s):\n    best = ''\n    for w in s.split():\n        if len(w) >= len(best):\n            best = w\n    return best\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "a bb ccc"
+    ],
+    "kwargs": {},
+    "expected": "ccc",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "ab cd"
+    ],
+    "kwargs": {},
+    "expected": "ab",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "one three five"
+    ],
+    "kwargs": {},
+    "expected": "three",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-average_word_length_x10-v4",
+  "source_family_id": "authored-average_word_length_x10",
+  "signature": "average_word_length_x10(s)",
+  "behavior": "Return floor(10 * mean word length) of the words in s, or 0 if there are none.",
+  "reference_code": "def average_word_length_x10(s):\n    words = s.split()\n    if not words:\n        return 0\n    return 10 * sum(len(w) for w in words) // len(words)\n",
+  "buggy_code": "def average_word_length_x10(s):\n    words = s.split()\n    if not words:\n        return 0\n    return 10 * sum(len(w) for w in words) // len(s)\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "ab abcd"
+    ],
+    "kwargs": {},
+    "expected": 30,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "abc"
+    ],
+    "kwargs": {},
+    "expected": 30,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "a bb"
+    ],
+    "kwargs": {},
+    "expected": 15,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-clamp_all-v4",
+  "source_family_id": "authored-clamp_all",
+  "signature": "clamp_all(xs, lo, hi)",
+  "behavior": "Clamp every item of xs into [lo, hi].",
+  "reference_code": "def clamp_all(xs, lo, hi):\n    return [min(max(x, lo), hi) for x in xs]\n",
+  "buggy_code": "def clamp_all(xs, lo, hi):\n    return [max(min(x, lo), hi) for x in xs]\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      5,
+      10
+     ],
+     2,
+     8
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     5,
+     8
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     0,
+     1
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      3
+     ],
+     3,
+     3
+    ],
+    "kwargs": {},
+    "expected": [
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      -5,
+      0
+     ],
+     -1,
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     -1,
+     0
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-rescale-v4",
+  "source_family_id": "authored-rescale",
+  "signature": "rescale(xs, new_max)",
+  "behavior": "Linearly rescale non-negative integers so the maximum becomes new_max (floor division); all zeros stay zero.",
+  "reference_code": "def rescale(xs, new_max):\n    top = max(xs, default=0)\n    if top == 0:\n        return [0 for x in xs]\n    return [x * new_max // top for x in xs]\n",
+  "buggy_code": "def rescale(xs, new_max):\n    top = max(xs, default=0)\n    if top == 0:\n        return [0 for x in xs]\n    return [x // top * new_max for x in xs]\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      4
+     ],
+     100
+    ],
+    "kwargs": {},
+    "expected": [
+     25,
+     50,
+     100
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      0
+     ],
+     5
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [],
+     9
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      3,
+      3
+     ],
+     10
+    ],
+    "kwargs": {},
+    "expected": [
+     10,
+     10
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1,
+      3
+     ],
+     6
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     6
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-argsort-v4",
+  "source_family_id": "authored-argsort",
+  "signature": "argsort(xs)",
+  "behavior": "Return the indices that would sort xs ascending; ties keep original order.",
+  "reference_code": "def argsort(xs):\n    return sorted(range(len(xs)), key=lambda i: xs[i])\n",
+  "buggy_code": "def argsort(xs):\n    return sorted(range(len(xs)), key=lambda i: -xs[i])\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      30,
+      10,
+      20
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     0,
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-sort_people-v4",
+  "source_family_id": "authored-sort_people",
+  "signature": "sort_people(people)",
+  "behavior": "Sort [name, age] pairs by age ascending, keeping input order for equal ages.",
+  "reference_code": "def sort_people(people):\n    return sorted(people, key=lambda p: p[1])\n",
+  "buggy_code": "def sort_people(people):\n    return sorted(people, key=lambda p: (p[1], p[0]))\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      [
+       "bo",
+       30
+      ],
+      [
+       "al",
+       25
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      "al",
+      25
+     ],
+     [
+      "bo",
+      30
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      [
+       "zed",
+       20
+      ],
+      [
+       "amy",
+       20
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      "zed",
+      20
+     ],
+     [
+      "amy",
+      20
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       "x",
+       1
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      "x",
+      1
+     ]
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-top_k_frequent-v4",
+  "source_family_id": "authored-top_k_frequent",
+  "signature": "top_k_frequent(xs, k)",
+  "behavior": "Return the k most frequent values, most frequent first; ties broken by smaller value.",
+  "reference_code": "def top_k_frequent(xs, k):\n    counts = {}\n    for x in xs:\n        counts[x] = counts.get(x, 0) + 1\n    return sorted(counts, key=lambda v: (-counts[v], v))[:k]\n",
+  "buggy_code": "def top_k_frequent(xs, k):\n    counts = {}\n    for x in xs:\n        counts[x] = counts.get(x, 0) + 1\n    return sorted(counts, key=lambda v: (counts[v], v))[:k]\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      1,
+      1,
+      2,
+      2,
+      3
+     ],
+     2
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      4
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     4
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5,
+      6
+     ],
+     2
+    ],
+    "kwargs": {},
+    "expected": [
+     5,
+     6
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      3,
+      3,
+      2,
+      2,
+      1
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-evens_first-v4",
+  "source_family_id": "authored-evens_first",
+  "signature": "evens_first(xs)",
+  "behavior": "Return xs with all even values first and odd values after, each group in original order.",
+  "reference_code": "def evens_first(xs):\n    return [x for x in xs if x % 2 == 0] + [x for x in xs if x % 2 != 0]\n",
+  "buggy_code": "def evens_first(xs):\n    return [x for x in xs if x % 2 == 0] + [x for x in xs if x % 2 == 0]\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      3,
+      1,
+      2,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     4,
+     3,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5,
+      6,
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     6,
+     5,
+     7
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-sort_colors-v4",
+  "source_family_id": "authored-sort_colors",
+  "signature": "sort_colors(xs)",
+  "behavior": "Sort a list of 0s, 1s and 2s in one pass (three-way partition).",
+  "reference_code": "def sort_colors(xs):\n    a = list(xs)\n    lo, mid, hi = 0, 0, len(a) - 1\n    while mid <= hi:\n        if a[mid] == 0:\n            a[lo], a[mid] = a[mid], a[lo]\n            lo += 1\n            mid += 1\n        elif a[mid] == 1:\n            mid += 1\n        else:\n            a[mid], a[hi] = a[hi], a[mid]\n            hi -= 1\n    return a\n",
+  "buggy_code": "def sort_colors(xs):\n    a = list(xs)\n    lo, mid, hi = 0, 0, len(a) - 1\n    while mid <= hi:\n        if a[mid] == 0:\n            a[lo], a[mid] = a[mid], a[lo]\n            lo += 1\n            mid += 1\n        elif a[mid] == 1:\n            mid += 1\n        else:\n            a[mid], a[hi] = a[hi], a[mid]\n            hi -= 1\n            mid += 1\n    return a\n",
+  "bug_category": "algorithm",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2,
+      0,
+      2,
+      1,
+      1,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0,
+     1,
+     1,
+     2,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      2,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     2,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      0,
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     [
+      1,
+      2,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1,
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-without_value-v4",
+  "source_family_id": "authored-without_value",
+  "signature": "without_value(xs, v)",
+  "behavior": "Return xs without any occurrences of v, preserving order.",
+  "reference_code": "def without_value(xs, v):\n    return [x for x in xs if x != v]\n",
+  "buggy_code": "def without_value(xs, v):\n    out = list(xs)\n    if v in out:\n        out.remove(v)\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      1,
+      3
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     1
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4,
+      5
+     ],
+     6
+    ],
+    "kwargs": {},
+    "expected": [
+     4,
+     5
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      7
+     ],
+     7
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-move_zeros-v4",
+  "source_family_id": "authored-move_zeros",
+  "signature": "move_zeros(xs)",
+  "behavior": "Move all zeros to the end, keeping the order of the other items.",
+  "reference_code": "def move_zeros(xs):\n    nonzero = [x for x in xs if x != 0]\n    return nonzero + [0] * (len(xs) - len(nonzero))\n",
+  "buggy_code": "def move_zeros(xs):\n    nonzero = [x for x in xs if x != 0]\n    return [0] * (len(xs) - len(nonzero)) + nonzero\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      0,
+      1,
+      0,
+      3,
+      12
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     3,
+     12,
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5,
+      6
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     5,
+     6
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-sorted_squares-v4",
+  "source_family_id": "authored-sorted_squares",
+  "signature": "sorted_squares(xs)",
+  "behavior": "Given ascending integers (possibly negative), return their squares in ascending order.",
+  "reference_code": "def sorted_squares(xs):\n    return sorted(x * x for x in xs)\n",
+  "buggy_code": "def sorted_squares(xs):\n    return [x * x for x in xs]\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      -4,
+      -1,
+      0,
+      3,
+      10
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1,
+     9,
+     16,
+     100
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     4
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      -3,
+      -2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     4,
+     9
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-intersect_sorted-v4",
+  "source_family_id": "authored-intersect_sorted",
+  "signature": "intersect_sorted(a, b)",
+  "behavior": "Return the common items of two ascending lists, with multiplicity (as many times as both contain them).",
+  "reference_code": "def intersect_sorted(a, b):\n    i = j = 0\n    out = []\n    while i < len(a) and j < len(b):\n        if a[i] == b[j]:\n            out.append(a[i])\n            i += 1\n            j += 1\n        elif a[i] < b[j]:\n            i += 1\n        else:\n            j += 1\n    return out\n",
+  "buggy_code": "def intersect_sorted(a, b):\n    i = j = 0\n    out = []\n    while i < len(a) and j < len(b):\n        if a[i] == b[j]:\n            out.append(a[i])\n            i += 1\n        elif a[i] < b[j]:\n            i += 1\n        else:\n            j += 1\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      2,
+      3
+     ],
+     [
+      2,
+      2,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2
+     ],
+     [
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [],
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      1,
+      1
+     ],
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      4,
+      5
+     ],
+     [
+      4,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     4,
+     5
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-union_sorted-v4",
+  "source_family_id": "authored-union_sorted",
+  "signature": "union_sorted(a, b)",
+  "behavior": "Return the sorted list of distinct values present in either list.",
+  "reference_code": "def union_sorted(a, b):\n    return sorted(set(a) | set(b))\n",
+  "buggy_code": "def union_sorted(a, b):\n    return sorted(set(a) & set(b))\n",
+  "bug_category": "operator",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      3
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2,
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5
+     ],
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     5
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      2
+     ],
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-only_in_one-v4",
+  "source_family_id": "authored-only_in_one",
+  "signature": "only_in_one(a, b)",
+  "behavior": "Return the sorted distinct values present in exactly one of the two lists.",
+  "reference_code": "def only_in_one(a, b):\n    return sorted(set(a) ^ set(b))\n",
+  "buggy_code": "def only_in_one(a, b):\n    return sorted(set(a) - set(b))\n",
+  "bug_category": "operator",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     3
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      4
+     ],
+     [
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5,
+      6
+     ],
+     []
+    ],
+    "kwargs": {},
+    "expected": [
+     5,
+     6
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-is_subsequence-v4",
+  "source_family_id": "authored-is_subsequence",
+  "signature": "is_subsequence(small, big)",
+  "behavior": "Return True if the characters of small appear in big in order (not necessarily contiguous).",
+  "reference_code": "def is_subsequence(small, big):\n    i = 0\n    for ch in big:\n        if i < len(small) and small[i] == ch:\n            i += 1\n    return i == len(small)\n",
+  "buggy_code": "def is_subsequence(small, big):\n    i = 0\n    for ch in big:\n        if i < len(small) and small[i] == ch:\n            i += 1\n    return i > 0\n",
+  "bug_category": "return",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "abc",
+     "ahbgdc"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "axc",
+     "ahbgdc"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "",
+     "abc"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "b",
+     "abc"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "ab",
+     "ba"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-contains_sublist-v4",
+  "source_family_id": "authored-contains_sublist",
+  "signature": "contains_sublist(xs, part)",
+  "behavior": "Return True if part occurs as a contiguous slice of xs (an empty part always does).",
+  "reference_code": "def contains_sublist(xs, part):\n    n = len(part)\n    return any(xs[i:i + n] == part for i in range(len(xs) - n + 1))\n",
+  "buggy_code": "def contains_sublist(xs, part):\n    n = len(part)\n    return any(xs[i:i + n] == part for i in range(len(xs) - n))\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4
+     ],
+     [
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ],
+     [
+      3,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      2
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5,
+      6,
+      7
+     ],
+     [
+      6,
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1
+     ],
+     []
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-flatten_deep-v4",
+  "source_family_id": "authored-flatten_deep",
+  "signature": "flatten_deep(xs)",
+  "behavior": "Flatten arbitrarily nested lists into one list of non-list items, left to right.",
+  "reference_code": "def flatten_deep(xs):\n    out = []\n    for x in xs:\n        if isinstance(x, list):\n            out.extend(flatten_deep(x))\n        else:\n            out.append(x)\n    return out\n",
+  "buggy_code": "def flatten_deep(xs):\n    out = []\n    for x in xs:\n        if isinstance(x, list):\n            out.extend(x)\n        else:\n            out.append(x)\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      [
+       2,
+       [
+        3,
+        [
+         4
+        ]
+       ]
+      ],
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2,
+     3,
+     4,
+     5
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       1
+      ],
+      [
+       2
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-max_depth-v4",
+  "source_family_id": "authored-max_depth",
+  "signature": "max_depth(xs)",
+  "behavior": "Return the nesting depth of a list: [] has depth 1, [[ ]] depth 2, and so on.",
+  "reference_code": "def max_depth(xs):\n    return 1 + max((max_depth(x) for x in xs if isinstance(x, list)), default=0)\n",
+  "buggy_code": "def max_depth(xs):\n    return 1 + max((max_depth(x) for x in xs if isinstance(x, list) and x), default=0)\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      [
+       1
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      [
+       2,
+       [
+        3
+       ]
+      ],
+      [
+       4
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      []
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-nested_sum-v4",
+  "source_family_id": "authored-nested_sum",
+  "signature": "nested_sum(xs)",
+  "behavior": "Return the sum of all integers inside arbitrarily nested lists.",
+  "reference_code": "def nested_sum(xs):\n    return sum(nested_sum(x) if isinstance(x, list) else x for x in xs)\n",
+  "buggy_code": "def nested_sum(xs):\n    return sum(nested_sum(x) if isinstance(x, list) else 0 for x in xs)\n",
+  "bug_category": "return",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      [
+       2,
+       3
+      ],
+      [
+       [
+        4
+       ]
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 10,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      [
+       []
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-get_path-v4",
+  "source_family_id": "authored-get_path",
+  "signature": "get_path(d, path)",
+  "behavior": "Follow a list of keys through nested dicts; return None as soon as a key is missing or a value is not a dict.",
+  "reference_code": "def get_path(d, path):\n    cur = d\n    for key in path:\n        if not isinstance(cur, dict) or key not in cur:\n            return None\n        cur = cur[key]\n    return cur\n",
+  "buggy_code": "def get_path(d, path):\n    cur = d\n    for key in path:\n        if not isinstance(cur, dict) or key not in cur:\n            return cur\n        cur = cur[key]\n    return cur\n",
+  "bug_category": "return",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     {
+      "a": {
+       "b": 1
+      }
+     },
+     [
+      "a",
+      "b"
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     {
+      "a": 1
+     },
+     []
+    ],
+    "kwargs": {},
+    "expected": {
+     "a": 1
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     {
+      "a": 1
+     },
+     [
+      "x"
+     ]
+    ],
+    "kwargs": {},
+    "expected": null,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     {
+      "a": 5
+     },
+     [
+      "a",
+      "b"
+     ]
+    ],
+    "kwargs": {},
+    "expected": null,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-merge_counts-v4",
+  "source_family_id": "authored-merge_counts",
+  "signature": "merge_counts(a, b)",
+  "behavior": "Merge two dicts of string -> integer counts, adding values for shared keys; keys of a first, then new keys of b.",
+  "reference_code": "def merge_counts(a, b):\n    out = dict(a)\n    for k, v in b.items():\n        out[k] = out.get(k, 0) + v\n    return out\n",
+  "buggy_code": "def merge_counts(a, b):\n    out = dict(a)\n    for k, v in b.items():\n        out[k] = v\n    return out\n",
+  "bug_category": "operator",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     {
+      "x": 1
+     },
+     {
+      "x": 2,
+      "y": 3
+     }
+    ],
+    "kwargs": {},
+    "expected": {
+     "x": 3,
+     "y": 3
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     {},
+     {}
+    ],
+    "kwargs": {},
+    "expected": {},
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     {
+      "a": 1
+     },
+     {}
+    ],
+    "kwargs": {},
+    "expected": {
+     "a": 1
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     {},
+     {
+      "b": 2
+     }
+    ],
+    "kwargs": {},
+    "expected": {
+     "b": 2
+    },
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-flatten_keys-v4",
+  "source_family_id": "authored-flatten_keys",
+  "signature": "flatten_keys(d)",
+  "behavior": "Flatten nested dicts into one dict whose keys join the path with '.'; non-dict values are leaves.",
+  "reference_code": "def flatten_keys(d):\n    out = {}\n    for k, v in d.items():\n        if isinstance(v, dict) and v:\n            for sub, val in flatten_keys(v).items():\n                out[k + '.' + sub] = val\n        else:\n            out[k] = v\n    return out\n",
+  "buggy_code": "def flatten_keys(d):\n    out = {}\n    for k, v in d.items():\n        if isinstance(v, dict) and v:\n            for sub, val in v.items():\n                out[k + '.' + sub] = val\n        else:\n            out[k] = v\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     {
+      "a": {
+       "b": {
+        "c": 1
+       }
+      },
+      "d": 2
+     }
+    ],
+    "kwargs": {},
+    "expected": {
+     "a.b.c": 1,
+     "d": 2
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     {}
+    ],
+    "kwargs": {},
+    "expected": {},
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     {
+      "x": {
+       "y": 3
+      }
+     }
+    ],
+    "kwargs": {},
+    "expected": {
+     "x.y": 3
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     {
+      "e": {}
+     }
+    ],
+    "kwargs": {},
+    "expected": {
+     "e": {}
+    },
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-keys_above-v4",
+  "source_family_id": "authored-keys_above",
+  "signature": "keys_above(d, limit)",
+  "behavior": "Return the sorted keys whose integer value is strictly greater than limit.",
+  "reference_code": "def keys_above(d, limit):\n    return sorted(k for k, v in d.items() if v > limit)\n",
+  "buggy_code": "def keys_above(d, limit):\n    return sorted(k for k, v in d.items() if v >= limit)\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     {
+      "a": 3,
+      "b": 1
+     },
+     2
+    ],
+    "kwargs": {},
+    "expected": [
+     "a"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     {},
+     0
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     {
+      "x": 5,
+      "y": 5
+     },
+     5
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     {
+      "m": 9,
+      "n": 10
+     },
+     0
+    ],
+    "kwargs": {},
+    "expected": [
+     "m",
+     "n"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-count_by_initial-v4",
+  "source_family_id": "authored-count_by_initial",
+  "signature": "count_by_initial(words)",
+  "behavior": "Return a dict from each word's lowercase first letter to the number of words starting with it (empty words ignored).",
+  "reference_code": "def count_by_initial(words):\n    out = {}\n    for w in words:\n        if w:\n            key = w[0].lower()\n            out[key] = out.get(key, 0) + 1\n    return out\n",
+  "buggy_code": "def count_by_initial(words):\n    out = {}\n    for w in words:\n        if w:\n            key = w[0]\n            out[key] = out.get(key, 0) + 1\n    return out\n",
+  "bug_category": "branch",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      "apple",
+      "Avocado",
+      "banana"
+     ]
+    ],
+    "kwargs": {},
+    "expected": {
+     "a": 2,
+     "b": 1
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": {},
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      "",
+      "x"
+     ]
+    ],
+    "kwargs": {},
+    "expected": {
+     "x": 1
+    },
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      "kiwi",
+      "kale"
+     ]
+    ],
+    "kwargs": {},
+    "expected": {
+     "k": 2
+    },
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-second_smallest-v4",
+  "source_family_id": "authored-second_smallest",
+  "signature": "second_smallest(xs)",
+  "behavior": "Return the second smallest distinct value of xs, or None if there is none.",
+  "reference_code": "def second_smallest(xs):\n    values = sorted(set(xs))\n    return values[1] if len(values) > 1 else None\n",
+  "buggy_code": "def second_smallest(xs):\n    values = sorted(xs)\n    return values[1] if len(values) > 1 else None\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      4,
+      1,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      7
+     ]
+    ],
+    "kwargs": {},
+    "expected": null,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": null,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      5,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": null,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-value_range-v4",
+  "source_family_id": "authored-value_range",
+  "signature": "value_range(xs)",
+  "behavior": "Return max(xs) - min(xs) for a non-empty list.",
+  "reference_code": "def value_range(xs):\n    return max(xs) - min(xs)\n",
+  "buggy_code": "def value_range(xs):\n    return max(xs) - xs[0]\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      3,
+      9,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 8,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      -2,
+      -7
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-alternating_sum-v4",
+  "source_family_id": "authored-alternating_sum",
+  "signature": "alternating_sum(xs)",
+  "behavior": "Return xs[0] - xs[1] + xs[2] - ...",
+  "reference_code": "def alternating_sum(xs):\n    return sum(x if i % 2 == 0 else -x for i, x in enumerate(xs))\n",
+  "buggy_code": "def alternating_sum(xs):\n    return sum(x if i % 2 == 1 else -x for i, x in enumerate(xs))\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      4,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-weighted_mean_floor-v4",
+  "source_family_id": "authored-weighted_mean_floor",
+  "signature": "weighted_mean_floor(values, weights)",
+  "behavior": "Return floor(sum(v*w) / sum(w)) for positive total weight.",
+  "reference_code": "def weighted_mean_floor(values, weights):\n    return sum(v * w for v, w in zip(values, weights)) // sum(weights)\n",
+  "buggy_code": "def weighted_mean_floor(values, weights):\n    return sum(v * w for v, w in zip(values, weights)) // len(weights)\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ],
+     [
+      1,
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      10,
+      20
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 12,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      7
+     ],
+     [
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 7,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      9
+     ],
+     [
+      1,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 6,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-percentile-v4",
+  "source_family_id": "authored-percentile",
+  "signature": "percentile(xs, p)",
+  "behavior": "Return the nearest-rank p-th percentile (1 <= p <= 100) of a non-empty list: the item at rank ceil(p/100 * n) in ascending order.",
+  "reference_code": "def percentile(xs, p):\n    s = sorted(xs)\n    rank = -(-p * len(s) // 100)\n    return s[max(rank, 1) - 1]\n",
+  "buggy_code": "def percentile(xs, p):\n    s = sorted(xs)\n    rank = p * len(s) // 100\n    return s[max(rank, 1) - 1]\n",
+  "bug_category": "operator",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      15,
+      20,
+      35,
+      40,
+      50
+     ],
+     30
+    ],
+    "kwargs": {},
+    "expected": 20,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      15,
+      20,
+      35,
+      40,
+      50
+     ],
+     100
+    ],
+    "kwargs": {},
+    "expected": 50,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      3,
+      1,
+      2
+     ],
+     50
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      9
+     ],
+     1
+    ],
+    "kwargs": {},
+    "expected": 9,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4
+     ],
+     25
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-above_mean-v4",
+  "source_family_id": "authored-above_mean",
+  "signature": "above_mean(xs)",
+  "behavior": "Return a list of 1, 0 or -1 for each item being above, equal to or below the mean (compare x * n with the total to stay exact).",
+  "reference_code": "def above_mean(xs):\n    total, n = sum(xs), len(xs)\n    return [(x * n > total) - (x * n < total) for x in xs]\n",
+  "buggy_code": "def above_mean(xs):\n    total, n = sum(xs), len(xs)\n    return [(x > total) - (x < total) for x in xs]\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     -1,
+     0,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      4
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     -1,
+     1
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-star_bars-v4",
+  "source_family_id": "authored-star_bars",
+  "signature": "star_bars(counts)",
+  "behavior": "Return one line per count: the count as text, a space, then that many '*'.",
+  "reference_code": "def star_bars(counts):\n    return [str(c) + ' ' + '*' * c for c in counts]\n",
+  "buggy_code": "def star_bars(counts):\n    return [str(c) + ' ' + '*' * (c - 1) for c in counts]\n",
+  "bug_category": "boundary",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      3,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "3 ***",
+     "0 "
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "1 *"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     "2 **",
+     "2 **"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-left_pad-v4",
+  "source_family_id": "authored-left_pad",
+  "signature": "left_pad(s, width, fill)",
+  "behavior": "Pad s on the left with the single character fill up to width; leave longer strings unchanged.",
+  "reference_code": "def left_pad(s, width, fill):\n    return fill * max(0, width - len(s)) + s\n",
+  "buggy_code": "def left_pad(s, width, fill):\n    return fill * max(0, width - len(s) - 1) + s\n",
+  "bug_category": "boundary",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "7",
+     3,
+     "0"
+    ],
+    "kwargs": {},
+    "expected": "007",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "abcd",
+     2,
+     "x"
+    ],
+    "kwargs": {},
+    "expected": "abcd",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "",
+     2,
+     "-"
+    ],
+    "kwargs": {},
+    "expected": "--",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "ab",
+     2,
+     "*"
+    ],
+    "kwargs": {},
+    "expected": "ab",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-center-v4",
+  "source_family_id": "authored-center",
+  "signature": "center(s, width)",
+  "behavior": "Center s in width using spaces; put the extra space on the right when uneven.",
+  "reference_code": "def center(s, width):\n    total = max(0, width - len(s))\n    left = total // 2\n    return ' ' * left + s + ' ' * (total - left)\n",
+  "buggy_code": "def center(s, width):\n    total = max(0, width - len(s))\n    left = total - total // 2\n    return ' ' * left + s + ' ' * (total - left)\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "ab",
+     6
+    ],
+    "kwargs": {},
+    "expected": "  ab  ",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "ab",
+     5
+    ],
+    "kwargs": {},
+    "expected": " ab  ",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "abc",
+     2
+    ],
+    "kwargs": {},
+    "expected": "abc",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "",
+     1
+    ],
+    "kwargs": {},
+    "expected": " ",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-format_cents-v4",
+  "source_family_id": "authored-format_cents",
+  "signature": "format_cents(cents)",
+  "behavior": "Format a non-negative number of cents as dollars with thousands separators, e.g. 123456 -> '$1,234.56'.",
+  "reference_code": "def format_cents(cents):\n    dollars, rest = divmod(cents, 100)\n    digits = str(dollars)\n    groups = []\n    while len(digits) > 3:\n        groups.insert(0, digits[-3:])\n        digits = digits[:-3]\n    groups.insert(0, digits)\n    return '$' + ','.join(groups) + '.' + str(rest).zfill(2)\n",
+  "buggy_code": "def format_cents(cents):\n    dollars, rest = divmod(cents, 100)\n    digits = str(dollars)\n    groups = []\n    while len(digits) > 3:\n        groups.insert(0, digits[-3:])\n        digits = digits[:-3]\n    groups.insert(0, digits)\n    return '$' + ','.join(groups) + '.' + str(rest)\n",
+  "bug_category": "return",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     123456
+    ],
+    "kwargs": {},
+    "expected": "$1,234.56",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     5
+    ],
+    "kwargs": {},
+    "expected": "$0.05",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     100000000
+    ],
+    "kwargs": {},
+    "expected": "$1,000,000.00",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     99
+    ],
+    "kwargs": {},
+    "expected": "$0.99",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     1010
+    ],
+    "kwargs": {},
+    "expected": "$10.10",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-parse_duration-v4",
+  "source_family_id": "authored-parse_duration",
+  "signature": "parse_duration(s)",
+  "behavior": "Parse strings like '1h30m', '45s' or '2h5s' into total seconds.",
+  "reference_code": "def parse_duration(s):\n    total, num = 0, ''\n    for ch in s:\n        if ch.isdigit():\n            num += ch\n        else:\n            total += int(num) * {'h': 3600, 'm': 60, 's': 1}[ch]\n            num = ''\n    return total\n",
+  "buggy_code": "def parse_duration(s):\n    total, num = 0, ''\n    for ch in s:\n        if ch.isdigit():\n            num = ch\n        else:\n            total += int(num) * {'h': 3600, 'm': 60, 's': 1}[ch]\n            num = ''\n    return total\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "1h30m"
+    ],
+    "kwargs": {},
+    "expected": 5400,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "45s"
+    ],
+    "kwargs": {},
+    "expected": 45,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "2h5s"
+    ],
+    "kwargs": {},
+    "expected": 7205,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "3m"
+    ],
+    "kwargs": {},
+    "expected": 180,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-minutes_between-v4",
+  "source_family_id": "authored-minutes_between",
+  "signature": "minutes_between(a, b)",
+  "behavior": "Given 'HH:MM' times a and b on the same day, return b - a in minutes (may be negative).",
+  "reference_code": "def minutes_between(a, b):\n    to_min = lambda t: int(t[:2]) * 60 + int(t[3:])\n    return to_min(b) - to_min(a)\n",
+  "buggy_code": "def minutes_between(a, b):\n    to_min = lambda t: int(t[:2]) * 60 + int(t[3:])\n    return to_min(a) - to_min(b)\n",
+  "bug_category": "operator",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "09:00",
+     "10:30"
+    ],
+    "kwargs": {},
+    "expected": 90,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "12:00",
+     "12:00"
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "10:00",
+     "09:45"
+    ],
+    "kwargs": {},
+    "expected": -15,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "00:00",
+     "23:59"
+    ],
+    "kwargs": {},
+    "expected": 1439,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-valid_date-v4",
+  "source_family_id": "authored-valid_date",
+  "signature": "valid_date(y, m, d)",
+  "behavior": "Return True if y-m-d is a real Gregorian date with 1 <= m <= 12.",
+  "reference_code": "def valid_date(y, m, d):\n    if not 1 <= m <= 12 or d < 1:\n        return False\n    leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)\n    lengths = [31, 29 if leap else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n    return d <= lengths[m - 1]\n",
+  "buggy_code": "def valid_date(y, m, d):\n    if not 1 <= m <= 12 or d < 1:\n        return False\n    leap = y % 4 == 0 and (y % 100 != 0 or y % 400 == 0)\n    lengths = [31, 29 if leap else 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]\n    return d < lengths[m - 1]\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     2024,
+     2,
+     29
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     2023,
+     2,
+     29
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2023,
+     13,
+     1
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     2023,
+     4,
+     30
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     2023,
+     1,
+     0
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     2023,
+     6,
+     15
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-age-v4",
+  "source_family_id": "authored-age",
+  "signature": "age(birth, today)",
+  "behavior": "Given [y, m, d] lists, return completed years of age on today.",
+  "reference_code": "def age(birth, today):\n    years = today[0] - birth[0]\n    if [today[1], today[2]] < [birth[1], birth[2]]:\n        years -= 1\n    return years\n",
+  "buggy_code": "def age(birth, today):\n    years = today[0] - birth[0]\n    if today[1] < birth[1]:\n        years -= 1\n    return years\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      2000,
+      5,
+      10
+     ],
+     [
+      2020,
+      5,
+      10
+     ]
+    ],
+    "kwargs": {},
+    "expected": 20,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      2000,
+      5,
+      10
+     ],
+     [
+      2020,
+      5,
+      9
+     ]
+    ],
+    "kwargs": {},
+    "expected": 19,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      2000,
+      5,
+      10
+     ],
+     [
+      2020,
+      4,
+      30
+     ]
+    ],
+    "kwargs": {},
+    "expected": 19,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1990,
+      1,
+      1
+     ],
+     [
+      2000,
+      12,
+      31
+     ]
+    ],
+    "kwargs": {},
+    "expected": 10,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-rgb_to_hex-v4",
+  "source_family_id": "authored-rgb_to_hex",
+  "signature": "rgb_to_hex(r, g, b)",
+  "behavior": "Return '#rrggbb' in lowercase hex for channel values 0..255.",
+  "reference_code": "def rgb_to_hex(r, g, b):\n    digits = '0123456789abcdef'\n    return '#' + ''.join(digits[c // 16] + digits[c % 16] for c in (r, g, b))\n",
+  "buggy_code": "def rgb_to_hex(r, g, b):\n    digits = '0123456789abcdef'\n    return '#' + ''.join(digits[c % 16] + digits[c // 16] for c in (r, g, b))\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     255,
+     0,
+     128
+    ],
+    "kwargs": {},
+    "expected": "#ff0080",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     0,
+     0,
+     0
+    ],
+    "kwargs": {},
+    "expected": "#000000",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     17,
+     34,
+     51
+    ],
+    "kwargs": {},
+    "expected": "#112233",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     16,
+     1,
+     255
+    ],
+    "kwargs": {},
+    "expected": "#1001ff",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-hex_to_rgb-v4",
+  "source_family_id": "authored-hex_to_rgb",
+  "signature": "hex_to_rgb(s)",
+  "behavior": "Parse '#rrggbb' (either case) into [r, g, b].",
+  "reference_code": "def hex_to_rgb(s):\n    digits = '0123456789abcdef'\n    h = s[1:].lower()\n    return [digits.index(h[i]) * 16 + digits.index(h[i + 1]) for i in (0, 2, 4)]\n",
+  "buggy_code": "def hex_to_rgb(s):\n    digits = '0123456789abcdef'\n    h = s[1:].lower()\n    return [digits.index(h[i]) * 16 + digits.index(h[i + 1]) for i in (0, 1, 2)]\n",
+  "bug_category": "boundary",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "#ff0080"
+    ],
+    "kwargs": {},
+    "expected": [
+     255,
+     0,
+     128
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "#000000"
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "#FFFFFF"
+    ],
+    "kwargs": {},
+    "expected": [
+     255,
+     255,
+     255
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "#102030"
+    ],
+    "kwargs": {},
+    "expected": [
+     16,
+     32,
+     48
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-manhattan-v4",
+  "source_family_id": "authored-manhattan",
+  "signature": "manhattan(p, q)",
+  "behavior": "Return the Manhattan distance between integer points p and q of equal dimension.",
+  "reference_code": "def manhattan(p, q):\n    return sum(abs(a - b) for a, b in zip(p, q))\n",
+  "buggy_code": "def manhattan(p, q):\n    return abs(sum(a - b for a, b in zip(p, q)))\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2
+     ],
+     [
+      4,
+      6
+     ]
+    ],
+    "kwargs": {},
+    "expected": 7,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      1,
+      5
+     ],
+     [
+      3,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 6,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      2
+     ],
+     [
+      -3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-closest_to_origin-v4",
+  "source_family_id": "authored-closest_to_origin",
+  "signature": "closest_to_origin(points)",
+  "behavior": "Return the point [x, y] with the smallest squared distance to the origin; the first one on ties.",
+  "reference_code": "def closest_to_origin(points):\n    best = points[0]\n    for p in points[1:]:\n        if p[0] ** 2 + p[1] ** 2 < best[0] ** 2 + best[1] ** 2:\n            best = p\n    return best\n",
+  "buggy_code": "def closest_to_origin(points):\n    best = points[0]\n    for p in points[1:]:\n        if p[0] ** 2 + p[1] ** 2 <= best[0] ** 2 + best[1] ** 2:\n            best = p\n    return best\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      [
+       3,
+       4
+      ],
+      [
+       1,
+       1
+      ],
+      [
+       5,
+       0
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      [
+       2,
+       0
+      ],
+      [
+       0,
+       2
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      [
+       7,
+       7
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     7,
+     7
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       -1,
+       0
+      ],
+      [
+       3,
+       3
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     -1,
+     0
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-polygon_area_x2-v4",
+  "source_family_id": "authored-polygon_area_x2",
+  "signature": "polygon_area_x2(points)",
+  "behavior": "Return twice the absolute area of a simple polygon given as [x, y] vertices in order (shoelace formula).",
+  "reference_code": "def polygon_area_x2(points):\n    n = len(points)\n    s = sum(points[i][0] * points[(i + 1) % n][1] - points[(i + 1) % n][0] * points[i][1] for i in range(n))\n    return abs(s)\n",
+  "buggy_code": "def polygon_area_x2(points):\n    n = len(points)\n    s = sum(points[i][0] * points[(i + 1) % n][1] - points[(i + 1) % n][0] * points[i][1] for i in range(n - 1))\n    return abs(s)\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       4,
+       0
+      ],
+      [
+       4,
+       3
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 12,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       2
+      ],
+      [
+       0,
+       2
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 8,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       5
+      ],
+      [
+       5,
+       0
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 25,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       1,
+       1
+      ],
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       1
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-inside_rect-v4",
+  "source_family_id": "authored-inside_rect",
+  "signature": "inside_rect(p, rect)",
+  "behavior": "Return True if point [x, y] lies inside or on the border of rect [x1, y1, x2, y2] with x1 <= x2 and y1 <= y2.",
+  "reference_code": "def inside_rect(p, rect):\n    return rect[0] <= p[0] <= rect[2] and rect[1] <= p[1] <= rect[3]\n",
+  "buggy_code": "def inside_rect(p, rect):\n    return rect[0] <= p[0] <= rect[2] and rect[1] <= p[1] < rect[3]\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      1
+     ],
+     [
+      0,
+      0,
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      3,
+      1
+     ],
+     [
+      0,
+      0,
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      2,
+      2
+     ],
+     [
+      0,
+      0,
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      0
+     ],
+     [
+      0,
+      0,
+      0,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-rect_overlap-v4",
+  "source_family_id": "authored-rect_overlap",
+  "signature": "rect_overlap(a, b)",
+  "behavior": "Return the overlap area of axis-aligned rectangles [x1, y1, x2, y2] (x1 < x2, y1 < y2).",
+  "reference_code": "def rect_overlap(a, b):\n    w = min(a[2], b[2]) - max(a[0], b[0])\n    h = min(a[3], b[3]) - max(a[1], b[1])\n    return w * h if w > 0 and h > 0 else 0\n",
+  "buggy_code": "def rect_overlap(a, b):\n    w = min(a[2], b[2]) - max(a[0], b[0])\n    h = min(a[3], b[3]) - max(a[1], b[1])\n    return w * h if w > 0 or h > 0 else 0\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      0,
+      0,
+      2,
+      2
+     ],
+     [
+      1,
+      1,
+      3,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      0,
+      1,
+      1
+     ],
+     [
+      2,
+      2,
+      3,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0,
+      0,
+      4,
+      4
+     ],
+     [
+      1,
+      1,
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      0,
+      2,
+      2
+     ],
+     [
+      3,
+      0,
+      5,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-orientation-v4",
+  "source_family_id": "authored-orientation",
+  "signature": "orientation(a, b, c)",
+  "behavior": "Return 1 if points a, b, c turn counter-clockwise, -1 if clockwise, 0 if collinear.",
+  "reference_code": "def orientation(a, b, c):\n    cross = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])\n    return (cross > 0) - (cross < 0)\n",
+  "buggy_code": "def orientation(a, b, c):\n    cross = (b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])\n    return (cross < 0) - (cross > 0)\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      0
+     ],
+     [
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      0
+     ]
+    ],
+    "kwargs": {},
+    "expected": -1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      1
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      5,
+      5
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-floors_visited-v4",
+  "source_family_id": "authored-floors_visited",
+  "signature": "floors_visited(start, moves)",
+  "behavior": "Starting at floor start, apply signed moves without going below floor 0 (clamp) and return the list of floors after each move.",
+  "reference_code": "def floors_visited(start, moves):\n    out, floor = [], start\n    for m in moves:\n        floor = max(0, floor + m)\n        out.append(floor)\n    return out\n",
+  "buggy_code": "def floors_visited(start, moves):\n    out, floor = [], start\n    for m in moves:\n        floor = max(0, start + m)\n        out.append(floor)\n    return out\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     0,
+     [
+      2,
+      3,
+      -1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     2,
+     5,
+     4
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     5,
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     1,
+     [
+      -3
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     2,
+     [
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     3
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-robot_final-v4",
+  "source_family_id": "authored-robot_final",
+  "signature": "robot_final(commands)",
+  "behavior": "A robot starts at [0, 0] facing north. 'L'/'R' turn 90 degrees, 'F' moves one step. Return the final [x, y].",
+  "reference_code": "def robot_final(commands):\n    dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n    x = y = d = 0\n    for c in commands:\n        if c == 'L':\n            d = (d - 1) % 4\n        elif c == 'R':\n            d = (d + 1) % 4\n        else:\n            x, y = x + dirs[d][0], y + dirs[d][1]\n    return [x, y]\n",
+  "buggy_code": "def robot_final(commands):\n    dirs = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n    x = y = d = 0\n    for c in commands:\n        if c == 'L':\n            d = (d + 1) % 4\n        elif c == 'R':\n            d = (d + 1) % 4\n        else:\n            x, y = x + dirs[d][0], y + dirs[d][1]\n    return [x, y]\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "FF"
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     2
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "RF"
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "LF"
+    ],
+    "kwargs": {},
+    "expected": [
+     -1,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "FRFLF"
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-next_light-v4",
+  "source_family_id": "authored-next_light",
+  "signature": "next_light(color, ticks)",
+  "behavior": "Lights cycle green -> yellow -> red -> green; return the color after ticks steps.",
+  "reference_code": "def next_light(color, ticks):\n    cycle = ['green', 'yellow', 'red']\n    return cycle[(cycle.index(color) + ticks) % 3]\n",
+  "buggy_code": "def next_light(color, ticks):\n    cycle = ['green', 'red', 'yellow']\n    return cycle[(cycle.index(color) + ticks) % 3]\n",
+  "bug_category": "initialization",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "green",
+     1
+    ],
+    "kwargs": {},
+    "expected": "yellow",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "red",
+     1
+    ],
+    "kwargs": {},
+    "expected": "green",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "yellow",
+     0
+    ],
+    "kwargs": {},
+    "expected": "yellow",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "green",
+     3
+    ],
+    "kwargs": {},
+    "expected": "green",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-yacht_score-v4",
+  "source_family_id": "authored-yacht_score",
+  "signature": "yacht_score(dice, category)",
+  "behavior": "Score five dice: 'ones'..'sixes' sum that face; 'yacht' is 50 if all equal else 0; 'chance' sums all dice.",
+  "reference_code": "def yacht_score(dice, category):\n    faces = {'ones': 1, 'twos': 2, 'threes': 3, 'fours': 4, 'fives': 5, 'sixes': 6}\n    if category in faces:\n        return faces[category] * dice.count(faces[category])\n    if category == 'yacht':\n        return 50 if len(set(dice)) == 1 else 0\n    return sum(dice)\n",
+  "buggy_code": "def yacht_score(dice, category):\n    faces = {'ones': 1, 'twos': 2, 'threes': 3, 'fours': 4, 'fives': 5, 'sixes': 6}\n    if category in faces:\n        return dice.count(faces[category])\n    if category == 'yacht':\n        return 50 if len(set(dice)) == 1 else 0\n    return sum(dice)\n",
+  "bug_category": "operator",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      3,
+      3,
+      3,
+      3,
+      3
+     ],
+     "yacht"
+    ],
+    "kwargs": {},
+    "expected": 50,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      1,
+      1,
+      2,
+      3,
+      4
+     ],
+     "ones"
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      5,
+      5,
+      1,
+      2,
+      3
+     ],
+     "fives"
+    ],
+    "kwargs": {},
+    "expected": 10,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4,
+      6
+     ],
+     "chance"
+    ],
+    "kwargs": {},
+    "expected": 16,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      6,
+      6,
+      6,
+      1,
+      1
+     ],
+     "sixes"
+    ],
+    "kwargs": {},
+    "expected": 18,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-hand_value-v4",
+  "source_family_id": "authored-hand_value",
+  "signature": "hand_value(cards)",
+  "behavior": "Blackjack hand value: 2-10 face value, J/Q/K 10, A 11 or 1 (count aces as 11 while the total stays <= 21).",
+  "reference_code": "def hand_value(cards):\n    total, aces = 0, 0\n    for c in cards:\n        if c == 'A':\n            total += 11\n            aces += 1\n        elif c in ('J', 'Q', 'K'):\n            total += 10\n        else:\n            total += int(c)\n    while total > 21 and aces:\n        total -= 10\n        aces -= 1\n    return total\n",
+  "buggy_code": "def hand_value(cards):\n    total, aces = 0, 0\n    for c in cards:\n        if c == 'A':\n            total += 11\n            aces += 1\n        elif c in ('J', 'Q', 'K'):\n            total += 10\n        else:\n            total += int(c)\n    if total > 21 and aces:\n        total -= 10\n        aces -= 1\n    return total\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      "A",
+      "K"
+     ]
+    ],
+    "kwargs": {},
+    "expected": 21,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      "A",
+      "A",
+      "9"
+     ]
+    ],
+    "kwargs": {},
+    "expected": 21,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      "10",
+      "5"
+     ]
+    ],
+    "kwargs": {},
+    "expected": 15,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      "A",
+      "A",
+      "A",
+      "K"
+     ]
+    ],
+    "kwargs": {},
+    "expected": 13,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      "2",
+      "3"
+     ]
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-letter_counts-v4",
+  "source_family_id": "authored-letter_counts",
+  "signature": "letter_counts(scores)",
+  "behavior": "Return [count >= 90, count 80-89, count < 80] for the integer scores.",
+  "reference_code": "def letter_counts(scores):\n    return [sum(s >= 90 for s in scores), sum(80 <= s < 90 for s in scores), sum(s < 80 for s in scores)]\n",
+  "buggy_code": "def letter_counts(scores):\n    return [sum(s >= 90 for s in scores), sum(80 <= s <= 90 for s in scores), sum(s < 80 for s in scores)]\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      95,
+      85,
+      70
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     1,
+     1
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     0,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      90,
+      80
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     1,
+     0
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      89,
+      79
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     1,
+     1
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-leaderboard-v4",
+  "source_family_id": "authored-leaderboard",
+  "signature": "leaderboard(scores)",
+  "behavior": "Given a dict of name -> score, return names sorted by score descending, then name ascending.",
+  "reference_code": "def leaderboard(scores):\n    return sorted(scores, key=lambda n: (-scores[n], n))\n",
+  "buggy_code": "def leaderboard(scores):\n    return sorted(scores, key=lambda n: (-scores[n], n), reverse=True)\n",
+  "bug_category": "algorithm",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     {
+      "amy": 10,
+      "bob": 20
+     }
+    ],
+    "kwargs": {},
+    "expected": [
+     "bob",
+     "amy"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     {}
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     {
+      "x": 5,
+      "a": 5
+     }
+    ],
+    "kwargs": {},
+    "expected": [
+     "a",
+     "x"
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     {
+      "solo": 1
+     }
+    ],
+    "kwargs": {},
+    "expected": [
+     "solo"
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-first_conflict-v4",
+  "source_family_id": "authored-first_conflict",
+  "signature": "first_conflict(slots)",
+  "behavior": "Given [start, end) slots in order of booking, return the index of the first slot overlapping any earlier slot, or -1.",
+  "reference_code": "def first_conflict(slots):\n    for i, (s, e) in enumerate(slots):\n        for ps, pe in slots[:i]:\n            if s < pe and ps < e:\n                return i\n    return -1\n",
+  "buggy_code": "def first_conflict(slots):\n    for i, (s, e) in enumerate(slots):\n        for ps, pe in slots[:i]:\n            if s <= pe and ps <= e:\n                return i\n    return -1\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      [
+       1,
+       3
+      ],
+      [
+       3,
+       5
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": -1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      [
+       1,
+       4
+      ],
+      [
+       2,
+       3
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": -1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       5,
+       6
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       4,
+       7
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      [
+       0,
+       1
+      ]
+     ]
+    ],
+    "kwargs": {},
+    "expected": -1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-free_slots-v4",
+  "source_family_id": "authored-free_slots",
+  "signature": "free_slots(busy, day_end)",
+  "behavior": "Given sorted non-overlapping busy [start, end) slots within [0, day_end), return the free slots in order.",
+  "reference_code": "def free_slots(busy, day_end):\n    out, cur = [], 0\n    for s, e in busy:\n        if s > cur:\n            out.append([cur, s])\n        cur = max(cur, e)\n    if cur < day_end:\n        out.append([cur, day_end])\n    return out\n",
+  "buggy_code": "def free_slots(busy, day_end):\n    out, cur = [], 0\n    for s, e in busy:\n        if s > cur:\n            out.append([cur, s])\n        cur = max(cur, e)\n    return out\n",
+  "bug_category": "return",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      [
+       2,
+       4
+      ]
+     ],
+     10
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      0,
+      2
+     ],
+     [
+      4,
+      10
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     5
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      0,
+      5
+     ]
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      [
+       0,
+       5
+      ]
+     ],
+     5
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      [
+       0,
+       1
+      ],
+      [
+       3,
+       5
+      ]
+     ],
+     5
+    ],
+    "kwargs": {},
+    "expected": [
+     [
+      1,
+      3
+     ]
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-lru_hits-v4",
+  "source_family_id": "authored-lru_hits",
+  "signature": "lru_hits(capacity, requests)",
+  "behavior": "Simulate an LRU cache of the given capacity and return how many requests are hits.",
+  "reference_code": "def lru_hits(capacity, requests):\n    cache, hits = [], 0\n    for r in requests:\n        if r in cache:\n            hits += 1\n            cache.remove(r)\n        elif len(cache) == capacity:\n            cache.pop(0)\n        cache.append(r)\n    return hits\n",
+  "buggy_code": "def lru_hits(capacity, requests):\n    cache, hits = [], 0\n    for r in requests:\n        if r in cache:\n            hits += 1\n        elif len(cache) == capacity:\n            cache.pop(0)\n            cache.append(r)\n        else:\n            cache.append(r)\n    return hits\n",
+  "bug_category": "algorithm",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     2,
+     [
+      1,
+      2,
+      1,
+      3,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     1,
+     [
+      1,
+      1,
+      2,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2,
+     []
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     3,
+     [
+      1,
+      2,
+      3
+     ]
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     2,
+     [
+      1,
+      2,
+      1,
+      3,
+      2
+     ]
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-allowed_requests-v4",
+  "source_family_id": "authored-allowed_requests",
+  "signature": "allowed_requests(times, limit, window)",
+  "behavior": "Given ascending request times, allow a request if fewer than limit allowed requests happened in (t - window, t]; return the allowed times.",
+  "reference_code": "def allowed_requests(times, limit, window):\n    allowed = []\n    for t in times:\n        recent = [a for a in allowed if a > t - window]\n        if len(recent) < limit:\n            allowed.append(t)\n    return allowed\n",
+  "buggy_code": "def allowed_requests(times, limit, window):\n    allowed = []\n    for t in times:\n        recent = [a for a in allowed if a >= t - window]\n        if len(recent) < limit:\n            allowed.append(t)\n    return allowed\n",
+  "bug_category": "comparison",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      1,
+      2,
+      3,
+      4
+     ],
+     2,
+     3
+    ],
+    "kwargs": {},
+    "expected": [
+     1,
+     2,
+     4
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [],
+     1,
+     1
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     [
+      0,
+      10
+     ],
+     1,
+     5
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     10
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      0,
+      5,
+      6
+     ],
+     1,
+     5
+    ],
+    "kwargs": {},
+    "expected": [
+     0,
+     5
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-bucket_levels-v4",
+  "source_family_id": "authored-bucket_levels",
+  "signature": "bucket_levels(capacity, refill, requests)",
+  "behavior": "A bucket starts full; each step it refills by refill (up to capacity) then serves the request if enough tokens remain. Return the served list of True/False.",
+  "reference_code": "def bucket_levels(capacity, refill, requests):\n    tokens, out = capacity, []\n    for need in requests:\n        tokens = min(capacity, tokens + refill)\n        if tokens >= need:\n            tokens -= need\n            out.append(True)\n        else:\n            out.append(False)\n    return out\n",
+  "buggy_code": "def bucket_levels(capacity, refill, requests):\n    tokens, out = capacity, []\n    for need in requests:\n        tokens = tokens + refill\n        if tokens >= need:\n            tokens -= need\n            out.append(True)\n        else:\n            out.append(False)\n    return out\n",
+  "bug_category": "boundary",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     5,
+     1,
+     [
+      5,
+      5,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     true,
+     false,
+     true
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     3,
+     0,
+     [
+      1,
+      1,
+      1,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     true,
+     true,
+     true,
+     false
+    ],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     2,
+     2,
+     []
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     4,
+     4,
+     [
+      4,
+      4,
+      8
+     ]
+    ],
+    "kwargs": {},
+    "expected": [
+     true,
+     true,
+     false
+    ],
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-plurality_winner-v4",
+  "source_family_id": "authored-plurality_winner",
+  "signature": "plurality_winner(ballots)",
+  "behavior": "Return the candidate with the most votes; on a tie, the one that reached that count first in ballot order.",
+  "reference_code": "def plurality_winner(ballots):\n    counts, best = {}, None\n    for b in ballots:\n        counts[b] = counts.get(b, 0) + 1\n        if best is None or counts[b] > counts[best]:\n            best = b\n    return best\n",
+  "buggy_code": "def plurality_winner(ballots):\n    counts, best = {}, None\n    for b in ballots:\n        counts[b] = counts.get(b, 0) + 1\n        if best is None or counts[b] >= counts[best]:\n            best = b\n    return best\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     [
+      "a",
+      "b",
+      "a"
+     ]
+    ],
+    "kwargs": {},
+    "expected": "a",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     [
+      "x",
+      "y"
+     ]
+    ],
+    "kwargs": {},
+    "expected": "x",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     []
+    ],
+    "kwargs": {},
+    "expected": null,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     [
+      "p",
+      "q",
+      "q",
+      "p"
+     ]
+    ],
+    "kwargs": {},
+    "expected": "q",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      "m"
+     ]
+    ],
+    "kwargs": {},
+    "expected": "m",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-password_score-v4",
+  "source_family_id": "authored-password_score",
+  "signature": "password_score(pw)",
+  "behavior": "Score 1 point each for: length >= 8, a lowercase letter, an uppercase letter, a digit, and a non-alphanumeric character.",
+  "reference_code": "def password_score(pw):\n    return sum([len(pw) >= 8, any(c.islower() for c in pw), any(c.isupper() for c in pw),\n                any(c.isdigit() for c in pw), any(not c.isalnum() for c in pw)])\n",
+  "buggy_code": "def password_score(pw):\n    return sum([len(pw) > 8, any(c.islower() for c in pw), any(c.isupper() for c in pw),\n                any(c.isdigit() for c in pw), any(not c.isalnum() for c in pw)])\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "abc"
+    ],
+    "kwargs": {},
+    "expected": 1,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "Abcdefg1!"
+    ],
+    "kwargs": {},
+    "expected": 5,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "abcdefgh"
+    ],
+    "kwargs": {},
+    "expected": 2,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": 0,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "ABCDEFG1"
+    ],
+    "kwargs": {},
+    "expected": 3,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-valid_username-v4",
+  "source_family_id": "authored-valid_username",
+  "signature": "valid_username(name)",
+  "behavior": "Valid usernames are 3-16 characters of lowercase letters, digits or '-', starting with a letter.",
+  "reference_code": "def valid_username(name):\n    return 3 <= len(name) <= 16 and name[0].isalpha() and name[0].islower() and all(c.islower() or c.isdigit() or c == '-' for c in name)\n",
+  "buggy_code": "def valid_username(name):\n    return 3 <= len(name) <= 16 and all(c.islower() or c.isdigit() or c == '-' for c in name)\n",
+  "bug_category": "branch",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "bob-99"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "ab"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "9lives"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "Bob"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "aaaaaaaaaaaaaaaa"
+    ],
+    "kwargs": {},
+    "expected": true,
+    "comparator": "exact"
+   },
+   {
+    "test_id": "6",
+    "args": [
+     "aaaaaaaaaaaaaaaaa"
+    ],
+    "kwargs": {},
+    "expected": false,
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-mask_card-v4",
+  "source_family_id": "authored-mask_card",
+  "signature": "mask_card(number)",
+  "behavior": "Replace all but the last four digits of a card number string with '*', keeping spaces as they are.",
+  "reference_code": "def mask_card(number):\n    digits_seen = sum(c.isdigit() for c in number)\n    out = ''\n    for c in number:\n        if c.isdigit():\n            out += c if digits_seen <= 4 else '*'\n            digits_seen -= 1\n        else:\n            out += c\n    return out\n",
+  "buggy_code": "def mask_card(number):\n    digits_seen = sum(c.isdigit() for c in number)\n    out = ''\n    for c in number:\n        if c.isdigit():\n            out += c if digits_seen < 4 else '*'\n            digits_seen -= 1\n        else:\n            out += c\n    return out\n",
+  "bug_category": "comparison",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "1234 5678"
+    ],
+    "kwargs": {},
+    "expected": "**** 5678",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "12"
+    ],
+    "kwargs": {},
+    "expected": "12",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "123456"
+    ],
+    "kwargs": {},
+    "expected": "**3456",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ""
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-domain_of-v4",
+  "source_family_id": "authored-domain_of",
+  "signature": "domain_of(url)",
+  "behavior": "Return the host part of an http(s) URL, without scheme, port, path or a leading 'www.'.",
+  "reference_code": "def domain_of(url):\n    rest = url.split('://', 1)[-1]\n    host = rest.split('/', 1)[0].split(':', 1)[0]\n    return host[4:] if host.startswith('www.') else host\n",
+  "buggy_code": "def domain_of(url):\n    rest = url.split('://', 1)[-1]\n    host = rest.split('/', 1)[0]\n    return host[4:] if host.startswith('www.') else host\n",
+  "bug_category": "algorithm",
+  "difficulty": "medium",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "https://www.example.com/a/b"
+    ],
+    "kwargs": {},
+    "expected": "example.com",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "http://test.org"
+    ],
+    "kwargs": {},
+    "expected": "test.org",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "https://site.io:8080/x"
+    ],
+    "kwargs": {},
+    "expected": "site.io",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "http://www.a.b:1"
+    ],
+    "kwargs": {},
+    "expected": "a.b",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-normalize_path-v4",
+  "source_family_id": "authored-normalize_path",
+  "signature": "normalize_path(path)",
+  "behavior": "Simplify an absolute Unix path: collapse '//' and '.', resolve '..' (never above root), no trailing slash except for '/'.",
+  "reference_code": "def normalize_path(path):\n    stack = []\n    for part in path.split('/'):\n        if part == '..':\n            if stack:\n                stack.pop()\n        elif part and part != '.':\n            stack.append(part)\n    return '/' + '/'.join(stack)\n",
+  "buggy_code": "def normalize_path(path):\n    stack = []\n    for part in path.split('/'):\n        if part == '..':\n            if stack:\n                stack.pop()\n        elif part:\n            stack.append(part)\n    return '/' + '/'.join(stack)\n",
+  "bug_category": "branch",
+  "difficulty": "hard",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "/home//user/"
+    ],
+    "kwargs": {},
+    "expected": "/home/user",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "/a/./b/../c"
+    ],
+    "kwargs": {},
+    "expected": "/a/c",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "/../"
+    ],
+    "kwargs": {},
+    "expected": "/",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     "/"
+    ],
+    "kwargs": {},
+    "expected": "/",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     "/x/y/.."
+    ],
+    "kwargs": {},
+    "expected": "/x",
+    "comparator": "exact"
+   }
+  ]
+ },
+ {
+  "source_function_id": "fixture-extension-v4",
+  "source_family_id": "authored-extension",
+  "signature": "extension(filename)",
+  "behavior": "Return the lowercase extension after the last '.', or '' if there is none or the only dot is the first character.",
+  "reference_code": "def extension(filename):\n    i = filename.rfind('.')\n    return filename[i + 1:].lower() if i > 0 else ''\n",
+  "buggy_code": "def extension(filename):\n    i = filename.rfind('.')\n    return filename[i + 1:].lower() if i >= 0 else ''\n",
+  "bug_category": "comparison",
+  "difficulty": "easy",
+  "license": "CC0-1.0",
+  "tests": [
+   {
+    "test_id": "1",
+    "args": [
+     "photo.JPG"
+    ],
+    "kwargs": {},
+    "expected": "jpg",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "2",
+    "args": [
+     "archive.tar.gz"
+    ],
+    "kwargs": {},
+    "expected": "gz",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "3",
+    "args": [
+     "README"
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   },
+   {
+    "test_id": "4",
+    "args": [
+     ".bashrc"
+    ],
+    "kwargs": {},
+    "expected": "",
+    "comparator": "exact"
+   }
+  ]
+ }
+]
