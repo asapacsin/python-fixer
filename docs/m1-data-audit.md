@@ -1,15 +1,55 @@
 # M1 pre-scaling data audit (spec 02)
 
-Status (2026-11-24): **v4 frozen candidate built from committed code (`8814885`),
-deterministic on rebuild, mechanically audited 48/50 with 2 flags sent to manual
-review; manual and code re-review (round 3) pending.** No fixture code was executed
-or compiled by the audit tool; all execution evidence comes from the runsc build.
+Status (2026-11-24): **v7 frozen for the M1 pipeline-fixture scope.** Built from
+committed code `e5cf562`, deterministic on rebuild, mechanical audit 50/50 (with one
+reviewed waiver), manual review recommends FREEZE. Freeze record
+`.ai-native/m1-freeze-v7.json` (sha256 `bf107516…f06b`) binds every file below by hash.
 
 Reviewer identity, stated plainly: the user designated a fresh Opus 5.5 agent at
 high effort, run read-only with no authorship context. It is the same model family
-as the author and **not a human reviewer**.
+as the author and **not a human reviewer**; under AGENTS rule 7 this is an LLM review,
+and a human spot-check is advisable before scaling beyond fixtures.
 
-## Frozen candidate: v4
+## Frozen dataset: v7
+
+- Config `configs/data-v7.json`; `artifacts/data/m1-fixtures-v7`; manifest pin
+  `299e7adf74a25a1ae80943a68a44047bff22f8521cf90ea27efecb4f06bf0737`; split namespace
+  `authored-fixtures-v2:7a1547a7002afe7a:split-seed-17`; policy `5bea6490…096d`;
+  preflight `.ai-native/m1-preflight-v7.json` (35/35).
+- Rebuild `artifacts/data/m1-fixtures-v7-rebuild` (retained, same author) matches on
+  content plan, split membership, source, config, builder source, counts and rejected set.
+- 67 accepted (train 53 / validation 10 / test 4; 48 families); 19 rejected: 12 with no
+  failing or no regression test, 4 crash-only, 2 behavioural duplicates, 1 manual
+  exclusion (bound to `.ai-native/m1-manual-review-v2.json` by SHA-256). Authored bugs
+  accepted 53 / 53.
+- v5 → v7 changed only verification evidence (policy fixes for crash scoring and
+  pre-compilation failures); all row content, the rejected set and the 50-case sample
+  are identical, so the pass-4 FREEZE verdict applies.
+- Worksheet `.ai-native/m1-audit-v7.json` (sha256 `cd8c8f1e…9683`): 50/50. The two
+  `fibonacci` rows pass via the waiver in `configs/audit-waivers.json` (tests 1-2 are
+  the stated indexing convention; bound to suite hash, behaviour digest, function id
+  and the pass-3 review); tests 5-7 were added as private tests.
+
+## Manual review passes
+
+| Pass | File | Scope | Outcome |
+|---|---|---|---|
+| 1 | `m1-manual-review-v2.json` | 50 v2 cases | 27 ACCEPT, 22 with note, 1 REJECT (now excluded) |
+| 2 | `m1-manual-review-v3.json` | 14 new v3 cases + 36 carried | no REJECT |
+| 3 | `m1-manual-review-v4-pass3.json` | 6 new v4 cases, fibonacci flag | ACCEPTABLE with conditions |
+| 4 | `m1-manual-review-v5-pass4.json` | 3 changed cases, conditions | conditions met, FREEZE |
+
+Carried verdicts were matched strictly on the reviewed content including labels.
+
+## Use limits (from the reviews)
+
+- Pipeline fixtures, not a research benchmark; the test split has 4 rows.
+- Authored difficulty/category labels are inconsistent with the fixed rule: do not make
+  difficulty-stratified claims; recompute before scaling.
+- Several suites have trivial or coincidental regression passes; some preconditions
+  are implicit; the test-leak check is a heuristic.
+
+## Superseded: v4
 
 - Config `configs/data-v4.json` (v3 plus the exclusion bound to review SHA-256);
   `artifacts/data/m1-fixtures-v4`, manifest pin

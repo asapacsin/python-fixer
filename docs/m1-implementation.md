@@ -1,7 +1,10 @@
 # M1 CPU implementation and observed readiness
 
-Status: **real runsc security preflight PASS (22/22) and 16-fixture dataset CPU_VERIFIED
-on 2026-11-23; 50-case audit and independent review NOT_VERIFIED**.
+Status (2026-11-24): **real runsc preflight PASS 35/35; v7 fixture dataset (67 cases)
+frozen with LLM manual review; independent code review rounds 1-5 recorded, final round
+pending at the time of writing.** Not exercised: dedicated worker + operator mTLS,
+hosted CI, human review. Current pointers: [m1-data-audit.md](m1-data-audit.md),
+[m1-security-coverage.md](m1-security-coverage.md), ADR-002.
 No GPU, model weights, model generation or training was used.
 
 ## Implemented
