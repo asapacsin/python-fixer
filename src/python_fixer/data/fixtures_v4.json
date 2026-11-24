@@ -2328,6 +2328,18 @@
     "kwargs": {},
     "expected": [],
     "comparator": "exact"
+   },
+   {
+    "test_id": "5",
+    "args": [
+     [
+      -2,
+      1
+     ]
+    ],
+    "kwargs": {},
+    "expected": [],
+    "comparator": "exact"
    }
   ]
  },
@@ -2985,8 +2997,8 @@
   "source_family_id": "authored-knight_moves",
   "signature": "knight_moves(square)",
   "behavior": "Return the sorted list of squares (like 'b1') a knight can move to from a square on an 8x8 board.",
-  "reference_code": "def knight_moves(square):\n    f, r = ord(square[0]) - ord('a'), int(square[1]) - 1\n    out = []\n    for df, dr in ((1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)):\n        nf, nr = f + df, r + dr\n        if 0 <= nf < 8 and 0 <= nr < 8:\n            out.append(chr(ord('a') + nf) + str(nr + 1))\n    return sorted(out)\n",
-  "buggy_code": "def knight_moves(square):\n    f, r = ord(square[0]) - ord('a'), int(square[1]) - 1\n    out = []\n    for df, dr in ((1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)):\n        nf, nr = f + df, r + dr\n        if 0 <= nf < 8 and 0 <= nr <= 8:\n            out.append(chr(ord('a') + nf) + str(nr + 1))\n    return sorted(out)\n",
+  "reference_code": "def knight_moves(square):\n    files = 'abcdefgh'\n    f, r = files.index(square[0]), int(square[1]) - 1\n    out = []\n    for df, dr in ((1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)):\n        nf, nr = f + df, r + dr\n        if 0 <= nf < 8 and 0 <= nr < 8:\n            out.append(files[nf] + str(nr + 1))\n    return sorted(out)\n",
+  "buggy_code": "def knight_moves(square):\n    files = 'abcdefgh'\n    f, r = files.index(square[0]), int(square[1]) - 1\n    out = []\n    for df, dr in ((1, 2), (2, 1), (2, -1), (1, -2), (-1, -2), (-2, -1), (-2, 1), (-1, 2)):\n        nf, nr = f + df, r + dr\n        if 0 <= nf < 8 and 0 <= nr <= 8:\n            out.append(files[nf] + str(nr + 1))\n    return sorted(out)\n",
   "bug_category": "boundary",
   "difficulty": "medium",
   "license": "CC0-1.0",
@@ -3983,7 +3995,7 @@
  },
  {
   "source_function_id": "fixture-digits_to_words-v4",
-  "source_family_id": "authored-digits_to_words",
+  "source_family_id": "authored-number_words",
   "signature": "digits_to_words(n)",
   "behavior": "Spell each decimal digit of n >= 0 as an English word joined by '-'.",
   "reference_code": "def digits_to_words(n):\n    names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']\n    return '-'.join(names[int(d)] for d in str(n))\n",
@@ -5325,7 +5337,7 @@
  },
  {
   "source_function_id": "fixture-intersect_sorted-v4",
-  "source_family_id": "authored-intersect_sorted",
+  "source_family_id": "authored-merge_sorted",
   "signature": "intersect_sorted(a, b)",
   "behavior": "Return the common items of two ascending lists, with multiplicity (as many times as both contain them).",
   "reference_code": "def intersect_sorted(a, b):\n    i = j = 0\n    out = []\n    while i < len(a) and j < len(b):\n        if a[i] == b[j]:\n            out.append(a[i])\n            i += 1\n            j += 1\n        elif a[i] < b[j]:\n            i += 1\n        else:\n            j += 1\n    return out\n",
