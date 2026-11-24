@@ -1,0 +1,56 @@
+{
+ "reviewer": "independent agent reviewer (Opus 5.5, high effort, read-only)",
+ "cases": [
+  {
+   "problem_id": "fixture-binary_search-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "Changing the loop condition to lo<hi misses the last candidate. Target 7 narrows to lo=hi=3 and returns -1. Target 1 narrows to lo=hi=0 and returns -1. [2] never enters the loop and returns -1. Target 4 and [] still give -1 and pass. Baseline (fail 1,2,5 / pass 3,4) matches the hand trace, and the bug is a realistic classic. 'boundary' fits. 'medium' is defensible as a loop-bound bug, but every binary_search mutant is labelled 'easy' for an equally local edit inside the same loop, so difficulty still depends on origin."
+  },
+  {
+   "problem_id": "fixture-count_words-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "split(' ') gives [''] (count 1) for '' and 5 pieces for '  hi  ', so both fail. 'a b c' and 'one' pass. Expected values are correct and the tests cover empty and padded input. 'boundary' is a loose label for a wrong split argument, but acceptable."
+  },
+  {
+   "problem_id": "fixture-fibonacci-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "a,b=1,1 shifts the sequence by one: n=0 gives 1, n=2 gives 2 and n=10 gives 89, so tests 1, 3 and 4 fail. n=1 gives 1 and passes. Expected values fib(2)=1 and fib(10)=55 are correct, and 'initialization' fits. The mechanical leak flag is ruled on in fibonacci_flag. Freezing needs the recorded waiver and extra tests described there."
+  },
+  {
+   "problem_id": "fixture-gcd-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "The loop exits only when b==0, so 'return b' always returns 0. Tests 1-4 fail, and (0,0) passes because gcd(0,0)=0 by convention. Baseline and expected values are correct, and 'return' fits. The bug makes the function constant, so the only regression pass is a coincidence. The suite has no non-trivial input that the bug leaves correct."
+  },
+  {
+   "problem_id": "fixture-has_duplicates-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "len(set) can never exceed len, so the buggy code always returns False. [1,2,1] and [3,3] fail, and [] and [1,2] pass. Correct and realistic, and 'comparison' fits. The regression passes are exactly the negative cases, which is expected for a constant-False bug."
+  },
+  {
+   "problem_id": "fixture-sign-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "The final 'return 1' makes 0 return 1, so only test 3 fails. Correct. This authored bug is the variant that the v3 behavioural dedup correctly kept over the equivalent n>=0 mutant fce1582."
+  }
+ ],
+ "fibonacci_flag": {
+  "decision": "ACCEPTABLE",
+  "reason": "The behavior text states the indexing convention (F(0)=0, F(1)=1). That is a definition, not a leak. Without it the task is ambiguous between 0-based and 1-based Fibonacci, and question 1 (unambiguous behavior) would fail. A test checking a property the specification states outright reveals nothing beyond the task. It is the same kind of statement as 'product: 1 for an empty list', 'longest_run: 0 for an empty list' and 'mean: 0.0 for an empty list'. Those texts also state the exact expected value of a test, and product's authored bug fails that very test. The audit check flags fibonacci only because the statement happens to use call syntax ('fibonacci(0) == 0'). Both rows are in the train split, so no held-out or sealed-evaluator data is exposed. The real cost is smaller: 2 of the 4 tests in each row are effectively public. That weakens the 'four substantive private tests' intent for these rows, and the reward can be partly gamed by special-casing n<=1. It does not expose withheld information.",
+  "remedy": "Do not rephrase the convention just to get past the detector, for example by writing 'F0 is zero'. That keeps the same information while hiding the flag. Before freezing: (1) Keep the behavior text. Add at least two more private tests whose values the prompt does not state, for example fib(3)=2, fib(7)=13 and optionally fib(20)=6765. Each row then has at least four substantive tests beyond the stated convention, and for the authored row the failing set is not dominated by the stated case. Rebuild and rerun the three-repeat verification. (2) Record a reviewed waiver for 'evaluation_view_excludes_test_records' on these two rows. Bind it to the row and test-suite hashes and to this review file by sha256, as the manual exclusion is. Name the tests as 'specification-stated' and do not just suppress the flag. (3) Optionally add a 'spec_stated_test_ids' field and exclude those tests from the 'at_least_four_tests' substantive count. Applying that to empty-input conventions too would keep rows like product consistent. Until (1) and (2) are done, the two rows keep mechanical_pass=false and freezing is NOT_VERIFIED."
+ },
+ "summary": {
+  "reviewed": 6,
+  "accept": 3,
+  "accept_with_note": 3,
+  "reject": 0
+ },
+ "v4_delta_check": "Consistent with my recommendations, with two gaps. Rows: v3 had 71 and v4 has 67. The four dropped rows are binary_search-20482e2cb554, is_sorted-290d5f448936, longest_run-6ba5a35d6b61 and merge_sorted-e86597f49d02. All four carry the reason 'mutant fails only by raising; no wrong returned value'. Nothing was added and no surviving row's content or labels changed. Ledger: 19 entries, which are the 15 from v3 plus those 4. The rotate_left manual exclusion keeps my reason verbatim. configs/data-v4.json binds it to .ai-native/m1-manual-review-v2.json at sha256 5631f696\u2026; I recomputed that hash, and the file holds my REJECT verdict. build.py refuses to build if the file is missing or changed. Crash-only rule: crash_only_mutants() in build.py uses the evidence returned_ids, and I checked it against the v4 evidence files. The only remaining row with a failing test that raises is the authored median bug, which also fails test 2 with a wrong value. Every crash-only mutant in v3 is gone, and the four drops are the ones I flagged by hand. My is_sorted-290d ACCEPT_WITH_NOTE from v2 is now moot. Labels: all 14 mutants are 'easy', and every mutant category follows the edited construct. Counts are consistent: operator 23 to 20, comparison 17 to 16, easy 62 to 58. Carried verdicts: I confirmed that the 44 carried cases are byte-identical (verification excluded) to the content I reviewed in v2 or v3. The verdicts in .ai-native/m1-manual-review-v3.json match what I returned, and none of the carried cases is a REJECT. Gaps: (a) Authored labels from my v2/v3 notes are still not applied. caesar_shift is still medium/operator, chunk, median and transpose are still medium while flatten is easy, rotate_left is algorithm/medium, and fizzbuzz's branch reorder is 'easy'. All 9 medium rows are authored. (b) The crash-only rule exempts authored bugs. That is harmless today, but a future authored crash-only bug would pass silently. Either apply the rule to every row or require an explicit hash-bound authored waiver. The manifest's limitations still correctly say the manual audit has not been performed, and the v4 worksheet's manual_review_status is PENDING.",
+ "cross_cutting_findings": [
+  "No wrong expected values, equivalent bugs or misleading behavior texts were found in the 6 new cases. Every recorded baseline matches a hand trace.",
+  "The test-record leak detector depends on the form of the text. It catches 'fibonacci(0) == 0' but not prose statements of the same expected value, such as 'product: 1 for an empty list'. Make the policy explicit: define 'specification-stated' tests, decide whether they count toward the four-substantive-test minimum, and apply the decision to every row, not only those the regex catches.",
+  "Constant-output bugs leave only coincidental regression passes. gcd 'return b' always gives 0, has_duplicates always gives False, and earlier rows (maximum/minimum on equal pairs, reverse_list and word_lengths on trivial inputs) have the same weakness. The 'preserve regression tests' reward term is nearly free for these rows. I recommended a non-trivial unaffected input in v3; it is still not applied.",
+  "Difficulty remains tied to origin rather than to the edit. The same edit is 'easy' for mutants and 'medium' for authored rows of the same function: binary_search mutant easy vs authored lo<hi medium, and longest_run, median and merge_sorted likewise. Before scaling, recompute authored labels under the same fixed rule and store the rationale in the row.",
+  "Scope and method: I read the 6 new rows, both fibonacci rows, the v4 manifest and ledger, configs/data-v4.json, build.py (crash_only_mutants and the manual-exclusion binding), audit.py (the leak check) and the v4 evidence returned_ids/passed_ids, and compared v3 and v4 rows. No fixture code was executed and no files were modified. The v4 worksheet sha256 is 060449e942d6e4f466334ae8a87a40418a5bdb4e9b3aa20663fccebcfce8a540. Not covered: the 17 accepted v4 rows outside the sample, sandbox execution integrity beyond reading the evidence files, and GPU/training gates. The reviewer is from the same model family as the author and is not a human reviewer, so a human spot-check is still advisable before the audit counts as fully independent."
+ ],
+ "worksheet": ".ai-native/m1-audit-v4.json",
+ "worksheet_sha256": "060449e942d6e4f466334ae8a87a40418a5bdb4e9b3aa20663fccebcfce8a540"
+}

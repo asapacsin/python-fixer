@@ -1,0 +1,276 @@
+{
+ "reviewer": "independent agent reviewer (Opus 5.5, high effort, read-only)",
+ "cases": [
+  {
+   "problem_id": "fixture-absolute-v1-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "Expected values are correct. Buggy code returns -2 for -2, -2 for 2, 0 for 0 and -3 for -3, so failing 1,2,4 and passing 3 matches the baseline. The edit only flips a comparison, so 'branch' could equally be 'comparison'. Test 3 (zero) is the only regression test."
+  },
+  {
+   "problem_id": "fixture-binary_search-v2-da1b555b76a6",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "The != mutant returns mid=1 on the first probe for tests 1-3 and returns -1 for [2],2. The empty-list test passes. Baseline is consistent and expected values are correct. Behavior does not say which index to return when xs has duplicates (no test has any). The 'medium' label comes from the seed, not from this one-token edit."
+  },
+  {
+   "problem_id": "fixture-caesar_shift-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "With %25, 'xyz'+3 gives 'bbc' instead of 'abc' and the other tests are unaffected, so the baseline is right. Changing the constant 26 to 25 is a constant/boundary error, not an 'operator' bug. 'Medium' does not fit one local constant edit. Only one test exercises wraparound, and the sign of k is not specified."
+  },
+  {
+   "problem_id": "fixture-capitalize_words-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "Buggy output is 'Hllo Wrld' and 'Ac Df'. '' and 'a' pass, so the baseline is right. Behavior promises single-space joining, but no test has repeated or leading whitespace. 'First letter' really means the first character (w[:1]), which is ambiguous for words starting with a non-letter. This is untested."
+  },
+  {
+   "problem_id": "fixture-chunk-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "range(0,len-1,size) drops [3] from [1,2,3] and returns [] for [1]. [1,2,3,4] and [] pass, so the baseline is right. The precondition size>0 is not stated. 'Medium' is questionable for one local range-bound edit."
+  },
+  {
+   "problem_id": "fixture-chunk-v2-c09f2ed58720",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "xs[i:i-size] gives [[1,2],[]], [[1],[]] and [[]], all wrong values with no crash. [] passes. Baseline is consistent and the category 'operator' is correct. The mutant is synthetic and not very realistic. 'Medium' is inherited from the seed."
+  },
+  {
+   "problem_id": "fixture-clamp-v1-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "max(n,lo) gives 6 and 7, failing tests 3 and 4, and passes tests 1 and 2. Baseline and expected values are correct. Boundary coverage is weak: no test has n==lo, n==hi or lo==hi, and tests 3 and 4 are redundant above-hi cases."
+  },
+  {
+   "problem_id": "fixture-contains-v1-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "xs[1:] misses the first element, so tests 3 and 4 fail and tests 1 and 2 pass. Baseline is right. The only False expectation uses an empty list. No test checks a value absent from a non-empty list."
+  },
+  {
+   "problem_id": "fixture-count_char-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "The buggy code counts non-matching characters. 'banana' still gives 3 by coincidence, because it has 3 a's and 3 other letters. 'abc'/'z' gives 3 and 'aaa' gives 0, both failures. Baseline is right, but regression test 1 passes only by coincidence, so the regression signal is weak."
+  },
+  {
+   "problem_id": "fixture-count_digits-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "n>10 fails at the 10 and 100 boundaries (results 1 and 2). 0, 5 and 999 pass. Good boundary tests and correct expected values."
+  },
+  {
+   "problem_id": "fixture-count_equal-v1-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "x<target gives 0 for [1],1 and 1 for [0,1,1],1, so tests 3 and 4 fail and tests 1 and 2 pass. Baseline and expected values are correct."
+  },
+  {
+   "problem_id": "fixture-count_in_range-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "lo<x drops the inclusive lower bound, giving 2 and 0 for tests 1 and 4. Tests 2 and 3 pass. Good inclusive-boundary coverage."
+  },
+  {
+   "problem_id": "fixture-count_vowels-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "Without .lower(), 'AEIOU' gives 0. The other tests pass, so the baseline is right. The bug is a missing normalization, so 'branch' is a loose category. There is no mixed-case test."
+  },
+  {
+   "problem_id": "fixture-dedupe-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "'x in seen' never appends, so the result is always []. Tests 1, 3 and 4 fail and [] passes. Correct and realistic negated condition."
+  },
+  {
+   "problem_id": "fixture-digit_sum-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "n//10 gives 13 for 123, 4 for -45 and 0 for 7. 0 passes. Baseline and expected values are correct."
+  },
+  {
+   "problem_id": "fixture-factorial-v1-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "range(1,n) gives 2 for 3 and 6 for 4. 0 and 1 pass. Correct off-by-one with a correct baseline."
+  },
+  {
+   "problem_id": "fixture-factorial-v1-9339b3bf7297",
+   "verdict": "ACCEPT",
+   "notes": "range(1,n-1) gives 1 for 3 and 2 for 4. 0 and 1 give empty ranges and pass. Its text differs from the authored range(1,n) bug. Category 'operator' is correct."
+  },
+  {
+   "problem_id": "fixture-fibonacci-v2-1b2fd5542a41",
+   "verdict": "ACCEPT",
+   "notes": "a-b gives -1 for n=2 and does not give 55 for n=10. n=0 and n=1 pass. fib(10)=55 is correct."
+  },
+  {
+   "problem_id": "fixture-fizzbuzz-v2-f054c9031364",
+   "verdict": "ACCEPT",
+   "notes": "%3!=0 gives '3' for 3 and 'Fizz' for 5 and 7. 15 still hits the first branch and passes. Baseline is correct."
+  },
+  {
+   "problem_id": "fixture-flatten-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "'return xss' fails tests 1, 3 ([[]] vs []) and 4, and [] passes. Baseline is right. This is a stub bug whose fix means re-implementing the function. It is labelled easy, while the identical stub bug in transpose is labelled medium."
+  },
+  {
+   "problem_id": "fixture-is_even-v1-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "%3 gives False for 2 and True for 3. 0 and 6 pass, since both are divisible by 2 and 3. Baseline is right. Changing the literal 2 to 3 is not an 'operator' change. Negative inputs are not tested."
+  },
+  {
+   "problem_id": "fixture-is_palindrome-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "s[::1] is always True, so 'abc' and 'ab' fail and 'aba' and '' pass. Dropping the unary minus counts as an operator change. Comparison is case-sensitive, which is consistent with the behavior."
+  },
+  {
+   "problem_id": "fixture-is_prime-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "i*i<n misses perfect squares, so 9 and 4 wrongly return True. 2, 1 and 13 pass. Good boundary tests."
+  },
+  {
+   "problem_id": "fixture-is_sorted-v2-1b481f058d40",
+   "verdict": "ACCEPT",
+   "notes": "xs[i-1] compares against the wrapped or previous element. [1,2,2] and [1,2,3] give False and fail. [] and [2,1] give the expected True and False. Baseline is right."
+  },
+  {
+   "problem_id": "fixture-is_sorted-v2-290d5f448936",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "range(len+1) raises IndexError for [1,2,2], [] and [1,2,3]. [2,1] passes only because all() short-circuits before the out-of-range index. Baseline is right. The bug fails by raising, not by returning a wrong value. That is a realistic off-by-one."
+  },
+  {
+   "problem_id": "fixture-is_sorted-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "Strict < fails only on [1,2,2], the non-decreasing invariant. The other tests pass. Correct, though only one test discriminates."
+  },
+  {
+   "problem_id": "fixture-last_item-v1-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "xs[0] fails tests 3 and 4. [] and [1] pass. Correct."
+  },
+  {
+   "problem_id": "fixture-longest_run-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "Resetting current to 0 gives 2 for [1,1,2,2,2]. [], [7] and [1,2,3] still give 0, 1 and 1. Category 'initialization' and difficulty 'medium' (reset inside a loop and branch) are plausible."
+  },
+  {
+   "problem_id": "fixture-longest_run-v2-dfcbc3f4926b",
+   "verdict": "ACCEPT",
+   "notes": "The != mutant gives 2 for [1,1,2,2,2] and 3 for [1,2,3]. [] and [7] pass. Baseline is right."
+  },
+  {
+   "problem_id": "fixture-mean-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "// gives 1, 2 and 2 for tests 1, 3 and 4. Test 3 fails only because exact_equal compares canonical JSON, so int 2 != float 2.0. That fits 'as a float' but is a subtle, type-only failure. [] passes."
+  },
+  {
+   "problem_id": "fixture-median-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "s[mid]+s[mid+1] gives 3.5 for [1,2,3,4] and raises IndexError for [4,1]. Odd-length tests pass. Baseline is right. One failure is a crash. 'Medium' is inherited from the seed."
+  },
+  {
+   "problem_id": "fixture-median-v2-34d4437b4580",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "s[mid+1]+s[mid] behaves the same as the authored bug s[mid]+s[mid+1], because addition is commutative: same outputs, same IndexError, same baseline. Text-only dedup did not catch it. The repair edit differs, but it adds little new behavior."
+  },
+  {
+   "problem_id": "fixture-median-v2-e6f1ac74d664",
+   "verdict": "ACCEPT",
+   "notes": "Subtraction gives -0.5 and -1.5 for the even-length tests. Odd-length tests pass. Baseline and category are correct."
+  },
+  {
+   "problem_id": "fixture-merge_sorted-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "Dropping b[j:] gives [1,2,3] and []. [1,2],[] and [5],[1,2] still give the correct results. Baseline is right and the bug is realistic."
+  },
+  {
+   "problem_id": "fixture-merge_sorted-v2-e86597f49d02",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "i<=len(a) reads a[len(a)] and raises IndexError for tests 1 and 2. Tests 3 and 4 end the loop because j reaches len(b). Baseline is right, but every failure is a crash rather than a wrong value. Realistic off-by-one."
+  },
+  {
+   "problem_id": "fixture-pairwise_diff-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "Reversed operands give [-3,-2]. The other tests pass, including [2,2], which gives 0 either way. Only test 1 discriminates, which is a weak suite. Swapped operands are not really an 'operator' bug."
+  },
+  {
+   "problem_id": "fixture-pairwise_diff-v2-c3a62c782952",
+   "verdict": "ACCEPT",
+   "notes": "+ gives [5,10] and [4]. [] and [5] pass. Baseline is right."
+  },
+  {
+   "problem_id": "fixture-pairwise_diff-v2-f1caf879c560",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "xs[i-1] wraps to give [5,-3] for [1,4,6]. [2,2] still gives [0]. Baseline is right. Only test 1 discriminates."
+  },
+  {
+   "problem_id": "fixture-power_two-v1-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "2*n matches 2**n for n=1 and n=2 and gives 0 and 6 for n=0 and n=3. Baseline is right and the tests are well chosen."
+  },
+  {
+   "problem_id": "fixture-prefix-v1-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "xs[-n:] gives [3] and [2,3]. [],0 and [1],1 pass. Baseline is right. The classic xs[-0:] trap (n=0 on a non-empty list) and n>len are untested."
+  },
+  {
+   "problem_id": "fixture-remove_value-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "== keeps only the matches, so tests 1, 3 and 4 fail and [] passes. Correct."
+  },
+  {
+   "problem_id": "fixture-rotate_left-v2-0ec61f37bdc1",
+   "verdict": "REJECT",
+   "notes": "list - list raises TypeError on every non-empty input. The only passing test is the early-return []. The program is ill-typed on every non-trivial path, never yields a wrong value, and fails no semantic assertion. Spec 02 excludes syntax-error mutations as weak repair evidence, and this is the runtime analogue. It is unrealistic, and 'medium' does not fit."
+  },
+  {
+   "problem_id": "fixture-running_max-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "x<best gives [1,1,1] and [2,1,1]. [] and [5] pass. Baseline and expected values are correct."
+  },
+  {
+   "problem_id": "fixture-safe_divide-v1-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "b/a gives 0.5 for tests 3 and 4. Tests 1 (2,2) and 2 (0,0) pass only because they are symmetric. The key boundary b==0 with a!=0 is untested, and the buggy code would return 0.0 there. One line carries two coordinated edits (operand swap plus guard), so 'operator' is a loose category."
+  },
+  {
+   "problem_id": "fixture-sign-v2-5552bb7b2db3",
+   "verdict": "ACCEPT",
+   "notes": "n<=0 returns -1 for 0, failing test 3. The other tests pass. Correct boundary mutant."
+  },
+  {
+   "problem_id": "fixture-sign-v2-fce1582ed832",
+   "verdict": "ACCEPT",
+   "notes": "n>=0 returns 1 for 0, failing test 3. The other tests pass. Correct."
+  },
+  {
+   "problem_id": "fixture-sum_list-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "xs[1:] gives 5, 1 and 0 for tests 2-4. [] passes. Correct."
+  },
+  {
+   "problem_id": "fixture-sum_of_squares-v2-116337d5c630",
+   "verdict": "ACCEPT",
+   "notes": "i+i gives 2, 12 and 6 for n=1, 3 and 2. n=0 passes. Expected values 14 and 5 are correct."
+  },
+  {
+   "problem_id": "fixture-sum_of_squares-v2-2bec0df63097",
+   "verdict": "ACCEPT",
+   "notes": "range(1,n) gives 0, 5 and 1 for n=1, 3 and 2. n=0 passes. Correct off-by-one."
+  },
+  {
+   "problem_id": "fixture-transpose-v2-2bec0df63097",
+   "verdict": "ACCEPT_WITH_NOTE",
+   "notes": "'return m' fails tests 1 and 3. [] and [[5]] pass because they are self-transposing. Baseline is right. This is the same stub bug as flatten, which is labelled easy while this one is medium. [[]] is untested."
+  }
+ ],
+ "summary": {
+  "accept": 27,
+  "accept_with_note": 22,
+  "reject": 1
+ },
+ "cross_cutting_findings": [
+  "No wrong expected values were found. Every one of the roughly 210 test expectations was recomputed by hand. Every recorded failed/passed baseline in the sample matches a hand trace of the buggy code. The comparator is canonical-JSON exact_equal (src/python_fixer/data/../sandbox/gateway.py), so int and float are distinct (2 != 2.0). The mean case relies on that.",
+  "Difficulty labels do not follow the bug. build.py line 77 copies seed['difficulty'] to every mutant. The 2026-11-23 fix made the category follow the edited construct but left difficulty inherited from the seed. Every case in the sample is a single-line edit. Under the strict rule (easy = one local edit), most 'medium' labels are wrong: binary_search, caesar_shift, chunk x2, median x3, rotate_left, transpose. Labels are also inconsistent for identical bug shapes: the 'return input' stub is easy for flatten but medium for transpose, and a constant edit is easy for is_even but medium for caesar_shift. Recommend a per-variant difficulty rule and recording the label rationale in the row.",
+  "Authored bug_category is still free-form and sometimes contradicts the mutant rule. caesar_shift (26->25) and is_even (2->3) are literal/constant edits labelled 'operator'. pairwise_diff and safe_divide are operand swaps labelled 'operator'. absolute is a comparison flip labelled 'branch'. count_vowels is a missing normalization labelled 'branch'. Recommend a fixed rule for authored rows too, covering constant, operand-order and missing-transform cases.",
+  "Dedup works on text only. median-v2-34d4437b4580 (s[mid+1]+s[mid]) computes the same function as the authored median bug (s[mid]+s[mid+1]). Consider also dedup on the per-test outcome signature, or flag such duplicates.",
+  "Runtime-error mutants. Five of the 50 cases fail at least partly by raising: is_sorted range+1, merge_sorted <=, the median authored bug, median +1, and rotate_left. The first four are realistic off-by-one index bugs and are acceptable with a note. rotate_left (list - list) is ill-typed on every non-empty input and was rejected. Recommend a filter that drops mutants which raise TypeError on every non-trivial test.",
+  "Test suites mostly sit at the 4-test minimum with tiny inputs, and several have only one discriminating test: pairwise_diff x2, is_sorted '<', and sign. Some regression passes are coincidental: count_char 'banana', safe_divide (2,2), and is_even 0/6. Notable boundaries are untested: clamp at the exact bounds, safe_divide with b==0 and a!=0, prefix with n=0 on a non-empty list, contains with an absent value, capitalize_words whitespace collapsing, and binary_search duplicates. Recommend at least 5-6 tests, including one per stated boundary in the behavior text.",
+  "Behavior texts leave preconditions implicit (chunk size>0, caesar_shift k sign, binary_search duplicates, capitalize_words 'first letter' vs first character). None conflicts with a test, but these should be tightened before scaling.",
+  "The sample is concentrated in a few families: is_sorted x3, median x3, pairwise_diff x3, and 2 each for chunk, factorial, longest_run, merge_sorted, sign and sum_of_squares. 50 of 74 accepted rows is about 68% coverage, so this review covers most of the dataset, but the effective diversity is about 35 functions.",
+  "Scope and method: the worksheet's sha256 (09379cf5...4759c35) matches docs/m1-data-audit.md. Review was by reading the code only. No fixture code was executed and no files were modified. This review does not cover the 24 accepted rows outside the sample, the 12 rejected mutants, sandbox execution evidence, or the GPU/training gates."
+ ],
+ "worksheet": ".ai-native/m1-audit-v2.json",
+ "worksheet_sha256": "09379cf5a907ccaa2c35566cd8706ed82c8836b6c74181a3d9cf0810b4759c35",
+ "manifest_pin": "230a246f8fd5b53ca428a3f0b30d2ed2fbe47ce6b5587cfea4330105b40d44ad",
+ "reviewer_independence": "fresh agent with no authorship context, same model family as the author; designated by the user; not a human reviewer",
+ "method": "read-only, by hand; no fixture code executed"
+}

@@ -1,0 +1,41 @@
+{
+ "recorded_utc": "2026-11-24T00:09:23Z",
+ "head": "881488566e082a7c315f778a0908ecb925faf023",
+ "working_tree_clean": true,
+ "configs": {
+  "configs/data-v4.json": "88a7b7c9658313db4c8cd81587c7c9b7dea5ae71e94fa1754d0728cdadc6b213",
+  "configs/sandbox.json": "15adf3392bf9061065d6c28df148181766c8c67f2955d075ea512586c6454bf6"
+ },
+ "preflight": {
+  "file": ".ai-native/m1-preflight-v4.json",
+  "sha256": "4c620caa1117ede24bd7e911460be0c571369361d98552cb84479085d01c47f7",
+  "status": "PASS",
+  "checks": 32,
+  "policy_sha256": "186bc39b5e7c2f678a14cbb2af6329a8b824b960579224f7ec83c014cbd49d25"
+ },
+ "dataset": {
+  "path": "artifacts/data/m1-fixtures-v4",
+  "manifest_pin": "63a2ac62b060d6d74a886b284d0a71a7b8499accd24c45c88927d68be0a331d6",
+  "builder_commit": "8814885",
+  "rebuild": "artifacts/data/m1-fixtures-v4-rebuild",
+  "rebuild_equal_fields": "content_plan, split_membership, source, config, builder_source, split/category/difficulty counts, rejected",
+  "accepted": 67,
+  "rejected": 19
+ },
+ "audit": {
+  "file": ".ai-native/m1-audit-v4.json",
+  "sha256": "060449e942d6e4f466334ae8a87a40418a5bdb4e9b3aa20663fccebcfce8a540",
+  "mechanical": "48/50",
+  "flagged": [
+   "fixture-fibonacci-v2-1b2fd5542a41",
+   "fixture-fibonacci-v2-2bec0df63097"
+  ],
+  "flag": "behavior text states fibonacci(0)==0 and fibonacci(1)==1, matching tests 1-2"
+ },
+ "gates": {
+  "unit": "OK",
+  "validate_repository": "PASS",
+  "run_cpu_checks": "PASS",
+  "preflight": "PASS 32/32"
+ }
+}

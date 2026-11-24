@@ -1,0 +1,45 @@
+{
+ "recorded_utc": "2026-11-23T15:11:42Z",
+ "head": "156bdeda2de50e0a69c9716be934f6d3c09b934f",
+ "working_diff_sha256": "7d55896672a7ff1a112cf95cd9e9cf96036538b9a4d26e2c64cb5aa085303b8c",
+ "untracked_sha256": {
+  "configs/data-v3.json": "4a153904b03a9c1ffb5b38a4bab4643ca2960d2f31e2c0520f5493cfcfaf8917",
+  "docs/m1-security-coverage.md": "8e12e664296452766ed4ef60ee9ba8542486d6c10b87292ae9d2cb0b29ce1a44"
+ },
+ "configs": {
+  "configs/data-v3.json": "4a153904b03a9c1ffb5b38a4bab4643ca2960d2f31e2c0520f5493cfcfaf8917",
+  "configs/sandbox.json": "15adf3392bf9061065d6c28df148181766c8c67f2955d075ea512586c6454bf6"
+ },
+ "preflight": {
+  "file": ".ai-native/m1-preflight-v3.json",
+  "sha256": "365193eaf174b50b7beaed0cac9128d9427346ac7f9339261f952d9bae72c077",
+  "status": "PASS 29/29",
+  "policy_sha256": "2dc7000f599050617743d38a1353de59e889f3b2d18b3249c428f04365ae5fde"
+ },
+ "pids_negative": {
+  "file": ".ai-native/m1-pids-limit-negative.json",
+  "sha256": "49bafd4459b43479d296e722dd008dc3bc5fbd7276223076c191c2d3ad7e2ae7"
+ },
+ "dataset": {
+  "path": "artifacts/data/m1-fixtures-v3",
+  "manifest_pin": "d68a564d28ac640461b2e09495016e752f31a48f452b1adef4312ec46ea94f1b",
+  "rebuild": "artifacts/data/m1-fixtures-v3-rebuild",
+  "accepted": 71,
+  "rejected": 15
+ },
+ "audit": {
+  "file": ".ai-native/m1-audit-v3.json",
+  "sha256": "e5ad3d37daf85fc689ea66b665bce740c864fb3b4d738dc94f9fadcf0754a615",
+  "mechanical": "50/50"
+ },
+ "reviews": {
+  "manual_v2": ".ai-native/m1-manual-review-v2.json",
+  "code_r1": ".ai-native/m1-code-review-r1.md"
+ },
+ "gates": {
+  "unit": "OK",
+  "validate_repository": "PASS",
+  "run_cpu_checks": "PASS",
+  "preflight": "PASS 29/29"
+ }
+}
