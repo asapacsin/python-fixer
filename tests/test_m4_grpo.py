@@ -82,6 +82,8 @@ class GRPOTrainerTests(unittest.TestCase):
             self.grpo.grpo_config(bad, "/tmp/unused")
         with self.assertRaises(ValueError):
             self.grpo.grpo_config(cpu_config(GRPO), "/tmp/unused", steps_per_generation=4)
+        with self.assertRaises(ValueError):
+            self.grpo.grpo_config(cpu_config(GRPO), "/tmp/unused", num_iterations=2)
 
     def _run(self, scorer, steps=2):
         from peft import LoraConfig

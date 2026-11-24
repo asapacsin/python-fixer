@@ -13,7 +13,7 @@ tokenizer behaviour.
 |---|---|---|
 | M3 SFTTrainer/PEFT adapter, label masks, checkpoint/resume | `training/sft.py` | `test_m3_sft.py` (8 tests): prompt prefix, one EOS, masked prompt/pad labels on collated batches, only LoRA trainable, base hashes unchanged, finite falling toy loss, resume from step 3 equals uninterrupted step 6, adapter reload logits |
 | M3 hash-locked environment | `requirements-train.lock` | torch 2.8.0, transformers 4.56.2, trl 0.23.1, peft 0.17.1 (64 packages) install with `--require-hashes` (Python 3.12, linux x86_64) |
-| M4 reward callback, metadata/group alignment | `training/grpo.py` | `test_m4_grpo.py` (9 tests): order kept, invalid output -0.5, faults abort, mixed groups abort, degenerate-group ledger |
+| M4 reward callback, metadata/group alignment | `training/grpo.py` | `test_m4_grpo.py` (9 tests incl. num_iterations guard): order kept, invalid output -0.5, faults abort, mixed groups abort, degenerate-group ledger |
 | M4 GRPOTrainer adapter, Dr. GRPO settings | `training/grpo.py` | equal rewards give no LoRA change at beta=0; mixed rewards change LoRA; base frozen |
 | M4 real-sandbox integration (CPU) | `scripts/m4_cpu_smoke.py` | reference 1.0, buggy 0.0, malformed -0.5 through real runsc + mTLS; 2 GRPO updates; random model groups all-fail (zero advantage, as specified) |
 | M5 budget, verified checkpoints, earliest-tie selection, manifests | `training/runs.py` | `test_m5_runs.py`: 8,000-candidate arithmetic, hard cap before scoring, partial/tampered checkpoints skipped |
@@ -28,4 +28,4 @@ tokenizer behaviour.
   M6 held-out scoring; M7 reproduction on a replacement node.
 - A larger licensed dataset for a meaningful benchmark (v7 is a 67-case pipeline set).
 - Separate CPU sandbox worker before any GPU trainer (ADR-002).
-- Independent review of this slice: NOT_VERIFIED.
+- Read-only LLM review of this slice: PASS, two non-blocking findings fixed (advisory, not independent per AGENTS rule 7).

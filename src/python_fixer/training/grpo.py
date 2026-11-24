@@ -94,6 +94,10 @@ def grpo_config(cfg: dict, output_dir: str, **overrides):
         raise ValueError("spec 04 requires loss_type=dr_grpo and remove_unused_columns=False")
     if "steps_per_generation" in args and "generation_batch_size" in args:
         raise ValueError("set generation_batch_size or steps_per_generation, not both")
+    if args.get("num_iterations", 1) != 1:
+        raise ValueError("spec 04 primary arm uses one update per generation (num_iterations=1)")
+    if "generation_batch_size" not in args:
+        raise ValueError("generation_batch_size is required (spec 04 budget arithmetic)")
     if args["generation_batch_size"] % args["num_generations"]:
         raise ValueError("generation batch must be divisible by num_generations")
     args.setdefault("seed", cfg.get("seed", 17))
