@@ -9,6 +9,14 @@ complete outcome-to-reward map. It did not re-audit fixtures, splits or docs, an
 relies on rounds 1-5 for those. One non-blocking finding: a signal death during parsing
 scores 0 instead of -0.5 (no positive reward, never observed). Python 3.13 is outside
 `requires-python` and its stricter TLS defaults break the local mTLS tests.
+v7 reproduction (2026-11-24, this container): with the user-committed evidence in
+`verification/evidence/m1-v7/` (SHA256SUMS verified; freeze record sha256 matches
+`bf107516…f06b`), a rebuild of `configs/data-v7.json` matched the frozen manifest on
+content-plan, split-membership, source, config and builder-source hashes, counts and
+rejected set (67 accepted / 19 rejected). The dataset hash differs only through embedded
+runtime evidence. One earlier attempt, started right after dockerd came up, rejected
+`binary_search` (reference failed a test) once. Five isolated reruns and the full rebuild
+passed. This is recorded as an observed transient, not hidden.
 Not exercised: dedicated worker + operator mTLS, hosted CI, human review.
 Current pointers: [m1-data-audit.md](m1-data-audit.md),
 [m1-security-coverage.md](m1-security-coverage.md), ADR-002.
