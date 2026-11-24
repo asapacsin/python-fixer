@@ -26,3 +26,11 @@ For M1 only, the ephemeral cloud session container runs the runsc worker
   deployment (`python -m python_fixer.sandbox.server`) is still unexercised.
 - `configs/sandbox.json` keeps `"location": "separate_cpu_worker"` as the target
   for later milestones. This ADR is the documented M1 exception.
+
+Operator-mTLS deployment (2026-11-24): `python -m python_fixer.sandbox.server` ran as a
+separate process on real runsc, loading the rebuilt v7 train partition by operator-pinned
+manifest digest, with a disposable operator CA and TLS client authentication required.
+Through `RewardClient`: reference candidates for 3 train problems scored 1.0, their bugs 0.0,
+a forbidden-read attack -1.0, and a CA-signed client whose name was not allowed was rejected.
+Evidence `.ai-native/mtls-deploy-20261124.json`. Still the session container, not a
+separate machine; that move remains required before M3/M4 per this ADR.

@@ -17,7 +17,7 @@ rejected set (67 accepted / 19 rejected). The dataset hash differs only through 
 runtime evidence. One earlier attempt, started right after dockerd came up, rejected
 `binary_search` (reference failed a test) once. Five isolated reruns and the full rebuild
 passed. This is recorded as an observed transient, not hidden.
-Hosted CI (`.github/workflows/ci.yml`, Python 3.11 and 3.12, static + unit gates) passes on this branch. Not exercised: dedicated worker + operator mTLS, human review.
+Hosted CI (`.github/workflows/ci.yml`, Python 3.11 and 3.12, static + unit gates) passes on this branch. Operator-mTLS gateway deployment exercised on real runsc (see ADR-002). Not exercised: separate worker machine (required before M3/M4), human review.
 Current pointers: [m1-data-audit.md](m1-data-audit.md),
 [m1-security-coverage.md](m1-security-coverage.md), ADR-002.
 No GPU, model weights, model generation or training was used.
