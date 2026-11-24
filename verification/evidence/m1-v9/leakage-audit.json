@@ -1,0 +1,26 @@
+{
+ "split_counts": {
+  "test": 30,
+  "train": 391,
+  "validation": 32
+ },
+ "families": 279,
+ "authored_rejected": [],
+ "data_access_issues": [],
+ "contamination_flagged": [],
+ "max_overlap": 0.21428571428571427,
+ "heldout_difficulty": {
+  "easy": 27,
+  "medium": 20,
+  "hard": 15
+ },
+ "heldout_category": {
+  "branch": 7,
+  "boundary": 10,
+  "operator": 8,
+  "comparison": 17,
+  "algorithm": 17,
+  "initialization": 2,
+  "return": 1
+ }
+}

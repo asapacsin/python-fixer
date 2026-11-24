@@ -156,3 +156,23 @@ python -m python_fixer.data.audit --dataset artifacts/data/m1-fixtures-v3 \
 - Limits: still small for a confirmatory benchmark (36 held-out problems). Same author
   for functions, tests and bugs, so a human spot-check of the new functions is advisable.
   Manual review of v8 is NOT_VERIFIED.
+
+## v9: 299 authored functions (2026-11-24)
+
+- Source `authored-fixtures-v4` = v3 + **130 more authored CC0 functions**
+  (`fixtures_v4.json`), same rules as v8: hand-written expected values, and each bug
+  fails at least one test and passes at least one.
+- Config `configs/data-v9.json`; frozen copy in `verification/evidence/m1-v9/`
+  (SHA256SUMS). Accepted 453 / rejected 149 (**all 299 authored pairs accepted**;
+  rejections are mutants plus the v2 manual exclusion). Splits: train 391 /
+  validation 32 / test 30; 279 families. Held-out difficulty: easy 27, medium 20,
+  hard 15. All 7 bug categories are represented.
+- Fixed before freezing: `knight_moves` used `ord`/`chr`, which are not in the sandbox
+  builtin allowlist; `three_sum_zero` lacked a test that exposed its bug; two pairs
+  were grouped as one family after the 13-gram audit (`digits_to_words`+`number_words`,
+  `intersect_sorted`+`merge_sorted`).
+- Leakage audit (`leakage-audit.json`): no data-access issues; max held-out/train
+  13-gram overlap 0.21, none flagged.
+- Limits: 62 held-out problems. Detecting a 5-point paired difference still needs
+  more, and power must be estimated from validation (M2). All functions, tests and bugs
+  have the same author: human spot-check of v8/v9 is NOT_VERIFIED.

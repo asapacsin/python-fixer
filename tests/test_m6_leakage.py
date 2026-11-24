@@ -38,14 +38,14 @@ class LeakageTests(unittest.TestCase):
         self.assertIn(self.test[0]["problem_id"], report["flagged"])
 
 
-class FrozenV8Tests(unittest.TestCase):
-    def test_v8_has_no_heldout_leak_or_cross_split_clone(self):
-        d = ROOT / "verification/evidence/m1-v8/m1-fixtures-v8"
-        rows = lambda n: [json.loads(l) for l in (d / n).read_text().splitlines() if l]
-        train, held = rows("train.jsonl"), rows("validation.jsonl") + rows("test.jsonl")
-        inputs = [json.dumps(v["prompt"]) + v["completion"] for v in (model_view(r, "sft") for r in train)]
-        self.assertEqual(leakage.data_access_audit(train, held, inputs), [])
-        self.assertEqual(leakage.contamination_report(held, [r["reference_code"] for r in train])["flagged"], [])
+class FrozenDatasetTests(unittest.TestCase):
+    def test_v8_and_v9_have_no_heldout_leak_or_cross_split_clone(self):
+        for d in (ROOT / "verification/evidence/m1-v8/m1-fixtures-v8", ROOT / "verification/evidence/m1-v9/m1-fixtures-v9"):
+            rows = lambda n: [json.loads(l) for l in (d / n).read_text().splitlines() if l]
+            train, held = rows("train.jsonl"), rows("validation.jsonl") + rows("test.jsonl")
+            inputs = [json.dumps(v["prompt"]) + v["completion"] for v in (model_view(r, "sft") for r in train)]
+            self.assertEqual(leakage.data_access_audit(train, held, inputs), [], d.name)
+            self.assertEqual(leakage.contamination_report(held, [r["reference_code"] for r in train])["flagged"], [], d.name)
 
 
 class ArtifactCheckTests(unittest.TestCase):

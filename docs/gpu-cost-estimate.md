@@ -9,7 +9,7 @@ the 50-step GPU profile. Nothing here is authorized yet (AGENTS rule 13).
 | Arm | Seeds | Work per seed | Total |
 |---|---|---|---|
 | E0, E0-P (baseline eval) | 1 | greedy + sampled on validation/test | small |
-| E1 SFT | 3 | v7: 53 train rows x 2 epochs = 106 examples (~7 updates at 16/update) | ~21 updates |
+| E1 SFT | 3 | v9: 391 train rows x 2 epochs = 782 examples (~49 updates at 16/update) | ~147 updates |
 | E2 GRPO | 3 | 500 updates x 16 candidates = 8,000 candidates, <=512 new tokens each | 24,000 candidates |
 | E3 GRPO | 3 | same as E2 | 24,000 candidates |
 
@@ -17,7 +17,9 @@ RL generation upper bound: 48,000 candidates x 512 tokens = 24.6M generated toke
 (plus prompts <=1,536 tokens). `runs.planned_candidates` reproduces the 8,000 figure
 from `configs/grpo.json`, and `runs.CandidateBudget` enforces it.
 
-With the 67-case v7 fixture set, E1 and the evaluation arms are too small to be a
+v9 (299 authored functions, 62 held-out) supersedes the 67-case v7 set. Held-out power
+is still limited, so it should be estimated from validation in M2. The rest of this note was written for v7:
+E1 and the evaluation arms there were too small to be a
 meaningful benchmark (spec 02). A research run needs the larger licensed dataset first.
 That is CPU/data work, but it needs a source licensing decision from the owner.
 
