@@ -1,15 +1,37 @@
 # M1 pre-scaling data audit (spec 02)
 
-Status (2026-11-23): **v3 frozen candidate built and mechanically audited 50/50;
-manual review by the user-designated agent reviewer covers the v2 sample, with v3
-deltas pending that reviewer's second pass.** No fixture code was executed or
-compiled by the audit tool; all execution evidence comes from the runsc build.
+Status (2026-11-24): **v4 frozen candidate built from committed code (`8814885`),
+deterministic on rebuild, mechanically audited 48/50 with 2 flags sent to manual
+review; manual and code re-review (round 3) pending.** No fixture code was executed
+or compiled by the audit tool; all execution evidence comes from the runsc build.
 
 Reviewer identity, stated plainly: the user designated a fresh Opus 5.5 agent at
 high effort, run read-only with no authorship context. It is the same model family
 as the author and **not a human reviewer**.
 
-## Frozen candidate: v3
+## Frozen candidate: v4
+
+- Config `configs/data-v4.json` (v3 plus the exclusion bound to review SHA-256);
+  `artifacts/data/m1-fixtures-v4`, manifest pin
+  `63a2ac62b060d6d74a886b284d0a71a7b8499accd24c45c88927d68be0a331d6`, builder commit
+  `8814885` (tree matches `builder_source_sha256`), policy `186bc39b…9d25`.
+- Rebuild `artifacts/data/m1-fixtures-v4-rebuild` (retained, same author) matches on
+  content plan, split membership, source, config, builder source, all counts and the
+  rejected set.
+- 67 accepted (train 53 / validation 10 / test 4; 48 families). 19 rejected: 12
+  mutants with no failing or no regression test, 4 crash-only mutants (fixed rule),
+  2 behavioural duplicates, 1 manual exclusion. Authored bugs accepted: 53 / 53.
+- Worksheet `.ai-native/m1-audit-v4.json`: 50 cases; 44 carry a manual verdict on
+  identical content (including labels); 6 are new. Mechanical 48/50: both
+  `fibonacci` rows are flagged because the behaviour text states
+  `fibonacci(0) == 0 and fibonacci(1) == 1`, which are tests 1-2. This is the
+  indexing convention, but it is also a verbatim test statement; left for the manual
+  reviewer rather than reworded to satisfy the check.
+
+v3 (below) is superseded: current code no longer builds `configs/data-v3.json`
+(its exclusion lacks `review_sha256`).
+
+## Superseded: v3
 
 - Source `authored-fixtures-v2` (16 v1 + 37 v2 authored CC0 functions), config
   `configs/data-v3.json` (split seed 17, up to 2 mutants per train function,
