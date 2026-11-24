@@ -157,7 +157,7 @@ def validate_repository(root: Path) -> tuple[list[str], list[str]]:
             issues.append("missing required evidence level: " + rid)
     if contract["budgets"]["max_attempts"] > 3 or contract["budgets"]["max_total_seconds"] <= 0:
         issues.append("task budget missing or excessive")
-    if contract["independent_review"]["status"] != "NOT_VERIFIED":
+    if contract["independent_review"]["status"] not in ("NOT_VERIFIED", "WAIVED_BY_OWNER"):
         issues.append("M1 must not claim a review before implementation")
     checks.append("task-requirements-and-budget")
     return issues, checks

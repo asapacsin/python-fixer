@@ -1,9 +1,28 @@
 # M1 CPU implementation and observed readiness
 
-Status (2026-11-24): **real runsc preflight PASS 35/35; v7 fixture dataset (67 cases)
-frozen with LLM manual review; independent code review rounds 1-5 recorded, final round
-pending at the time of writing.** Not exercised: dedicated worker + operator mTLS,
-hosted CI, human review. Current pointers: [m1-data-audit.md](m1-data-audit.md),
+Status (2026-11-24): **M1 COMPLETE under ADR-003 (owner decision: automated dataset
+verification, no human review).** The evidence is in `verification/evidence/m1-final/`.
+Round-7 LLM review (full scope, advisory): items 1-4 PASS; documentation findings F1-F4
+fixed in this change.
+Status (2026-11-24, final): **real runsc preflight PASS 35/35 (re-run in a fresh
+container, gVisor release-20261109.0 SHA-512 verified, cgroups enforced); unit suite
+109/109 on Python 3.12; v7 fixture dataset (67 cases) frozen with LLM manual review;
+independent LLM code review rounds 1-6 recorded.** Round 6 (final): fresh read-only
+Opus 5.5 agent, verdict PASS with limited scope. It confirmed the N-R5-1 fix and the
+complete outcome-to-reward map. It did not re-audit fixtures, splits or docs, and
+relies on rounds 1-5 for those. One non-blocking finding: a signal death during parsing
+scores 0 instead of -0.5 (no positive reward, never observed). Python 3.13 is outside
+`requires-python` and its stricter TLS defaults break the local mTLS tests.
+v7 reproduction (2026-11-24, this container): with the user-committed evidence in
+`verification/evidence/m1-v7/` (SHA256SUMS verified; freeze record sha256 matches
+`bf107516…f06b`), a rebuild of `configs/data-v7.json` matched the frozen manifest on
+content-plan, split-membership, source, config and builder-source hashes, counts and
+rejected set (67 accepted / 19 rejected). The dataset hash differs only through embedded
+runtime evidence. One earlier attempt, started right after dockerd came up, rejected
+`binary_search` (reference failed a test) once. Five isolated reruns and the full rebuild
+passed. This is recorded as an observed transient, not hidden.
+Hosted CI (`.github/workflows/ci.yml`, Python 3.11 and 3.12, static + unit gates) passes on this branch. Operator-mTLS gateway deployment exercised on real runsc (see ADR-002). Not exercised: separate worker machine (required before M3/M4), human review.
+Current pointers: [m1-data-audit.md](m1-data-audit.md),
 [m1-security-coverage.md](m1-security-coverage.md), ADR-002.
 No GPU, model weights, model generation or training was used.
 
@@ -46,7 +65,7 @@ ephemeral cloud session container, not yet the dedicated `separate_cpu_worker`.
 
 Follow-up the same day: source `authored-fixtures-v2` (53 authored CC0 functions,
 `configs/data-v2.json`) built to `artifacts/data/m1-fixtures-v2` with 74 accepted /
-12 rejected (all rejections are mutants), deterministic on rebuild. Attrition ledger,
+12 rejected (all rejections are mutants), deterministic on rebuild (content/split hashes). Attrition ledger,
 mutation survival and a seeded 50-case worksheet are in
 [m1-data-audit.md](m1-data-audit.md); mechanical checks 50/50, manual review PENDING.
 
@@ -58,11 +77,9 @@ Worker decision (user, 2026-11-23): for M1, which has no GPU trainer, the sessio
 container is accepted as the CPU worker. Spec 01/08's "separate worker" is about
 isolating generated code from the trainer, model weights, credentials and held-out
 data; none of these exist in this session. Before any GPU trainer exists (M3/M4) the
-worker must be a separate machine, and the operator-mTLS deployment is still unexercised.
+worker must be a separate machine. The operator-mTLS deployment was exercised on 2026-11-24 (ADR-002).
 
-Still open: the manual review's second pass on 14 v3 cases,
-deployment on the dedicated worker with operator mTLS, and independent read-only
-review (NOT_VERIFIED; self-review does not count).
+Historical (2026-11-23); superseded by the 2026-11-24 status above and ADR-003.
 
 ## Earlier observations
 
