@@ -15,7 +15,8 @@ from .mutations import mutate
 
 # Each source is an immutable, ordered list of authored CC0 seed files.
 SOURCES = {"authored-fixtures-v1": ("fixtures.json",),
-           "authored-fixtures-v2": ("fixtures.json", "fixtures_v2.json")}
+           "authored-fixtures-v2": ("fixtures.json", "fixtures_v2.json"),
+           "authored-fixtures-v3": ("fixtures.json", "fixtures_v2.json", "fixtures_v3.json")}
 
 
 def seed_paths(source: str = "authored-fixtures-v1") -> dict[str, str]:
