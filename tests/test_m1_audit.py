@@ -19,16 +19,20 @@ def synthetic_verified(row):
 
 
 class AuditTests(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
+        # Built once: write_dataset is slow and every test only reads it, except the
+        # tamper test, which works on its own copy.
         seeds = fixture_seeds("authored-fixtures-v2")
-        self.rows = [synthetic_verified(r) for r in plan_rows(seeds, source="authored-fixtures-v2")]
-        self.tmp = tempfile.TemporaryDirectory()
-        self.directory = Path(self.tmp.name) / "data"
+        cls.rows = [synthetic_verified(r) for r in plan_rows(seeds, source="authored-fixtures-v2")]
+        cls.tmp = tempfile.TemporaryDirectory()
+        cls.directory = Path(cls.tmp.name) / "data"
         config = {"source": "authored-fixtures-v2", "schema_version": 1}
-        self.manifest = write_dataset(self.directory, self.rows, {}, [{"problem_id": "fixture-gcd-v2-x", "reason": "r"}], config)
+        cls.manifest = write_dataset(cls.directory, cls.rows, {}, [{"problem_id": "fixture-gcd-v2-x", "reason": "r"}], config)
 
-    def tearDown(self):
-        self.tmp.cleanup()
+    @classmethod
+    def tearDownClass(cls):
+        cls.tmp.cleanup()
 
     def test_sample_is_deterministic_seeded_and_sized(self):
         first = [r["problem_id"] for r in sample(self.rows, 17)]
@@ -51,10 +55,15 @@ class AuditTests(unittest.TestCase):
             build_audit(self.directory, 17, "0" * 64)
 
     def test_tampered_dataset_is_rejected(self):
-        path = self.directory / "problems.jsonl"
-        path.write_bytes(path.read_bytes().replace(b"Return", b"Retunr", 1))
-        with self.assertRaises(ValueError):
-            build_audit(self.directory, 17)
+        import shutil
+        with tempfile.TemporaryDirectory() as tmp:
+            copy = Path(tmp) / "data"
+            shutil.copytree(self.directory, copy)
+            path = copy / "problems.jsonl"
+            path.write_bytes(path.read_bytes().replace(b"Return", b"Retunr", 1))
+            with self.assertRaises(ValueError):
+                build_audit(copy, 17)
+        build_audit(self.directory, 17)  # the shared original is untouched
 
     def test_mechanical_checks_flag_reformatted_mutant(self):
         row = next(r for r in self.rows if r["source_function_id"] == "fixture-binary_search-v2")
