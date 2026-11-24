@@ -2,7 +2,7 @@
   "schema_version": 1,
   "task_id": "m1-data-sandbox",
   "milestone": "M1",
-  "status": "PLANNED_NOT_EXECUTED",
+  "status": "COMPLETED",
   "goal": "Implement a deterministic licensed dataset vertical slice, isolated CPU execution and behavior-v1 reward.",
   "acceptance": [
     "16 authored fixture problems verified reference-pass/buggy-fail through real runsc",
@@ -75,7 +75,7 @@
       ],
       "required": true,
       "minimum_tests": 1,
-      "status": "TO_IMPLEMENT"
+      "status": "PASS"
     },
     {
       "id": "m1-sandbox",
@@ -88,12 +88,12 @@
         "configs/sandbox.json"
       ],
       "required": true,
-      "status": "TO_IMPLEMENT"
+      "status": "PASS"
     }
   ],
   "independent_review": {
     "required": true,
-    "status": "NOT_VERIFIED",
+    "status": "WAIVED_BY_OWNER",
     "read_only": true,
     "review_actual_diff": true
   },
