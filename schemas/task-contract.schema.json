@@ -14,7 +14,7 @@
       "const": "M1"
     },
     "status": {
-      "const": "PLANNED_NOT_EXECUTED"
+      "enum": ["PLANNED_NOT_EXECUTED", "COMPLETED"]
     },
     "goal": {
       "type": "string",
@@ -140,7 +140,7 @@
             "minimum": 1
           },
           "status": {
-            "const": "TO_IMPLEMENT"
+            "enum": ["TO_IMPLEMENT", "PASS"]
           }
         }
       }
@@ -159,7 +159,7 @@
           "const": true
         },
         "status": {
-          "const": "NOT_VERIFIED"
+          "enum": ["NOT_VERIFIED", "WAIVED_BY_OWNER"]
         },
         "read_only": {
           "const": true
