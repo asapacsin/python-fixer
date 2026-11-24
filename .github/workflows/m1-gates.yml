@@ -1,0 +1,20 @@
+name: m1-gates
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  cpu-gates:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install jsonschema==4.25.1 -e .
+      - name: repository-contracts
+        run: python scripts/validate_repository.py
+      - name: unit
+        run: python -m unittest discover -s tests -v
