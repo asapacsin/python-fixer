@@ -48,3 +48,21 @@ evaluation and preflight time.
 2. From that profile, compute the full-study GPU hours and price. Approve or reject the
    full study separately.
 3. Separate CPU worker machine for the sandbox (ADR-002) before any GPU trainer runs.
+
+## Measured E0 on validation (CPU, 2026-11-24)
+
+Evidence: `verification/evidence/e0-cpu-validation/`. Untuned Qwen3-0.6B, 32 v9 validation
+problems, test split sealed and not read.
+
+- Greedy: **2/32 solved (6.25%)**. 21/32 outputs are INVALID_OUTPUT because they wrap the module in a
+  Markdown fence, which the strict output contract (spec 03/05) forbids. The other 11 run, but only 2 pass all tests.
+- Sampled (G=4, frozen GRPO settings): 3/128 solved (2.3%); fences in 84/128.
+- Only **2/32 problems give a mixed solved/unsolved group**, so GRPO from E0 has almost no pass-signal.
+  Its reward variance comes mostly from -0.5 (format) vs 0 (wrong). This supports running SFT (E1)
+  before GRPO, as planned.
+
+Dataset sizing implication: the E0 -> E1 gap is expected to be large because format alone accounts for 66%
+of failures, and 62 held-out problems can detect a large effect. A 5-10pp
+E2-vs-E1 difference cannot be resolved at this size (paired test, assuming about 20% discordant problems, needs
+several hundred problems). The decisive number is the E1 validation pass rate, which needs the GPU preflight.
+Until then, report E2-vs-E1 at the current size as exploratory, not confirmatory.

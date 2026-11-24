@@ -1,0 +1,1062 @@
+{
+ "evidence_kind": "OBSERVED_CPU_E0_VALIDATION",
+ "split": "validation",
+ "problems": 32,
+ "model": "/tmp/claude-0/models/qwen3-0.6b",
+ "data_sha256": "2b8b2a47ac3686d826ab8b764415cc163efe9b584e02853f4269fadd5c6e8c60",
+ "greedy_solved": 2,
+ "greedy_pass_rate": 0.0625,
+ "sampled_pass_rate": 0.0234375,
+ "problems_with_mixed_group_outcomes": 2,
+ "group_size": 4,
+ "wall_seconds": 664,
+ "results": [
+  {
+   "problem_id": "fixture-anagram-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef anagram(a, b):\n    clean = lambda s: sorted(s.replace(' ', ''))\n    return clean(a) == clean(b)\n```<|im_en"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-capitalize_words-v2-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef capitalize_words(s):\n    return ' '.join(w[:1].upper() + w[2:] for w in s.split())\n```<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-cart_total-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef cart_total(items, prices):\n    return sum(prices.get(name, 0) for name, qty in items)\n```<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-contains-v1-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef contains(xs, value):\n    return value in xs\n```<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-count_at_most-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef count_at_most(sorted_xs, v):\n    lo, hi = 0, len(sorted_xs)\n    while lo < hi:\n        mid = (lo + hi) // "
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-count_equal-v1-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 2,
+    "tests": 4,
+    "text_head": "def count_equal(xs, target):  \n    return sum(1 for x in xs if x < target)<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-count_in_range-v2-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef count_in_range(xs, lo, hi):\n    return sum(1 for x in xs if lo < x <= hi)\n```<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-count_positive-v1-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef count_positive(xs):\n    return sum(1 for x in xs if x >= 0)\n```<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-diagonal_sum-v3-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 2,
+    "tests": 4,
+    "text_head": "def diagonal_sum(m):  \n    n = len(m)  \n    total = sum(m[i][i] + m[i][n - 1 - i] for i in range(n))  \n    return total<"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-factorial_trailing_zeros-v4-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 4,
+    "tests": 6,
+    "text_head": "def factorial_trailing_zeros(n):  \n    count, p = 0, 5  \n    while p < n:  \n        count += n // p  \n        p *= 5  \n "
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-final_balance-v3-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 3,
+    "tests": 4,
+    "text_head": "def final_balance(ops):  \n    balance = 0  \n    for kind, n in ops:  \n        if kind == 'deposit':  \n            balanc"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-floors_visited-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef floors_visited(start, moves):\n    out, floor = [], start\n    for m in moves:\n        floor = max(0, start "
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-gray_code-v4-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 1,
+    "tests": 4,
+    "text_head": "def gray_code(n):  \n    return [i ^ (i << 1) for i in range(1 << n)]<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-has_cycle-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef has_cycle(n, edges):\n    indeg = [0] * n\n    out = [[] for _ in range(n)]\n    for u, v in edges:\n        o"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-hex_to_rgb-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef hex_to_rgb(s):\n    digits = '0123456789abcdef'\n    h = s[1:].lower()\n    return [digits.index(h[i]) * 16 +"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-index_of_max-v2-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef index_of_max(xs):\n    if not xs:\n        return -1\n    best = 0\n    for i in range(1, len(xs)):\n        if"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-initials-v4-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 3,
+    "tests": 4,
+    "text_head": "def initials(name):\n    return ''.join(p[0] + '.' for p in name.split())<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-levenshtein-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef levenshtein(a, b):\n    prev = list(range(len(b) + 1))\n    for i, ca in enumerate(a, 1):\n        cur = [i]\n"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-lru_hits-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef lru_hits(capacity, requests):\n    cache, hits = [], 0\n    for r in requests:\n        if r in cache:\n      "
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-next_light-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef next_light(color, ticks):\n    cycle = ['green', 'red', 'yellow']\n    return cycle[(cycle.index(color) + ti"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-one_edit_away-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef one_edit_away(a, b):\n    if abs(len(a) - len(b)) > 1:\n        return False\n    if len(a) > len(b):\n       "
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-ordinal-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef ordinal(n):\n    if n % 100 in (11, 12):\n        return str(n) + 'th'\n    return str(n) + {1: 'st', 2: 'nd'"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 5,
+     "tests": 6
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 5,
+     "tests": 6
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-password_score-v4-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 3,
+    "tests": 5,
+    "text_head": "def password_score(pw):  \n    return sum([len(pw) > 8, any(c.islower() for c in pw), any(c.isupper() for c in pw), any(c"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 5
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 5
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 5
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 5
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-power_two-v1-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": true,
+    "passed": 4,
+    "tests": 4,
+    "text_head": "def power_two(n):  \n    return 2 ** n<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": true,
+     "passed": 4,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": true,
+     "passed": 4,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-prefix-v1-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 2,
+    "tests": 4,
+    "text_head": "def prefix(xs, n):  \n    return xs[-n:]<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 2,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-remove_value-v2-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": true,
+    "passed": 4,
+    "tests": 4,
+    "text_head": "def remove_value(xs, v):  \n    return [x for x in xs if x != v]<|im_end|>"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": true,
+     "passed": 4,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-run_length-v3-2bec0df63097",
+   "greedy": {
+    "status": "OK",
+    "solved": false,
+    "passed": 1,
+    "tests": 4,
+    "text_head": "def run_length(s):  \n    out = []  \n    for ch in s:  \n        if out and out[-1][0] == ch:  \n            out[-1][1] += "
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 1,
+     "tests": 4
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-shortest_hops-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef shortest_hops(edges, start, goal):\n    graph = {}\n    for u, v in edges:\n        graph.setdefault(u, []).a"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-simulate_queue-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef simulate_queue(ops):\n    inbox, outbox, popped = [], [], []\n    for op in ops:\n        if op[0] == 'push':"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-totient-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef totient(n):\n    result, m, p = n, n, 2\n    while p * p <= m:\n        if m % p == 0:\n            while m % "
+   },
+   "sampled": [
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 5
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "OK",
+     "solved": false,
+     "passed": 3,
+     "tests": 5
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-weekday_after-v3-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef weekday_after(start, days):\n    names = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']\n    return names"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  },
+  {
+   "problem_id": "fixture-without_value-v4-2bec0df63097",
+   "greedy": {
+    "status": "INVALID_OUTPUT",
+    "reason": "forbidden_marker",
+    "solved": false,
+    "text_head": "```python\ndef without_value(xs, v):\n    out = list(xs)\n    if v in out:\n        out.remove(v)\n    return out\n```<|im_end"
+   },
+   "sampled": [
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    },
+    {
+     "status": "INVALID_OUTPUT",
+     "reason": "forbidden_marker",
+     "solved": false
+    }
+   ]
+  }
+ ]
+}
