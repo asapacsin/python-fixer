@@ -1,5 +1,6 @@
 """mTLS-only reward client. The trainer never receives Docker authority."""
 from __future__ import annotations
+import math
 from pathlib import Path
 import ssl
 import re
@@ -17,7 +18,10 @@ from .policy import SandboxUnavailable
 
 class RewardClient:
     def __init__(self, endpoint: str, *, ca: str, certificate: str, key: str,
-                 bindings: dict[str, dict], run_id: str):
+                 bindings: dict[str, dict], run_id: str, request_timeout: float = 30):
+        if (not isinstance(request_timeout, (int, float))
+                or not math.isfinite(request_timeout) or request_timeout <= 0):
+            raise ValueError("request_timeout must be a finite positive number")
         parsed = urllib.parse.urlsplit(endpoint)
         if parsed.scheme != "https" or not parsed.hostname or parsed.username or parsed.password or parsed.query or parsed.fragment:
             raise ValueError("an HTTPS mTLS endpoint without embedded credentials is required")
@@ -42,6 +46,7 @@ class RewardClient:
                          urllib.request.HTTPSHandler(context=self.context))
         self.bindings = copy.deepcopy(bindings)
         self.run_id = run_id
+        self.request_timeout = float(request_timeout)
         self.validator = Draft202012Validator(strict_loads(resource_path("schemas/sandbox-outcome.schema.json").read_text()))
 
     def score(self, problem_id: str, source: str) -> tuple[float, dict]:
@@ -57,7 +62,7 @@ class RewardClient:
         for attempt in range(3):
             try:
                 req = urllib.request.Request(self.endpoint, data=body, headers={"Content-Type":"application/json"})
-                with self.opener.open(req, timeout=30) as response:
+                with self.opener.open(req, timeout=self.request_timeout) as response:
                     data = response.read(65537)
                 if len(data)>65536:
                     raise InvalidOutcome("oversized gateway response")

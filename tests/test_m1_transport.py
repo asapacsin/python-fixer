@@ -87,6 +87,20 @@ class TransportTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"complete frozen"):
             RewardClient(self.endpoint,ca="unused",certificate="unused",key="unused",bindings={"p":{}},run_id="test")
 
+    def test_extended_worker_request_timeout_is_configurable(self):
+        client = RewardClient(self.endpoint, ca=str(self.root/"ca.crt"),
+            certificate=str(self.root/"trainer.crt"), key=str(self.root/"trainer.key"),
+            bindings={"p":{"suite_sha256":"a"*64,"image_digest":"python@sha256:"+"b"*64,"policy_sha256":"c"*64}},
+            run_id="extended-timeout", request_timeout=90)
+        self.assertEqual(client.request_timeout, 90)
+        self.assertEqual(client.score("p", "def f(x):\n    return x\n")[0], 1)
+
+    def test_invalid_request_timeout_rejected(self):
+        for timeout in (0, float("inf"), float("nan")):
+            with self.subTest(timeout=timeout), self.assertRaisesRegex(ValueError, "finite positive number"):
+                RewardClient(self.endpoint, ca="unused", certificate="unused", key="unused",
+                    bindings={}, run_id="test", request_timeout=timeout)
+
 
 if __name__=="__main__":
     unittest.main()

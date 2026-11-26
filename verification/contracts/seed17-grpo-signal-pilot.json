@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "task_id": "seed17-grpo-signal-pilot",
+  "milestone": "M4 exploratory pilot",
+  "goal": "Find a usable within-prompt reward signal with seed 17 on the inference node.",
+  "acceptance": ["Compare four fixed training prompts at the original and wider sampling settings.", "Compare the candidate rewards on a separately verified 60/30 sandbox policy.", "Publish observed counts and keep pilot settings separate from the primary experiment."],
+  "approved_paths": ["configs/grpo-seed17-wide-pilot.json", "scripts/reverify_train_subset.py", "src/python_fixer/sandbox/client.py", "tests/test_m1_transport.py", "tests/test_reverify_train_subset.py", "reports/evaluations/seed17-grpo-reward-pilot.json", "verification/contracts/seed17-grpo-signal-pilot.json"],
+  "dependencies": ["Pinned Qwen base and seed 17 SFT adapter", "Frozen training partition", "Isolated CPU worker"],
+  "bounds": {"prompts": 4, "candidates_per_prompt_per_arm": 4, "arms": 2, "max_new_tokens": 128, "optimizer_updates": 0},
+  "gates": ["Train-only registry loader readback", "Focused worker transport and subset tests", "Score all fixed candidates"],
+  "evidence_level": "Exploratory train-only generation and real sandbox scoring"
+}

@@ -1,0 +1,510 @@
+{
+  "model": "Qwen3-0.6B with seed 17 E1 adapter",
+  "generation": "transformers.generate",
+  "source_split": "train",
+  "source_train_count": 391,
+  "prompts": "random.Random(17).sample over the 391 eligible train prompts",
+  "scores": {
+    "status": "PASS",
+    "scope": "TRAIN_ONLY_FOUR_PROMPTS_60WALL_30CPU_NO_TRAINING",
+    "policy_sha256": "ef57d86418574c34a58413d6986cc9d0b5e81aa08d4d0fe6a1f4ffddcec4c435",
+    "candidate_count": 32,
+    "timeout_count": 0,
+    "groups": [
+      {
+        "arm": "control",
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "rewards": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 1,
+        "zero_variance": true
+      },
+      {
+        "arm": "control",
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "rewards": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 1,
+        "zero_variance": true
+      },
+      {
+        "arm": "control",
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "rewards": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 1,
+        "zero_variance": true
+      },
+      {
+        "arm": "control",
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "rewards": [
+          1.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 1,
+        "zero_variance": true
+      },
+      {
+        "arm": "wide",
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "rewards": [
+          1.0,
+          1.0,
+          1.0,
+          0.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 2,
+        "zero_variance": false
+      },
+      {
+        "arm": "wide",
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "rewards": [
+          0.0,
+          1.0,
+          1.0,
+          1.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 3,
+        "zero_variance": false
+      },
+      {
+        "arm": "wide",
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "rewards": [
+          1.0,
+          0.0,
+          1.0,
+          1.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 2,
+        "zero_variance": false
+      },
+      {
+        "arm": "wide",
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "rewards": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "statuses": [
+          "OK",
+          "OK",
+          "OK",
+          "OK"
+        ],
+        "distinct_sources": 3,
+        "zero_variance": true
+      }
+    ],
+    "results": [
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "control",
+        "index": 0,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4338,
+        "cpu_ms": 2507,
+        "unique_source_sha256": "947c1a5efd7d2574ec02228d6491e0ded1458363a215da520d19c0286ece56ac"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "control",
+        "index": 1,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4338,
+        "cpu_ms": 2507,
+        "unique_source_sha256": "947c1a5efd7d2574ec02228d6491e0ded1458363a215da520d19c0286ece56ac"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "control",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4338,
+        "cpu_ms": 2507,
+        "unique_source_sha256": "947c1a5efd7d2574ec02228d6491e0ded1458363a215da520d19c0286ece56ac"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "control",
+        "index": 3,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4338,
+        "cpu_ms": 2507,
+        "unique_source_sha256": "947c1a5efd7d2574ec02228d6491e0ded1458363a215da520d19c0286ece56ac"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "control",
+        "index": 0,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "control",
+        "index": 1,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "control",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "control",
+        "index": 3,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "control",
+        "index": 0,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "control",
+        "index": 1,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "control",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "control",
+        "index": 3,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "control",
+        "index": 0,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4895,
+        "cpu_ms": 2677,
+        "unique_source_sha256": "2d25650ce0f786c954b870bde09545c3a367846ce62f7c7bf3f80f50eb575939"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "control",
+        "index": 1,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4895,
+        "cpu_ms": 2677,
+        "unique_source_sha256": "2d25650ce0f786c954b870bde09545c3a367846ce62f7c7bf3f80f50eb575939"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "control",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4895,
+        "cpu_ms": 2677,
+        "unique_source_sha256": "2d25650ce0f786c954b870bde09545c3a367846ce62f7c7bf3f80f50eb575939"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "control",
+        "index": 3,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4895,
+        "cpu_ms": 2677,
+        "unique_source_sha256": "2d25650ce0f786c954b870bde09545c3a367846ce62f7c7bf3f80f50eb575939"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 0,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 3320,
+        "cpu_ms": 1858,
+        "unique_source_sha256": "bf99ff4be21cb5d59d9113bfda5ea6eb9f6f03faa0e65d0f9dbe02d35e387f86"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 1,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 3320,
+        "cpu_ms": 1858,
+        "unique_source_sha256": "bf99ff4be21cb5d59d9113bfda5ea6eb9f6f03faa0e65d0f9dbe02d35e387f86"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 2,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 3369,
+        "cpu_ms": 1990,
+        "unique_source_sha256": "f0255de4b499464e8fa5d93e99c50dd8df3f40e689d1722439d2f703da2826a0"
+      },
+      {
+        "problem_id": "fixture-peak_index-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 3,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 3464,
+        "cpu_ms": 2020,
+        "unique_source_sha256": "14581fd2186072a439dbef6ab468e6d44d52658e9da700d115ccabd7aaa3e0d8"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 0,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 1,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 5102,
+        "cpu_ms": 2090,
+        "unique_source_sha256": "25702c8dde9628b666748ce491c8b84d9c9258a397de0dfcb3f9dd0ac706ff0a"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-max_profit-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 3,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3030,
+        "cpu_ms": 1610,
+        "unique_source_sha256": "4cef98c971674d8616f12ada0f56e1d15fef9825c14f4d804e8b55d491feca66"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 0,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 1,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 7049,
+        "cpu_ms": 3430,
+        "unique_source_sha256": "a41ab72227c76a06bb6d8baa6a11502f324e2f8bb15b435d257d019cb5369f75"
+      },
+      {
+        "problem_id": "fixture-is_happy-v4-2bec0df63097",
+        "arm": "wide",
+        "index": 3,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 4140,
+        "cpu_ms": 2498,
+        "unique_source_sha256": "9a5e971a417142f9a0f323d943fe0e9e47ac70d3d17831726eb265786595c129"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "wide",
+        "index": 0,
+        "status": "OK",
+        "reward": 0.0,
+        "wall_ms": 3606,
+        "cpu_ms": 2208,
+        "unique_source_sha256": "5dece342b09d7a3ce68d96b36a2cee9dd484bd358972ca5b1c7c4a13fb1e9858"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "wide",
+        "index": 1,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 3887,
+        "cpu_ms": 2429,
+        "unique_source_sha256": "9727de7aabc64ff8eb84ca20c658ad2e0b3733c8dadea07f08ae920f30345841"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "wide",
+        "index": 2,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4895,
+        "cpu_ms": 2677,
+        "unique_source_sha256": "2d25650ce0f786c954b870bde09545c3a367846ce62f7c7bf3f80f50eb575939"
+      },
+      {
+        "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+        "arm": "wide",
+        "index": 3,
+        "status": "OK",
+        "reward": 1.0,
+        "wall_ms": 4895,
+        "cpu_ms": 2677,
+        "unique_source_sha256": "2d25650ce0f786c954b870bde09545c3a367846ce62f7c7bf3f80f50eb575939"
+      }
+    ]
+  },
+  "arms": {
+    "wide": {
+      "top_p": 0.99,
+      "top_k": 0,
+      "measured_non_eos_steps": 995,
+      "single_eligible_token_steps": 824,
+      "temperature": 1.2
+    },
+    "control": {
+      "top_p": 0.8,
+      "top_k": 20,
+      "measured_non_eos_steps": 976,
+      "single_eligible_token_steps": 976,
+      "temperature": 0.7
+    }
+  },
+  "optimizer_steps": 0,
+  "wall_seconds": 60,
+  "seed": 17,
+  "group_size": 4,
+  "truncated_candidates": 0,
+  "max_new_tokens": 128,
+  "cpu_seconds": 30,
+  "raw_candidates_sha256": "7cb8d5f6ae72b7f17be613b941884b0481b66ed3baaae9e21ae192b866297e16",
+  "train_partition_sha256": "3cc3007c724d89692b24573af28f3882aba9407edabc4d07734ad8dfbcc67928",
+  "model_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+  "adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90",
+  "interpretation": "Wider sampling produced unequal behavioral rewards on three of four sampled train prompts. It lowered full-pass count in this sample. These scores establish a training signal, not a quality improvement."
+}
