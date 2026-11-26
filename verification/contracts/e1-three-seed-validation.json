@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "task_id": "e1-three-seed-validation",
+  "milestone": "M3",
+  "status": "IN_PROGRESS",
+  "goal": "Complete and compare the E1 SFT arm across preregistered seeds 17, 29, and 43 using the frozen train split and validation protocol.",
+  "hypothesis": "SFT improves greedy repair pass@1 over the pinned Qwen3-0.6B baseline across multiple random seeds; this follow-up reports the observations without treating validation as confirmatory test evidence.",
+  "seed_ids": [17, 29, 43],
+  "existing_seed_17": {
+    "run_id": "python-fixer-E1-seed17-20261126T030338Z-ee5abcf6",
+    "status": "COMPLETED_TRAINING_AND_EXPLORATORY_VALIDATION",
+    "validation_pass_at_1": "10/32",
+    "adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90"
+  },
+  "frozen_inputs": {
+    "model_id": "Qwen/Qwen3-0.6B",
+    "model_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+    "model_weights_sha256": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
+    "tokenizer_sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
+    "train_file": "verification/evidence/m1-v9/m1-fixtures-v9/train.jsonl",
+    "train_file_sha256": "3cc3007c724d89692b24573af28f3882aba9407edabc4d07734ad8dfbcc67928",
+    "validation_file": "verification/evidence/m1-v9/m1-fixtures-v9/validation.jsonl",
+    "validation_file_sha256": "5cc7e23ba5ae87b14a5e0eaf0e1e5ea89fb6c572b1d36e4d20b3fee543015578",
+    "sft_config": "configs/sft.json",
+    "non_seed_sft_config_must_remain_identical": true,
+    "expected_optimizer_steps_per_seed": 50
+  },
+  "active_node_preflight": {
+    "status": "PASS",
+    "scope": "SFT_ONLY_GPU_PREFLIGHT",
+    "provider_node_id": "td6dcr-0",
+    "gpu_uuid": "GPU-df1192e5-d6a2-fa39-f2b6-45f5e94ba662",
+    "report_sha256": "b7dccf9fe701e1c098cfa080e095e4f08afc486bf3acc75ce4da5fbf50422363",
+    "persistent_mount_source": "/dev/rbd21",
+    "persistent_run_root": "/.platform/state/python-fixer-sft-runs"
+  },
+  "acceptance": [
+    "Complete SFT seeds 29 and 43 with the same two-epoch configuration, train rows, model revision, and tokenizer as seed 17; only random seed and unique run ID differ.",
+    "Save each adapter and full run manifest outside Git on the persistent training volume, then copy each adapter to the user's D:\\桌面\\python-fixer\\outputs directory and verify SHA-256 after transfer.",
+    "Generate one non-thinking greedy completion per validation problem for each seed, with batch size 1 and max_new_tokens 512; use the same already-recorded deterministic baseline candidates.",
+    "Score every adapter's exact 32 validation candidates with the same parser, pinned gVisor image, and sandbox policy; record per-seed pass@1, paired wins, and regressions.",
+    "Leave the test split unused; label all validation results exploratory and report the three seed outcomes separately and as a descriptive mean/range.",
+    "Record observed SFT time and status; provider cost remains NOT_VERIFIED unless an authoritative billing ledger is available. Do not provision a new GPU node."
+  ],
+  "approved_paths": [
+    "scripts/run_sft.py",
+    "verification/contracts/e1-three-seed-validation.json",
+    "reports/evaluations/**",
+    "reports/runs/**"
+  ],
+  "external_artifact_paths": [
+    "D:\\桌面\\python-fixer\\outputs\\sft-e1-seed29",
+    "D:\\桌面\\python-fixer\\outputs\\sft-e1-seed43",
+    "/.platform/state/python-fixer-sft-runs/"
+  ],
+  "required_gates": [
+    "Before each training run, verify the SFT_ONLY_GPU_PREFLIGHT is PASS for the active H200 UUID, pinned model/tokenizer hashes, train-file hash, and persistent mount.",
+    "Run the unchanged two-epoch training configuration to completion and verify the expected 50 optimizer steps, finite losses, and saved adapter/checkpoint hashes.",
+    "Verify each locally copied adapter SHA-256 equals its remote run manifest and reload it with the pinned base model before evaluation.",
+    "Use the approved separate QEMU CPU worker; its pinned gVisor runsc isolation preflight must remain PASS at 35/35 before executing candidates.",
+    "Reconcile each evaluation grid exactly to the 32 validation problem IDs and ensure no test-split IDs or outputs are present."
+  ],
+  "evidence_scope": {
+    "training": "OBSERVED_SFT_ONLY_PILOT; full Spec 07 replacement-node recovery and full external worker integration remain NOT_VERIFIED",
+    "evaluation": "EXPLORATORY_PAIRED_GREEDY_VALIDATION; not a sealed-test or confirmatory result",
+    "provider_cost": "NOT_VERIFIED_FROM_PROVIDER_BILLING"
+  },
+  "budget_and_retries": {
+    "user_cost_cap_yuan": 170,
+    "new_gpu_node_provisioning": false,
+    "max_elapsed_minutes_per_seed": 20,
+    "estimated_training_seconds_for_remaining_seeds": 582.8,
+    "estimate_basis": "Two additional seed-17-equivalent runs at the observed 291.4 second trainer wall time each; inference and setup time excluded.",
+    "provider_billing_status": "NOT_VERIFIED_FROM_PROVIDER_BILLING",
+    "billing_estimate_note": "The H200 remains on the same active node; SSH does not expose the provider billing interval or ledger, so no yuan total is asserted.",
+    "max_attempts_per_seed": 3,
+    "retry_rule": "Retry only after classifying an infrastructure failure; never rerun a completed candidate because of a poor score."
+  },
+  "dependencies": [
+    "Completed seed-17 run and adapter",
+    "Active same-node NVIDIA H200 with unchanged GPU UUID",
+    "Pinned persistent run-root mount and existing SFT-only preflight",
+    "Previously recorded baseline greedy candidates and passing 35/35 gVisor preflight"
+  ]
+}

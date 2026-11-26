@@ -1,4 +1,4 @@
-"""Run the frozen single-seed SFT experiment after the full GPU preflight.
+"""Run one frozen E1 SFT seed after the required GPU preflight.
 
 All inputs and outputs stay outside Git. This command refuses to train unless
 the exact preflight report is a full Spec 07 PASS, the frozen model and train
@@ -28,7 +28,8 @@ MODEL_FILES = {
     "model.safetensors": "f47f71177f32bcd101b7573ec9171e6a57f4f4d31148d38e382306f42996874b",
     "tokenizer.json": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4",
 }
-SEED = 17
+DEFAULT_SEED = 17
+E1_SEEDS = (17, 29, 43)
 USER_MAX_COST_YUAN = 170.0
 USER_MAX_ELAPSED_HOURS = 12.0
 
@@ -205,6 +206,8 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--train-jsonl", type=Path, required=True)
     parser.add_argument("--train-sha256", required=True)
     parser.add_argument("--preflight-report", type=Path, required=True)
+    parser.add_argument("--seed", type=int, choices=E1_SEEDS, default=DEFAULT_SEED,
+                        help="preregistered E1 training seed (default: 17)")
     parser.add_argument("--sft-only-preflight", action="store_true",
                         help="run the short SFT pilot with GPU smoke and persistent checkpoint readback; full Spec 07 remains NOT_VERIFIED")
     parser.add_argument("--run-root", type=Path, required=True)
@@ -253,7 +256,7 @@ def main(argv: list[str] | None = None) -> int:
         if len(observed_gpu) != 1 or observed_gpu[0].strip() != expected_gpu:
             raise ValueError("current GPU UUID does not match the assembled preflight replacement node")
 
-        run_id = f"{args.study_id}-E1-seed{SEED}-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid.uuid4().hex[:8]}"
+        run_id = f"{args.study_id}-E1-seed{args.seed}-{datetime.now(timezone.utc):%Y%m%dT%H%M%SZ}-{uuid.uuid4().hex[:8]}"
         final_dir = args.run_root / run_id
         staging_dir = args.run_root / ("." + run_id + ".staging")
         if final_dir.exists() or staging_dir.exists():
@@ -261,8 +264,9 @@ def main(argv: list[str] | None = None) -> int:
         staging_dir.mkdir(mode=0o700)
         config_path = ROOT / "configs/sft.json"
         cfg = load_json(config_path)
-        if cfg.get("seed") != SEED:
-            raise ValueError("configs/sft.json seed must remain 17 for E1 seed 17")
+        if cfg.get("seed") != DEFAULT_SEED:
+            raise ValueError(f"configs/sft.json seed must remain the default E1 seed {DEFAULT_SEED}")
+        cfg["seed"] = args.seed
         if cfg.get("model_revision") not in (None, MODEL_REVISION):
             raise ValueError("SFT config model revision mismatch")
 
@@ -270,8 +274,8 @@ def main(argv: list[str] | None = None) -> int:
         from transformers import AutoModelForCausalLM, AutoTokenizer
         from python_fixer.training.sft import build_examples, check_collated_labels, make_trainer
 
-        torch.manual_seed(SEED)
-        torch.cuda.manual_seed_all(SEED)
+        torch.manual_seed(args.seed)
+        torch.cuda.manual_seed_all(args.seed)
         tokenizer = AutoTokenizer.from_pretrained(args.model_dir, local_files_only=True)
         if tokenizer.chat_template is None:
             raise ValueError("pinned tokenizer is missing its chat template")
@@ -284,7 +288,7 @@ def main(argv: list[str] | None = None) -> int:
                                                      attn_implementation="sdpa")
         model.config.use_cache = False
         trainer = make_trainer(model, tokenizer, examples, cfg, str(staging_dir / "trainer"),
-                               seed=SEED, eval_strategy="no", save_steps=50, save_total_limit=3)
+                               seed=args.seed, eval_strategy="no", save_steps=50, save_total_limit=3)
         check_collated_labels(next(iter(trainer.get_train_dataloader())), tokenizer)
         training_started = time.monotonic()
         measured_step_seconds = (preflight["report"]["sft_smoke"].get("wall_seconds", 0)
@@ -316,12 +320,16 @@ def main(argv: list[str] | None = None) -> int:
                 hashes[str(file.relative_to(staging_dir))] = digest(file)
         manifest = {
             "status": "COMPLETED_TRAINING_NOT_EVALUATED" if training_complete else "BUDGET_STOPPED_INCOMPLETE",
-            "run_id": run_id, "arm": "E1", "seed": SEED,
+            "run_id": run_id, "arm": "E1", "seed": args.seed,
             "started_at": start_time.isoformat(), "finished_at": datetime.now(timezone.utc).isoformat(),
             "wall_seconds": elapsed, "steps": result.global_step, "train_loss": result.metrics.get("train_loss"),
             "model_id": "Qwen/Qwen3-0.6B", "model_revision": MODEL_REVISION,
             "model_dir": str(args.model_dir.resolve()), "data": data,
-            "config_sha256": digest(config_path), "preflight": {"path": preflight["path"], "sha256": preflight["sha256"],
+            "config_sha256": digest(config_path), "effective_config": cfg,
+            "effective_config_sha256": hashlib.sha256(json.dumps(
+                cfg, sort_keys=True, separators=(",", ":"), allow_nan=False
+            ).encode("utf-8")).hexdigest(),
+            "preflight": {"path": preflight["path"], "sha256": preflight["sha256"],
                 "scope": preflight["report"]["scope"],
                 "full_spec07_preflight": preflight["report"].get("full_spec07_preflight", "PASS")},
             "budget": {**budget, "conservative_step_seconds": expected_step_seconds,
