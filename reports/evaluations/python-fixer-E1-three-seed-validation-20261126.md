@@ -34,3 +34,16 @@ All four arms were scored in one run against one shared baseline pass:
 The seed SFT mean is 15.3/32 solved (range 15–16). Compared with the earlier strict-limit runs, SFT timeouts fell from 14/17/25 to 4/2/1. So the short checker limit was a major cause of the earlier failures. Remaining failures include wrong answers as well as a few timeouts.
 
 This remains exploratory validation, not held-out test evidence. Details and the exact policy/preflight hashes are in the relaxed evaluation JSON and preflight report. The H200 was not used for this rerun.
+
+## Extended checker limit
+
+For a final timeout check, all arms were scored again at 60 seconds wall time / 30 CPU seconds, with the same shared baseline. Sandbox isolation preflight again passed 35/35 checks.
+
+| Arm | Solved | Timeouts | Wins over baseline | Regressions |
+|---|---:|---:|---:|---:|
+| Baseline | 2/32 | 0 | — | — |
+| Seed 17 | 18/32 | 0 | 16 | 0 |
+| Seed 29 | 17/32 | 0 | 15 | 0 |
+| Seed 43 | 17/32 | 0 | 15 | 0 |
+
+No answer hit the 60-second / 30-CPU-second cap. The extra time let a few more answers pass than the 15/5 profile. Some answers still fail because their outputs do not pass the tests. This is still exploratory validation, not a held-out test result. The H200 was not used.

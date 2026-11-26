@@ -119,5 +119,60 @@
     "preflight_checks_total": 35,
     "score_report": "reports/evaluations/python-fixer-E1-three-seed-validation-relaxed-20261126.json",
     "preflight_report": "reports/evaluations/sandbox-preflight-relaxed-15s-5cpu-20261126.json"
+  },
+  "extended_policy_evaluation": {
+    "policy": "configs/sandbox-validation-extended.json",
+    "limits": {
+      "wall_seconds": 60,
+      "cpu_seconds": 30
+    },
+    "policy_sha256": "ef57d86418574c34a58413d6986cc9d0b5e81aa08d4d0fe6a1f4ffddcec4c435",
+    "baseline": {
+      "solved": 2,
+      "problems": 32,
+      "pass_at_1": 0.0625,
+      "timeouts": 0,
+      "invalid_outputs": 21
+    },
+    "seed_results": {
+      "17": {
+        "solved": 18,
+        "problems": 32,
+        "pass_at_1": 0.5625,
+        "timeouts": 0,
+        "invalid_outputs": 0,
+        "wins": 16,
+        "regressions": 0,
+        "baseline_solved": 2,
+        "absolute_gain": 0.5
+      },
+      "29": {
+        "solved": 17,
+        "problems": 32,
+        "pass_at_1": 0.53125,
+        "timeouts": 0,
+        "invalid_outputs": 0,
+        "wins": 15,
+        "regressions": 0,
+        "baseline_solved": 2,
+        "absolute_gain": 0.46875
+      },
+      "43": {
+        "solved": 17,
+        "problems": 32,
+        "pass_at_1": 0.53125,
+        "timeouts": 0,
+        "invalid_outputs": 0,
+        "wins": 15,
+        "regressions": 0,
+        "baseline_solved": 2,
+        "absolute_gain": 0.46875
+      }
+    },
+    "preflight_status": "PASS",
+    "preflight_checks_passed": 35,
+    "preflight_checks_total": 35,
+    "score_report": "reports/evaluations/python-fixer-E1-three-seed-validation-extended-20261126.json",
+    "preflight_report": "reports/evaluations/sandbox-preflight-extended-60s-30cpu-20261126.json"
   }
 }

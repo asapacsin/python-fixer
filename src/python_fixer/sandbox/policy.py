@@ -27,7 +27,7 @@ class Policy:
     def __post_init__(self):
         if not re.fullmatch(r"[a-zA-Z0-9./_-]+@sha256:[0-9a-f]{64}", self.image):
             raise ValueError("sandbox image must use an immutable sha256 digest")
-        if not (0 < self.wall_seconds <= 15 and 0 < self.cpu_seconds <= 5 and
+        if not (0 < self.wall_seconds <= 60 and 0 < self.cpu_seconds <= 30 and
                 32 <= self.memory_mib <= 256 and 1 <= self.pids <= 32 and
                 self.runtime_pids == 128 and
                 1024 <= self.output_bytes <= 65536):

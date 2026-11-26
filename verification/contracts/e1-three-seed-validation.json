@@ -169,6 +169,35 @@
       "preflight": "PASS 35/35",
       "evaluation_report": "reports/evaluations/python-fixer-E1-three-seed-validation-relaxed-20261126.json",
       "preflight_report": "reports/evaluations/sandbox-preflight-relaxed-15s-5cpu-20261126.json"
+    },
+    "extended_policy_evaluation": {
+      "limits_wall_seconds": 60,
+      "limits_cpu_seconds": 30,
+      "policy_sha256": "ef57d86418574c34a58413d6986cc9d0b5e81aa08d4d0fe6a1f4ffddcec4c435",
+      "baseline_solved": "2/32",
+      "results": {
+        "17": {
+          "solved": 18,
+          "wins": 16,
+          "regressions": 0,
+          "timeouts": 0
+        },
+        "29": {
+          "solved": 17,
+          "wins": 15,
+          "regressions": 0,
+          "timeouts": 0
+        },
+        "43": {
+          "solved": 17,
+          "wins": 15,
+          "regressions": 0,
+          "timeouts": 0
+        }
+      },
+      "preflight": "PASS 35/35",
+      "evaluation_report": "reports/evaluations/python-fixer-E1-three-seed-validation-extended-20261126.json",
+      "preflight_report": "reports/evaluations/sandbox-preflight-extended-60s-30cpu-20261126.json"
     }
   }
 }

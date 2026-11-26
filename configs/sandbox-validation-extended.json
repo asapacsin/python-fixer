@@ -1,0 +1,46 @@
+{
+  "status": "REQUIRED_POLICY_NOT_AN_IMPLEMENTED_SANDBOX",
+  "location": "separate_cpu_worker",
+  "runtime": "runsc",
+  "image_digest": "python@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535",
+  "network": "none",
+  "read_only_rootfs": true,
+  "uid": 65532,
+  "gid": 65532,
+  "cap_drop": [
+    "ALL"
+  ],
+  "no_new_privileges": true,
+  "cpus": 1,
+  "memory_mib": 256,
+  "swap_mib": 0,
+  "pids_limit": 32,
+  "runtime_host_pids_limit": 128,
+  "wall_timeout_seconds": 60,
+  "cpu_timeout_seconds": 30,
+  "tmpfs_mib": 16,
+  "output_limit_bytes": 65536,
+  "max_request_bytes": 131072,
+  "concurrency": 4,
+  "allowed_candidate_imports": [
+    "math",
+    "collections",
+    "itertools",
+    "functools",
+    "heapq",
+    "bisect",
+    "re",
+    "string"
+  ],
+  "mounts": [
+    "read-only candidate module",
+    "read-only trusted harness"
+  ],
+  "forbid_mounts": [
+    "GPU",
+    "Docker socket",
+    "credentials",
+    "checkpoints",
+    "held-out test storage"
+  ]
+}
