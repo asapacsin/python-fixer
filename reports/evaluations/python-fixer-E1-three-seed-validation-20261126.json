@@ -1,0 +1,72 @@
+{
+  "evidence_kind": "EXPLORATORY_THREE_SEED_PAIRED_GREEDY_VALIDATION",
+  "model": "Qwen/Qwen3-0.6B",
+  "model_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+  "split": "validation",
+  "validation_problems": 32,
+  "validation_sha256": "5cc7e23ba5ae87b14a5e0eaf0e1e5ea89fb6c572b1d36e4d20b3fee543015578",
+  "sft_only": true,
+  "test_split_touched": false,
+  "provider_cost_status": "NOT_VERIFIED_FROM_PROVIDER_BILLING",
+  "limitations": [
+    "Validation is exploratory, not a held-out test result.",
+    "Sandbox scoring is variable: timeout counts differ by seed/run, so raw pass counts are provisional.",
+    "No GRPO training was run."
+  ],
+  "seeds": [
+    {
+      "seed": 17,
+      "run_id": "python-fixer-E1-seed17-20261126T030338Z-ee5abcf6",
+      "status": "COMPLETED_TRAINING_NOT_EVALUATED",
+      "steps": 50,
+      "training_seconds": 291.36831694096327,
+      "train_loss": 0.07285303235054016,
+      "adapter_local": "outputs\\sft-e1-seed17\\adapter_model.safetensors",
+      "adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90",
+      "baseline_solved": 1,
+      "sft_solved": 10,
+      "improved": 9,
+      "regressed": 0,
+      "baseline_timeouts": 6,
+      "sft_timeouts": 14,
+      "baseline_invalid_output": 21,
+      "sft_invalid_output": 0
+    },
+    {
+      "seed": 29,
+      "run_id": "python-fixer-E1-seed29-20261126T044820Z-dc19ca6d",
+      "status": "COMPLETED_TRAINING_NOT_EVALUATED",
+      "steps": 50,
+      "training_seconds": 297.0586327984929,
+      "train_loss": 0.07606361910700798,
+      "adapter_local": "outputs\\sft-e1-seed29\\adapter_model.safetensors",
+      "adapter_sha256": "1a0f1ed012e0be7ce1dbf9f2645f1276f40dc9329afe88dcbeec8b2f39cef7db",
+      "baseline_solved": 2,
+      "sft_solved": 7,
+      "improved": 5,
+      "regressed": 0,
+      "baseline_timeouts": 5,
+      "sft_timeouts": 17,
+      "baseline_invalid_output": 21,
+      "sft_invalid_output": 0
+    },
+    {
+      "seed": 43,
+      "run_id": "python-fixer-E1-seed43-20261126T045837Z-56bd25da",
+      "status": "COMPLETED_TRAINING_NOT_EVALUATED",
+      "steps": 50,
+      "training_seconds": 295.0328522697091,
+      "train_loss": 0.07079360187053681,
+      "adapter_local": "outputs\\sft-e1-seed43\\adapter_model.safetensors",
+      "adapter_sha256": "a2f4366743eb30e4f8e0e8034692012aab1149d20ad84966c11eb74ee6a27bfd",
+      "baseline_solved": 1,
+      "sft_solved": 4,
+      "improved": 3,
+      "regressed": 0,
+      "baseline_timeouts": 9,
+      "sft_timeouts": 25,
+      "baseline_invalid_output": 21,
+      "sft_invalid_output": 0
+    }
+  ]
+}

@@ -2,10 +2,14 @@
   "schema_version": 1,
   "task_id": "e1-three-seed-validation",
   "milestone": "M3",
-  "status": "IN_PROGRESS",
+  "status": "COMPLETED_WITH_LIMITATIONS",
   "goal": "Complete and compare the E1 SFT arm across preregistered seeds 17, 29, and 43 using the frozen train split and validation protocol.",
   "hypothesis": "SFT improves greedy repair pass@1 over the pinned Qwen3-0.6B baseline across multiple random seeds; this follow-up reports the observations without treating validation as confirmatory test evidence.",
-  "seed_ids": [17, 29, 43],
+  "seed_ids": [
+    17,
+    29,
+    43
+  ],
   "existing_seed_17": {
     "run_id": "python-fixer-E1-seed17-20261126T030338Z-ee5abcf6",
     "status": "COMPLETED_TRAINING_AND_EXPLORATORY_VALIDATION",
@@ -37,7 +41,7 @@
   },
   "acceptance": [
     "Complete SFT seeds 29 and 43 with the same two-epoch configuration, train rows, model revision, and tokenizer as seed 17; only random seed and unique run ID differ.",
-    "Save each adapter and full run manifest outside Git on the persistent training volume, then copy each adapter to the user's D:\\桌面\\python-fixer\\outputs directory and verify SHA-256 after transfer.",
+    "Save each adapter and full run manifest outside Git on the persistent training volume, then copy each adapter to the user's D:\\\u5997\u5c84\u6f70\\python-fixer\\outputs directory and verify SHA-256 after transfer.",
     "Generate one non-thinking greedy completion per validation problem for each seed, with batch size 1 and max_new_tokens 512; use the same already-recorded deterministic baseline candidates.",
     "Score every adapter's exact 32 validation candidates with the same parser, pinned gVisor image, and sandbox policy; record per-seed pass@1, paired wins, and regressions.",
     "Leave the test split unused; label all validation results exploratory and report the three seed outcomes separately and as a descriptive mean/range.",
@@ -50,8 +54,8 @@
     "reports/runs/**"
   ],
   "external_artifact_paths": [
-    "D:\\桌面\\python-fixer\\outputs\\sft-e1-seed29",
-    "D:\\桌面\\python-fixer\\outputs\\sft-e1-seed43",
+    "D:\\\u5997\u5c84\u6f70\\python-fixer\\outputs\\sft-e1-seed29",
+    "D:\\\u5997\u5c84\u6f70\\python-fixer\\outputs\\sft-e1-seed43",
     "/.platform/state/python-fixer-sft-runs/"
   ],
   "required_gates": [
@@ -82,5 +86,60 @@
     "Active same-node NVIDIA H200 with unchanged GPU UUID",
     "Pinned persistent run-root mount and existing SFT-only preflight",
     "Previously recorded baseline greedy candidates and passing 35/35 gVisor preflight"
-  ]
+  ],
+  "completion": {
+    "completed_at": "2026-11-26",
+    "training": "Seeds 17, 29, and 43 each completed 50 optimizer steps using the frozen configuration.",
+    "evaluation": "All three adapters were scored on the exact 32-row validation grid against the same deterministic baseline candidate hashes.",
+    "evaluation_limitation": "Per-run sandbox outcomes vary under strict CPU and wall timeouts; score counts are exploratory and provisional.",
+    "evaluation_report": "reports/evaluations/python-fixer-E1-three-seed-validation-20261126.md",
+    "seed_results": [
+      {
+        "seed": 17,
+        "run_id": "python-fixer-E1-seed17-20261126T030338Z-ee5abcf6",
+        "train_loss": 0.07285303235054016,
+        "training_seconds": 291.36831694096327,
+        "baseline_solved": 1,
+        "sft_solved": 10,
+        "wins": 9,
+        "regressions": 0,
+        "baseline_timeouts": 6,
+        "sft_timeouts": 14,
+        "adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90"
+      },
+      {
+        "seed": 29,
+        "run_id": "python-fixer-E1-seed29-20261126T044820Z-dc19ca6d",
+        "train_loss": 0.07606361910700798,
+        "training_seconds": 297.0586327984929,
+        "baseline_solved": 2,
+        "sft_solved": 7,
+        "wins": 5,
+        "regressions": 0,
+        "baseline_timeouts": 5,
+        "sft_timeouts": 17,
+        "adapter_sha256": "1a0f1ed012e0be7ce1dbf9f2645f1276f40dc9329afe88dcbeec8b2f39cef7db"
+      },
+      {
+        "seed": 43,
+        "run_id": "python-fixer-E1-seed43-20261126T045837Z-56bd25da",
+        "train_loss": 0.07079360187053681,
+        "training_seconds": 295.0328522697091,
+        "baseline_solved": 1,
+        "sft_solved": 4,
+        "wins": 3,
+        "regressions": 0,
+        "baseline_timeouts": 9,
+        "sft_timeouts": 25,
+        "adapter_sha256": "a2f4366743eb30e4f8e0e8034692012aab1149d20ad84966c11eb74ee6a27bfd"
+      }
+    ],
+    "descriptive_sft_solved_mean": 7,
+    "descriptive_sft_solved_range": [
+      4,
+      10
+    ],
+    "test_split_touched": false,
+    "provider_cost_status": "NOT_VERIFIED_FROM_PROVIDER_BILLING"
+  }
 }
