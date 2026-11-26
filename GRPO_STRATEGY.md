@@ -63,3 +63,11 @@ Resume from these local artifacts and verify their hashes. The remaining trainin
 Completed on 2026-11-26 on the inference GPU with the four-row verified pilot worker. The run completed 2 optimizer steps and used the hard budget of 32 candidates. All rewards were finite. Both steps had finite nonzero gradient norms (0.148 and 0.115). 392 adapter tensors changed. The step-2 checkpoint manifest verified, and reloading the final adapter reproduced the trained adapter tensor hashes.
 
 The run logged 8 reward groups, of which 3 had zero variance. The remaining 5 groups had mixed rewards. This verifies the optimizer and checkpoint path for the pilot subset. It does not estimate quality or validate all 391 training rows. The full 391-row train partition is being reverified under the extended policy on the isolated CPU guest. It is estimated to take 2–4 hours. Full training remains unstarted.
+
+## Setup verification update
+
+The two-step optimizer smoke passed on the inference card. It used all 32 budgeted candidates over two steps, produced finite gradients, changed 392 adapter tensors, verified the step-2 checkpoint manifest, and confirmed the final adapter hashes match after reload. The persistent output is `/.platform/state/python-fixer/grpo-runs/seed17-two-step-pilot-20261126T2300`. The result is recorded in `reports/evaluations/seed17-grpo-two-step-smoke.json`.
+
+The CPU guest now boots from `work/sft-cpu-vm/guest-persistent.qcow2`, a persistent qcow2 overlay backed by the original guest disk. The extended pilot reward service auto-started after reboot and passed an mTLS scoring request. The original 5s/2 CPU service remains separate.
+
+Full train-row re-verification under 60s/30 CPU is running in the isolated guest. It includes 391 rows and three repeated reference/buggy verifications per row. The current estimate is 2–4 CPU hours. Do not start full GRPO until the new manifest is readback-verified and the full 391-row worker passes its mTLS probe.
