@@ -140,6 +140,35 @@
       10
     ],
     "test_split_touched": false,
-    "provider_cost_status": "NOT_VERIFIED_FROM_PROVIDER_BILLING"
+    "provider_cost_status": "NOT_VERIFIED_FROM_PROVIDER_BILLING",
+    "relaxed_policy_evaluation": {
+      "limits_wall_seconds": 15,
+      "limits_cpu_seconds": 5,
+      "policy_sha256": "63617bc786b4ea4202797d468c26e674eff5311f3048add398e3fe1deeef74f9",
+      "baseline_solved": "2/32",
+      "results": {
+        "17": {
+          "solved": 15,
+          "wins": 13,
+          "regressions": 0,
+          "timeouts": 4
+        },
+        "29": {
+          "solved": 15,
+          "wins": 13,
+          "regressions": 0,
+          "timeouts": 2
+        },
+        "43": {
+          "solved": 16,
+          "wins": 14,
+          "regressions": 0,
+          "timeouts": 1
+        }
+      },
+      "preflight": "PASS 35/35",
+      "evaluation_report": "reports/evaluations/python-fixer-E1-three-seed-validation-relaxed-20261126.json",
+      "preflight_report": "reports/evaluations/sandbox-preflight-relaxed-15s-5cpu-20261126.json"
+    }
   }
 }

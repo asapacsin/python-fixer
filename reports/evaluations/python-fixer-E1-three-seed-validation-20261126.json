@@ -10,7 +10,8 @@
   "provider_cost_status": "NOT_VERIFIED_FROM_PROVIDER_BILLING",
   "limitations": [
     "Validation is exploratory, not a held-out test result.",
-    "Sandbox scoring is variable: timeout counts differ by seed/run, so raw pass counts are provisional.",
+    "The initial strict 5-second/2-CPU scoring produced many timeouts; the 15-second/5-CPU profile below reduces them substantially.",
+    "The relaxed score run used one shared baseline pass, so baseline results are directly paired across all three seeds.",
     "No GRPO training was run."
   ],
   "seeds": [
@@ -68,5 +69,55 @@
       "baseline_invalid_output": 21,
       "sft_invalid_output": 0
     }
-  ]
+  ],
+  "relaxed_policy_evaluation": {
+    "policy": "configs/sandbox-validation-relaxed.json",
+    "limits": {
+      "wall_seconds": 15,
+      "cpu_seconds": 5
+    },
+    "policy_sha256": "63617bc786b4ea4202797d468c26e674eff5311f3048add398e3fe1deeef74f9",
+    "baseline_solved": 2,
+    "baseline_timeouts": 0,
+    "seed_results": {
+      "17": {
+        "solved": 15,
+        "problems": 32,
+        "pass_at_1": 0.46875,
+        "timeouts": 4,
+        "invalid_outputs": 0,
+        "wins": 13,
+        "regressions": 0,
+        "baseline_solved": 2,
+        "absolute_gain": 0.40625
+      },
+      "29": {
+        "solved": 15,
+        "problems": 32,
+        "pass_at_1": 0.46875,
+        "timeouts": 2,
+        "invalid_outputs": 0,
+        "wins": 13,
+        "regressions": 0,
+        "baseline_solved": 2,
+        "absolute_gain": 0.40625
+      },
+      "43": {
+        "solved": 16,
+        "problems": 32,
+        "pass_at_1": 0.5,
+        "timeouts": 1,
+        "invalid_outputs": 0,
+        "wins": 14,
+        "regressions": 0,
+        "baseline_solved": 2,
+        "absolute_gain": 0.4375
+      }
+    },
+    "preflight_status": "PASS",
+    "preflight_checks_passed": 35,
+    "preflight_checks_total": 35,
+    "score_report": "reports/evaluations/python-fixer-E1-three-seed-validation-relaxed-20261126.json",
+    "preflight_report": "reports/evaluations/sandbox-preflight-relaxed-15s-5cpu-20261126.json"
+  }
 }

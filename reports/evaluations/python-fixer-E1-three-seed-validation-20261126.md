@@ -16,4 +16,21 @@ These are small exploratory validation results. The sandbox produced many timeou
 
 Provider billing was not accessible from the training host, so actual spend was not verified. No GRPO run was performed.
 
-Descriptive mean SFT solved count: 7/32 (range 4–10 across seeds). The baseline counts also varied slightly across scoring runs (1–2/32), which reinforces that timeout-related results are provisional.
+Under the strict limit, the descriptive SFT mean was 7/32 (range 4–10). The baseline was re-executed separately for each seed, and its score varied between 1 and 2 solved; the relaxed comparison below instead uses one shared baseline pass.
+
+## Rerun with a longer checker limit
+
+The earlier checker stopped a candidate after 5 seconds wall time or 2 seconds CPU time. The separate validation profile raises this to 15 seconds / 5 CPU seconds; the normal sandbox profile remains unchanged. Isolation preflight passed 35/35 checks under the updated profile.
+
+All four arms were scored in one run against one shared baseline pass:
+
+| Arm | Solved | Timeouts | Improved over baseline | Regressed |
+|---|---:|---:|---:|---:|
+| Baseline | 2/32 | 0 | — | — |
+| Seed 17 | 15/32 | 4 | 13 | 0 |
+| Seed 29 | 15/32 | 2 | 13 | 0 |
+| Seed 43 | 16/32 | 1 | 14 | 0 |
+
+The seed SFT mean is 15.3/32 solved (range 15–16). Compared with the earlier strict-limit runs, SFT timeouts fell from 14/17/25 to 4/2/1. So the short checker limit was a major cause of the earlier failures. Remaining failures include wrong answers as well as a few timeouts.
+
+This remains exploratory validation, not held-out test evidence. Details and the exact policy/preflight hashes are in the relaxed evaluation JSON and preflight report. The H200 was not used for this rerun.
