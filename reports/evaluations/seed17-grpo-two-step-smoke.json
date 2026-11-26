@@ -1,0 +1,180 @@
+{
+  "status": "PASS",
+  "scope": "TWO_OPTIMIZER_UPDATE_TRAIN_ONLY_PILOT",
+  "steps": 2,
+  "candidate_budget": {
+    "max_candidates": 32,
+    "used": 32
+  },
+  "reward_groups": [
+    {
+      "problem_id": "fixture-peak_index-v4-2bec0df63097",
+      "rewards": [
+        0.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "zero_std": false,
+      "all_pass": false,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+      "rewards": [
+        1.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "zero_std": false,
+      "all_pass": false,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-is_happy-v4-2bec0df63097",
+      "rewards": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "zero_std": true,
+      "all_pass": true,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-max_profit-v4-2bec0df63097",
+      "rewards": [
+        0.0,
+        0.0,
+        1.0,
+        0.0
+      ],
+      "zero_std": false,
+      "all_pass": false,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-max_profit-v4-2bec0df63097",
+      "rewards": [
+        0.0,
+        1.0,
+        1.0,
+        0.0
+      ],
+      "zero_std": false,
+      "all_pass": false,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-peak_index-v4-2bec0df63097",
+      "rewards": [
+        1.0,
+        1.0,
+        0.0,
+        1.0
+      ],
+      "zero_std": false,
+      "all_pass": false,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-lis_length-v3-6dfcb708ce33",
+      "rewards": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "zero_std": true,
+      "all_pass": true,
+      "all_fail": false
+    },
+    {
+      "problem_id": "fixture-is_happy-v4-2bec0df63097",
+      "rewards": [
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "zero_std": true,
+      "all_pass": true,
+      "all_fail": false
+    }
+  ],
+  "reward_summary": {
+    "groups": 8,
+    "zero_std": 0.375,
+    "all_pass": 0.375,
+    "all_fail": 0.0
+  },
+  "changed_adapter_tensors": 392,
+  "adapter_reload_matches": true,
+  "checkpoint2_manifest_verified": true,
+  "elapsed_training_seconds": 182.94,
+  "loss_history": [
+    {
+      "loss": -0.0039,
+      "grad_norm": 0.14788895845413208,
+      "learning_rate": 5E-06,
+      "num_tokens": 3553.0,
+      "completions/mean_length": 61.0625,
+      "completions/min_length": 52.0,
+      "completions/max_length": 71.0,
+      "completions/clipped_ratio": 0.0,
+      "completions/mean_terminated_length": 61.0625,
+      "completions/min_terminated_length": 52.0,
+      "completions/max_terminated_length": 71.0,
+      "rewards/behavior_reward/mean": 0.6875,
+      "rewards/behavior_reward/std": 0.4787135720252991,
+      "reward": 0.6875,
+      "reward_std": 0.375,
+      "frac_reward_zero_std": 0.25,
+      "entropy": 0.06053960835561156,
+      "clip_ratio/low_mean": 0.0,
+      "clip_ratio/low_min": 0.0,
+      "clip_ratio/high_mean": 0.0,
+      "clip_ratio/high_max": 0.0,
+      "clip_ratio/region_mean": 0.0,
+      "epoch": 1.0,
+      "step": 1
+    },
+    {
+      "loss": -0.0025,
+      "grad_norm": 0.11516402661800385,
+      "learning_rate": 5E-06,
+      "num_tokens": 7116.0,
+      "completions/mean_length": 61.6875,
+      "completions/min_length": 52.0,
+      "completions/max_length": 71.0,
+      "completions/clipped_ratio": 0.0,
+      "completions/mean_terminated_length": 61.6875,
+      "completions/min_terminated_length": 52.0,
+      "completions/max_terminated_length": 71.0,
+      "rewards/behavior_reward/mean": 0.8125,
+      "rewards/behavior_reward/std": 0.40311288833618164,
+      "reward": 0.8125,
+      "reward_std": 0.26933756470680237,
+      "frac_reward_zero_std": 0.5,
+      "entropy": 0.05925991456024349,
+      "clip_ratio/low_mean": 0.0,
+      "clip_ratio/low_min": 0.0,
+      "clip_ratio/high_mean": 0.0,
+      "clip_ratio/high_max": 0.0,
+      "clip_ratio/region_mean": 0.0,
+      "epoch": 2.0,
+      "step": 2
+    }
+  ],
+  "cost": "NOT_VERIFIED_FROM_PROVIDER_BILLING",
+  "observed_at": "2026-11-26 Asia/Shanghai",
+  "gpu": "高性能推理卡, 32607 MiB VRAM",
+  "base_revision": "c1899de289a04d12100db370d81485cdf75e47ca",
+  "adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90",
+  "train_data_manifest_sha256": "1093c8c4dd7c2047d7ca971cee8ae25c21b724799d9e5c419f0ee46181a37ab9",
+  "worker_policy_sha256": "ef57d86418574c34a58413d6986cc9d0b5e81aa08d4d0fe6a1f4ffddcec4c435",
+  "checkpoint_path": "/.platform/state/python-fixer/grpo-runs/seed17-two-step-pilot-20261126T2300/trainer/checkpoint-2",
+  "notes": "Readiness smoke only. Two optimizer updates on a 4-row train-only subset. Full 391-row re-verification is still running. Billing was not checked."
+}
