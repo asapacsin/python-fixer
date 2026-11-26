@@ -30,7 +30,8 @@
     "scope": "SFT_ONLY_GPU_PREFLIGHT",
     "provider_node_id": "td6dcr-0",
     "gpu_uuid": "GPU-df1192e5-d6a2-fa39-f2b6-45f5e94ba662",
-    "report_sha256": "b7dccf9fe701e1c098cfa080e095e4f08afc486bf3acc75ce4da5fbf50422363",
+    "preflight_file_sha256": "3da8f59c1205ab72893acf6a0e12a60e0274ec56e45df68ef7f1b7f25d69f1ce",
+    "embedded_preflight_report_sha256": "b7dccf9fe701e1c098cfa080e095e4f08afc486bf3acc75ce4da5fbf50422363",
     "persistent_mount_source": "/dev/rbd21",
     "persistent_run_root": "/.platform/state/python-fixer-sft-runs"
   },
