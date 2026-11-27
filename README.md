@@ -2,7 +2,7 @@
 
 **A 0.6B model for repairing Python functions, trained and evaluated with executable tests.**
 
-Supervised fine-tuning raised mean validation pass@1 from **6.25% to 54.17%** across three independently trained LoRA adapters. A separate GRPO pilot on one SFT checkpoint showed a **4.17 percentage point** gain in its first round. Three more hours of GRPO did not improve on that round.
+Supervised fine-tuning raised mean validation pass@1 from **6.25% to 54.17%** across three independently trained LoRA adapters. In a paired greedy comparison, GRPO round 1 raised validation pass@1 from **56.25% (18/32)** to **59.38% (19/32)** over its seed 17 SFT starting point.
 
 [Evaluation reports](reports/README.md) · [Model adapters](models/README.md) · [System design](specs/01-system-architecture.md)
 
@@ -26,6 +26,20 @@ The mean gain was **47.92 percentage points**. Each SFT seed ran for 50 optimize
 
 ### GRPO vs. its SFT starting point
 
+#### Greedy decoding
+
+Both adapters were scored on the same 32 validation problems with a 15-second wall-clock and 5-second CPU limit.
+
+| Checkpoint | Problems solved | Greedy pass@1 |
+| --- | ---: | ---: |
+| SFT seed 17 | 18/32 | 56.25% |
+| GRPO round 1, step 30 | 19/32 | 59.38% |
+| GRPO round 2, step 310 | — | No recorded greedy result |
+
+Round 1 solved one additional problem (+3.13 percentage points). [Paired greedy evaluation](reports/evaluations/seed17-sft-vs-grpo-same-policy-20261127.md)
+
+#### Sampled decoding
+
 The three checkpoints below share one SFT seed 17 training lineage. Each was evaluated on the same 32 validation problems with three matched decoding seeds and a 15-second wall-clock and 5-second CPU limit. The decoding repeats measure sampling variation within this single training lineage.
 
 | Checkpoint | Seed 17 | Seed 29 | Seed 43 | Mean pass@1 |
@@ -36,7 +50,7 @@ The three checkpoints below share one SFT seed 17 training lineage. Each was eva
 
 GRPO used four verified training examples. Round 1 had the highest observed mean, and the three-hour continuation finished **1.04 percentage points below** it. The final training logs recorded equal rewards across sampled candidates and zero gradient norm, consistent with saturation on those four examples. [Paired evaluation](reports/evaluations/seed17-sft-grpo-rounds-three-seed-summary-20261127.md) · [Continuation log](reports/evaluations/seed17-grpo-three-hour-continuation-20261127.md)
 
-Both comparisons are exploratory validation results. The SFT and GRPO tables use different decoding settings and sandbox limits. The planned sealed test evaluation remains open.
+These are exploratory validation results. The SFT vs. base comparison used a longer sandbox limit than the paired GRPO comparisons. The planned sealed test evaluation remains open.
 
 ## How it works
 
