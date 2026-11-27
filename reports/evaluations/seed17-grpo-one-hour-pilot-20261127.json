@@ -713,7 +713,10 @@
     "limitation": "Exploratory pilot. Training reward saturated frequently; validation result is not a multi-seed or full-training result.",
     "hard_stop_signal_time": "2026-11-27T10:41:30+08:00",
     "provider_shutdown_verified": false,
-    "ssh_reachable_after_signal": true
+    "ssh_reachable_after_signal": true,
+    "container_restarted_after_signal": true,
+    "ssh_checked_at": "2026-11-27T10:46:31+08:00",
+    "gpu_utilization_after_signal": "0%; no GPU memory allocated"
   }
 }
 
