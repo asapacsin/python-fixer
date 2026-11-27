@@ -5,3 +5,7 @@ These are LoRA adapter weights, not full copies of the base model. Load with the
 Each seed directory contains adapter_model.safetensors and adapter_config.json. The run manifests, training metrics, evaluation details, and SHA-256 hashes are in reports/runs/ and reports/evaluations/.
 
 To use an adapter, load the pinned base model and attach the corresponding directory with PEFT. Evaluation results are exploratory and documented in reports/evaluations/python-fixer-E1-three-seed-validation-20261126.md.
+
+## GRPO round 2
+
+The three-hour seed 17 GRPO continuation adapter is in qwen3-0.6b-grpo-round2-seed17/. It uses the pinned Qwen/Qwen3-0.6B revision above. Round-by-round validation results are in reports/evaluations/seed17-sft-grpo-rounds-three-seed-summary-20261127.md.
