@@ -1,0 +1,695 @@
+{
+  "evidence_kind": "EXPLORATORY_PAIRED_GREEDY_VALIDATION",
+  "split": "validation",
+  "problems": 32,
+  "dataset_sha256": "5cc7e23ba5ae87b14a5e0eaf0e1e5ea89fb6c572b1d36e4d20b3fee543015578",
+  "policy_sha256": "700ee53009dc39ac2b80b4faa43db7bf874c73e2fa4e578f591ff3996569ad3a",
+  "image_digest": "python@sha256:07d4824036af339fa1b6ef769cc99d9c10a141769538b52b3b597c84f7a7b535",
+  "grpo_solved": 19,
+  "grpo_pass_at_1": 0.59375,
+  "absolute_gain": 0.03125,
+  "improved_problems": 1,
+  "regressed_problems": 0,
+  "results": [
+    {
+      "problem_id": "fixture-anagram-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "10f966b9f38b673b60d571ca70a80449b432c154323bec0a5113e2cef92788cc",
+        "generated_tokens": 32,
+        "generation_ms": 2439.39
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "10f966b9f38b673b60d571ca70a80449b432c154323bec0a5113e2cef92788cc",
+        "generated_tokens": 32,
+        "generation_ms": 2276.55
+      }
+    },
+    {
+      "problem_id": "fixture-capitalize_words-v2-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 1,
+        "total_tests": 4,
+        "candidate_sha256": "2b18e8e5ffda6fd23026be27f0a24cdb0c6cc9a33f4f40faff4491b959c61a6c",
+        "generated_tokens": 23,
+        "generation_ms": 1077.77
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 1,
+        "total_tests": 4,
+        "candidate_sha256": "2b18e8e5ffda6fd23026be27f0a24cdb0c6cc9a33f4f40faff4491b959c61a6c",
+        "generated_tokens": 23,
+        "generation_ms": 1076.0
+      }
+    },
+    {
+      "problem_id": "fixture-cart_total-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "45b923df86a43d71a023f7ec9f017ca38475e2dbe6a86b931d77ce97f9dc533b",
+        "generated_tokens": 28,
+        "generation_ms": 1285.08
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "45b923df86a43d71a023f7ec9f017ca38475e2dbe6a86b931d77ce97f9dc533b",
+        "generated_tokens": 28,
+        "generation_ms": 1290.25
+      }
+    },
+    {
+      "problem_id": "fixture-contains-v1-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "764d5ae37d3cc7c6b0a080a183257f240f891373236790e9d68df4d8c6361bbe",
+        "generated_tokens": 13,
+        "generation_ms": 678.68
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "764d5ae37d3cc7c6b0a080a183257f240f891373236790e9d68df4d8c6361bbe",
+        "generated_tokens": 13,
+        "generation_ms": 648.38
+      }
+    },
+    {
+      "problem_id": "fixture-count_at_most-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "6a0bae427193235f3f8f4915479377df77fb6657a4ce3c0c8391d8a80245f391",
+        "generated_tokens": 69,
+        "generation_ms": 3180.27
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "6a0bae427193235f3f8f4915479377df77fb6657a4ce3c0c8391d8a80245f391",
+        "generated_tokens": 69,
+        "generation_ms": 3060.64
+      }
+    },
+    {
+      "problem_id": "fixture-count_equal-v1-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "c85b7715caa7c7d7933077ccd6f546a90e8b12224c6d2154c76478e004efe34d",
+        "generated_tokens": 22,
+        "generation_ms": 984.0
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "c85b7715caa7c7d7933077ccd6f546a90e8b12224c6d2154c76478e004efe34d",
+        "generated_tokens": 22,
+        "generation_ms": 988.04
+      }
+    },
+    {
+      "problem_id": "fixture-count_in_range-v2-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "4106e9eb47244bde88608ba02a4a996bb930c45bdfbe723ea2c7c74d0165cb22",
+        "generated_tokens": 27,
+        "generation_ms": 1322.9
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "4106e9eb47244bde88608ba02a4a996bb930c45bdfbe723ea2c7c74d0165cb22",
+        "generated_tokens": 27,
+        "generation_ms": 1237.03
+      }
+    },
+    {
+      "problem_id": "fixture-count_positive-v1-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "77204f26e2d649a119c5b2720353039c3aeea048b842bee2509badb6830c1972",
+        "generated_tokens": 21,
+        "generation_ms": 990.61
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "77204f26e2d649a119c5b2720353039c3aeea048b842bee2509badb6830c1972",
+        "generated_tokens": 21,
+        "generation_ms": 993.82
+      }
+    },
+    {
+      "problem_id": "fixture-diagonal_sum-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "b601b3814c64869cc3c7185b9e629e8f54d96394d52d4acbc98e843d305eb6a1",
+        "generated_tokens": 42,
+        "generation_ms": 1971.71
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "b601b3814c64869cc3c7185b9e629e8f54d96394d52d4acbc98e843d305eb6a1",
+        "generated_tokens": 42,
+        "generation_ms": 1853.46
+      }
+    },
+    {
+      "problem_id": "fixture-factorial_trailing_zeros-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 6,
+        "total_tests": 6,
+        "candidate_sha256": "ae051c57796ed7d43eac9602feb1709001ecd61df28fc0e6e63c91a79facbc96",
+        "generated_tokens": 42,
+        "generation_ms": 2000.19
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 6,
+        "total_tests": 6,
+        "candidate_sha256": "ae051c57796ed7d43eac9602feb1709001ecd61df28fc0e6e63c91a79facbc96",
+        "generated_tokens": 42,
+        "generation_ms": 1807.08
+      }
+    },
+    {
+      "problem_id": "fixture-final_balance-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 1,
+        "total_tests": 4,
+        "candidate_sha256": "025ce9028c30011296365e99b7b5432be301681c96b3e4a1d42f22540bf61adb",
+        "generated_tokens": 48,
+        "generation_ms": 2294.07
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 1,
+        "total_tests": 4,
+        "candidate_sha256": "025ce9028c30011296365e99b7b5432be301681c96b3e4a1d42f22540bf61adb",
+        "generated_tokens": 48,
+        "generation_ms": 2090.21
+      }
+    },
+    {
+      "problem_id": "fixture-floors_visited-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 4,
+        "candidate_sha256": "aab72e49517aec54ed05f2a48c61d65d69d3b03d6db731ce6b734e6891925a3a",
+        "generated_tokens": 47,
+        "generation_ms": 2187.92
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 4,
+        "candidate_sha256": "aab72e49517aec54ed05f2a48c61d65d69d3b03d6db731ce6b734e6891925a3a",
+        "generated_tokens": 47,
+        "generation_ms": 2116.56
+      }
+    },
+    {
+      "problem_id": "fixture-gray_code-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "624b4c174000c041707bb9837a6752406431ce82b69a7e72134bc5351d5ee2b2",
+        "generated_tokens": 26,
+        "generation_ms": 1303.95
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "624b4c174000c041707bb9837a6752406431ce82b69a7e72134bc5351d5ee2b2",
+        "generated_tokens": 26,
+        "generation_ms": 1182.53
+      }
+    },
+    {
+      "problem_id": "fixture-has_cycle-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "7120e7fa959056d2d6fa8ecca94a010ba52b74121a195bf259762750867a5faf",
+        "generated_tokens": 131,
+        "generation_ms": 6293.61
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "7120e7fa959056d2d6fa8ecca94a010ba52b74121a195bf259762750867a5faf",
+        "generated_tokens": 131,
+        "generation_ms": 5842.11
+      }
+    },
+    {
+      "problem_id": "fixture-hex_to_rgb-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "c777995203c8bc708ec077fc8fa3e4d9797c071adc8b69ff48e516ad8a78b806",
+        "generated_tokens": 65,
+        "generation_ms": 3129.07
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "c777995203c8bc708ec077fc8fa3e4d9797c071adc8b69ff48e516ad8a78b806",
+        "generated_tokens": 65,
+        "generation_ms": 2887.32
+      }
+    },
+    {
+      "problem_id": "fixture-index_of_max-v2-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "4228240b02858aad05f9e22e5fec2f5412c87f107f2cc56281254c87bb863d63",
+        "generated_tokens": 53,
+        "generation_ms": 2412.76
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "4228240b02858aad05f9e22e5fec2f5412c87f107f2cc56281254c87bb863d63",
+        "generated_tokens": 53,
+        "generation_ms": 2329.83
+      }
+    },
+    {
+      "problem_id": "fixture-initials-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "33e4f565d805d2e9f769af1dac8459a1447086d4d4d7df8d09d5add09c7c91f7",
+        "generated_tokens": 23,
+        "generation_ms": 1034.23
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "33e4f565d805d2e9f769af1dac8459a1447086d4d4d7df8d09d5add09c7c91f7",
+        "generated_tokens": 23,
+        "generation_ms": 1003.33
+      }
+    },
+    {
+      "problem_id": "fixture-levenshtein-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 5,
+        "candidate_sha256": "a397c1e61cab20d23be61d4f75afe874ad6a4829aa708dee8c12431d05c031a8",
+        "generated_tokens": 94,
+        "generation_ms": 4313.23
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 5,
+        "candidate_sha256": "e9ba6666689bc0e66142fa13c3e5a9bfdd2dbbc77fdf6457f8763f7aac0d366f",
+        "generated_tokens": 94,
+        "generation_ms": 4165.31
+      }
+    },
+    {
+      "problem_id": "fixture-lru_hits-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 5,
+        "candidate_sha256": "a7f56aed73108427aed8c9a2502c4596e4b827d4c54385c8f3bac6a80798ad14",
+        "generated_tokens": 68,
+        "generation_ms": 3097.65
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 5,
+        "candidate_sha256": "a7f56aed73108427aed8c9a2502c4596e4b827d4c54385c8f3bac6a80798ad14",
+        "generated_tokens": 68,
+        "generation_ms": 2972.75
+      }
+    },
+    {
+      "problem_id": "fixture-next_light-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "c718cc24eadfce2d08c004ca81daf7544518008ac6d2f5ea17e1eae2df023a02",
+        "generated_tokens": 35,
+        "generation_ms": 1578.47
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 2,
+        "total_tests": 4,
+        "candidate_sha256": "c718cc24eadfce2d08c004ca81daf7544518008ac6d2f5ea17e1eae2df023a02",
+        "generated_tokens": 35,
+        "generation_ms": 1585.88
+      }
+    },
+    {
+      "problem_id": "fixture-one_edit_away-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 4,
+        "total_tests": 6,
+        "candidate_sha256": "e33cff85f854c305deb0d9c1776d2c1861154541b1bd754b3da4df30c715d1b4",
+        "generated_tokens": 126,
+        "generation_ms": 5893.44
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 6,
+        "candidate_sha256": "23b7955418ad1dd72d629654b2036ef4b9dbded35d6023180ddd3978f38ee131",
+        "generated_tokens": 114,
+        "generation_ms": 5054.37
+      }
+    },
+    {
+      "problem_id": "fixture-ordinal-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 6,
+        "total_tests": 6,
+        "candidate_sha256": "973229212c34ccdfc08dd69e51d8e86efec7a1e40dcf4b77588575e74096ba8e",
+        "generated_tokens": 70,
+        "generation_ms": 3241.83
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 6,
+        "total_tests": 6,
+        "candidate_sha256": "973229212c34ccdfc08dd69e51d8e86efec7a1e40dcf4b77588575e74096ba8e",
+        "generated_tokens": 70,
+        "generation_ms": 3106.93
+      }
+    },
+    {
+      "problem_id": "fixture-password_score-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "34090d99b5554c5fd0bbc26a0984a9778b4178c85272ec08e7e085353a50f203",
+        "generated_tokens": 60,
+        "generation_ms": 2785.81
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "34090d99b5554c5fd0bbc26a0984a9778b4178c85272ec08e7e085353a50f203",
+        "generated_tokens": 60,
+        "generation_ms": 2677.42
+      }
+    },
+    {
+      "problem_id": "fixture-power_two-v1-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "cdd2b2d7ccc7176367fbead483dd93916c646ae9a9f4a03cdfbb86afa3bf2b16",
+        "generated_tokens": 13,
+        "generation_ms": 627.81
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "cdd2b2d7ccc7176367fbead483dd93916c646ae9a9f4a03cdfbb86afa3bf2b16",
+        "generated_tokens": 13,
+        "generation_ms": 626.44
+      }
+    },
+    {
+      "problem_id": "fixture-prefix-v1-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "2054995ac50ba633594e7ecf4037eb92846330b406d9137dc708a87598423fb7",
+        "generated_tokens": 13,
+        "generation_ms": 585.89
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "2054995ac50ba633594e7ecf4037eb92846330b406d9137dc708a87598423fb7",
+        "generated_tokens": 13,
+        "generation_ms": 630.37
+      }
+    },
+    {
+      "problem_id": "fixture-remove_value-v2-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "a160624d838bdbb9280304a87dca346b0d51d3735910c2692a5d59662434d629",
+        "generated_tokens": 21,
+        "generation_ms": 966.1
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "a160624d838bdbb9280304a87dca346b0d51d3735910c2692a5d59662434d629",
+        "generated_tokens": 21,
+        "generation_ms": 913.55
+      }
+    },
+    {
+      "problem_id": "fixture-run_length-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "da1e2a5265050e7e52e8bc938179388060c14b2cc75e156a2d7de8ea402ccf28",
+        "generated_tokens": 56,
+        "generation_ms": 2569.48
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 4,
+        "total_tests": 4,
+        "candidate_sha256": "da1e2a5265050e7e52e8bc938179388060c14b2cc75e156a2d7de8ea402ccf28",
+        "generated_tokens": 56,
+        "generation_ms": 2479.79
+      }
+    },
+    {
+      "problem_id": "fixture-shortest_hops-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 4,
+        "total_tests": 5,
+        "candidate_sha256": "0a10d93497469027294faf1fa4406bdc3ce0e0c9f6d3f943616eceb908834b5f",
+        "generated_tokens": 116,
+        "generation_ms": 5251.93
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 4,
+        "total_tests": 5,
+        "candidate_sha256": "0a10d93497469027294faf1fa4406bdc3ce0e0c9f6d3f943616eceb908834b5f",
+        "generated_tokens": 116,
+        "generation_ms": 5208.83
+      }
+    },
+    {
+      "problem_id": "fixture-simulate_queue-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 4,
+        "candidate_sha256": "44df5a5c6b45bbd4f1a95fb5bde1919d2b9da3d6b6bcb3279de78ad1da9d0762",
+        "generated_tokens": 67,
+        "generation_ms": 3095.1
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 4,
+        "candidate_sha256": "44df5a5c6b45bbd4f1a95fb5bde1919d2b9da3d6b6bcb3279de78ad1da9d0762",
+        "generated_tokens": 67,
+        "generation_ms": 2924.37
+      }
+    },
+    {
+      "problem_id": "fixture-totient-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "3ebc6f07042e8cfed3cb73d66beb417e5940d4a1d993f46bb522c3f6d4d0222c",
+        "generated_tokens": 82,
+        "generation_ms": 3715.94
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 5,
+        "candidate_sha256": "484a4b19c1157004b1733e2c71d449c2daa6d47df506e0faf8473c685f1bff75",
+        "generated_tokens": 70,
+        "generation_ms": 3105.96
+      }
+    },
+    {
+      "problem_id": "fixture-weekday_after-v3-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "6eaeae7d8f368f331322f1dba7856d5140d4d82728b73a5f1179ac807601e2f0",
+        "generated_tokens": 47,
+        "generation_ms": 2143.16
+      },
+      "sft": {
+        "status": "OK",
+        "solved": true,
+        "passed_tests": 5,
+        "total_tests": 5,
+        "candidate_sha256": "6eaeae7d8f368f331322f1dba7856d5140d4d82728b73a5f1179ac807601e2f0",
+        "generated_tokens": 47,
+        "generation_ms": 2079.97
+      }
+    },
+    {
+      "problem_id": "fixture-without_value-v4-2bec0df63097",
+      "grpo": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 4,
+        "candidate_sha256": "9c37df8afc6878759dcd60cdd46d53d0d7c5a276c66f559275be5520f4eaff68",
+        "generated_tokens": 29,
+        "generation_ms": 1300.5
+      },
+      "sft": {
+        "status": "OK",
+        "solved": false,
+        "passed_tests": 3,
+        "total_tests": 4,
+        "candidate_sha256": "9c37df8afc6878759dcd60cdd46d53d0d7c5a276c66f559275be5520f4eaff68",
+        "generated_tokens": 29,
+        "generation_ms": 1303.15
+      }
+    }
+  ],
+  "sft_solved": 18,
+  "sft_pass_at_1": 0.5625,
+  "sft_model": "Qwen3-0.6B + SFT seed 17",
+  "grpo_model": "Seed 17 GRPO adapter initialized from the SFT seed 17 adapter",
+  "sft_adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90",
+  "grpo_adapter_sha256": "b7cbc62020215f986af776bcbce2c0cc7469106c1c8e93b1d14f3d0f3c45fdad",
+  "train_data_scope": "four verified train-only pilot rows; not the full 391-row split"
+}
+
