@@ -716,7 +716,20 @@
     "ssh_reachable_after_signal": true,
     "container_restarted_after_signal": true,
     "ssh_checked_at": "2026-11-27T10:46:31+08:00",
-    "gpu_utilization_after_signal": "0%; no GPU memory allocated"
+    "gpu_utilization_after_signal": "0%; no GPU memory allocated",
+    "initial_adapter_path": "/root/python-fixer-stage/eval-adapter/sft-e1-seed17",
+    "initial_adapter_sha256": "a9e7892efa7f3a74a4b32eee9375beed66ced49d9af9e8f314c7ca7438710b90"
+  },
+  "baseline_model": "Unadapted Qwen3-0.6B base model; not SFT",
+  "grpo_model": "Seed 17 GRPO adapter initialized from SFT seed 17 adapter",
+  "comparison_scope": "The 2/32 arm is unadapted base vs GRPO. This is not a direct GRPO-vs-SFT comparison.",
+  "prior_sft_seed17_reference": {
+    "solved": 10,
+    "problems": 32,
+    "pass_at_1": 0.3125,
+    "policy_sha256": "5bea6490a29968b31282f5e032d43f3cad7f7aab915f83f5ba26eae90dc0096d",
+    "timeout": "5s / 2 CPU",
+    "note": "Earlier report; different scoring policy, not directly comparable to this pilot."
   }
 }
 
